@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGG</title>
+    <script src="./js/common.js" defer></script>
+    <script src="./js/reservation.js" defer></script>
+    <link rel="stylesheet" href="./css/reservation.css">
+    <script src="https://kit.fontawesome.com/2eb47fcd7e.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header></header>
+    <div class="country_selection"></div>
+    <main class="booking_wrap">
+        <section id="booking_intro">
+            <span class="section_label">BOOKING</span>
+            <h2 class="book_title">Appointment page</h2>
+        </section>
+        <!-- 진행 표시바 -->
+        <div class="stepper_progress">
+            <div class="prog_step active" id="prog_1">
+                <div class="prog_dot"><i class="fa-solid fa-hospital"></i></div>
+                <span>Hospital</span>
+            </div>
+            <div class="prog_line" id="prog_line_1"></div>
+            <div class="prog_step" id="prog_2">
+                <div class="prog_dot"><i class="fa-regular fa-calendar-days"></i></div>
+                <span>Schedule</span>
+            </div>
+            <div class="prog_line" id="prog_line_2"></div>
+            <div class="prog_step" id="prog_3">
+                <div class="prog_dot"><i class="fa-solid fa-user"></i></div>
+                <span>Your Info</span>
+            </div>
+        </div>
+
+        <!-- Step 1: 병원 선택 -->
+        <div class="step_panel active" id="step_panel_1">
+            <div class="step_heading">
+                <span class="section_label">STEP 1 OF 3</span>
+                <h2>Select a Hospital</h2>
+                <p class="step_sub">Choose the clinic you'd like to visit.</p>
+            </div>
+            <div class="step_card">
+                <div id="hospitalSelectWrap"></div>
+            </div>
+            <div class="step_nav">
+                <span></span>
+                <button class="nav_next" onclick="goToStep(2)">
+                    Next &nbsp;<i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: 날짜·시간 선택 -->
+        <div class="step_panel" id="step_panel_2">
+            <div class="step_heading">
+                <span class="section_label">STEP 2 OF 3</span>
+                <h2>Select Date &amp; Time</h2>
+                <p class="step_sub">Pick a convenient date, then choose an available time slot.</p>
+            </div>
+            <div class="step_card date_time_layout">
+                <div class="dt_calendar">
+                    <div class="section_title"><i class="fa-regular fa-calendar"></i> Date</div>
+                    <div class="calendar_header">
+                        <button id="prevMonth">&#8249;</button>
+                        <span class="calendar_month" id="calendarTitle"></span>
+                        <button id="nextMonth">&#8250;</button>
+                    </div>
+                    <div class="calendar_grid" id="calendarGrid"></div>
+                </div>
+                <div class="dt_divider"></div>
+                <div class="dt_time">
+                    <div class="section_title"><i class="fa-regular fa-clock"></i> Time</div>
+                    <div class="time_grid" id="timeGrid"></div>
+                </div>
+            </div>
+            <div class="step_nav">
+                <button class="nav_back" onclick="goToStep(1)">
+                    <i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+                </button>
+                <button class="nav_next" onclick="goToStep(3)">
+                    Next &nbsp;<i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: 환자 정보 입력 -->
+        <div class="step_panel" id="step_panel_3">
+            <div class="step_heading">
+                <span class="section_label">STEP 3 OF 3</span>
+                <h2>Your Information</h2>
+                <p class="step_sub">Almost done — fill in your details to complete the booking.</p>
+            </div>
+
+            <!-- 예약 요약 -->
+            <div class="booking_summary">
+                <div class="summary_item">
+                    <i class="fa-solid fa-hospital-user"></i>
+                    <div class="summary_text">
+                        <span class="summary_label">Hospital</span>
+                        <span class="summary_val" id="summary_hospital">—</span>
+                    </div>
+                </div>
+                <div class="summary_divider"></div>
+                <div class="summary_item">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <div class="summary_text">
+                        <span class="summary_label">Date</span>
+                        <span class="summary_val" id="summary_date">—</span>
+                    </div>
+                </div>
+                <div class="summary_divider"></div>
+                <div class="summary_item">
+                    <i class="fa-regular fa-clock"></i>
+                    <div class="summary_text">
+                        <span class="summary_label">Time</span>
+                        <span class="summary_val" id="summary_time">—</span>
+                    </div>
+                </div>
+                <button class="summary_edit" onclick="goToStep(2)" title="Edit schedule">
+                    <i class="fa-solid fa-pen"></i> Edit
+                </button>
+            </div>
+
+            <div class="step_card">
+                <div class="form_group">
+                    <div class="form_field">
+                        <label for="input_name">Full Name <span class="req">*</span></label>
+                        <input type="text" id="input_name" placeholder="Enter your full name">
+                    </div>
+                    <div class="form_row">
+                        <div class="form_field">
+                            <label for="input_phone">Phone Number <span class="req">*</span></label>
+                            <input type="tel" id="input_phone" inputmode="numeric" placeholder="010-1234-5678">
+                        </div>
+                        <div class="form_field">
+                            <label for="input_whatsapp">WhatsApp</label>
+                            <input type="tel" id="input_whatsapp" inputmode="numeric" placeholder="Optional">
+                        </div>
+                    </div>
+                    <div class="form_row">
+                        <div class="form_field">
+                            <label for="input_nationality">Nationality <span class="req">*</span></label>
+                            <input type="text" id="input_nationality" placeholder="Your nationality">
+                        </div>
+                        <div class="form_field">
+                            <label for="input_email">Email <span class="req">*</span></label>
+                            <input type="email" id="input_email" placeholder="your@email.com">
+                        </div>
+                    </div>
+                    <div class="form_field">
+                        <label for="input_treatment">Desired Treatment</label>
+                        <input type="text" id="input_treatment" placeholder="e.g. Botox, Filler, Laser...">
+                    </div>
+                    <div class="form_field">
+                        <label for="input_request">Special Requests</label>
+                        <textarea id="input_request" placeholder="Any special requests or notes..." rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step_nav">
+                <button class="nav_back" onclick="goToStep(2)">
+                    <i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+                </button>
+                <button class="book_btn" onclick="submitBooking()">
+                    <i class="fa-regular fa-calendar-plus"></i>
+                    Book Now
+                </button>
+            </div>
+            <div class="confirm_msg" id="confirmMsg"></div>
+        </div>
+
+    </main>
+    <footer></footer>
+
+    <!-- 예약 완료 알림 모달 -->
+    <div id="bookingSuccessModal" class="res_modal_overlay" style="display:none;">
+        <div class="res_modal_box success_modal_box">
+            <div class="success_icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="res_modal_title">Your reservation has been received.<br>Please wait a moment until it is confirmed.</div>
+            <p class="success_sub">Reservation Received</p>
+            <div class="success_details" id="successDetails"></div>
+            <div class="res_modal_actions">
+                <button class="res_modal_confirm" onclick="closeSuccessModal()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 예약 확인 모달 -->
+    <div id="bookingConfirmModal" class="res_modal_overlay" style="display:none;">
+        <div class="res_modal_box">
+            <div class="res_modal_title">Reservation Received</div>
+            <div class="res_modal_body" id="resModalBody"></div>
+            <div class="res_modal_actions">
+                <button class="res_modal_cancel" onclick="closeBookingModal()">Cancel</button>
+                <button class="res_modal_confirm" onclick="confirmBookingFinal()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+@import url(./common.css);
+
+/* ============================================
+   Booking Hero
+============================================ */
+#booking_hero {
+    padding: clamp(60px, 10vw, 140px) clamp(16px, 12vw, 350px) clamp(30px, 5vw, 60px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.booking_label {
+    font-size: clamp(10px, 1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--bookink1);
+    text-transform: uppercase;
+}
+
+#booking_hero h2 {
+    font-size: clamp(24px, 4.5vw, 58px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--black);
+}
+
+.booking_sub {
+    font-size: clamp(13px, 1.2vw, 16px);
+    font-weight: 300;
+    color: var(--ink1);
+    max-width: 520px;
+    line-height: 1.7;
+}
+
+
+/* ============================================
+   Category Grid
+============================================ */
+#booking_categories {
+    padding: 0 clamp(16px, 12vw, 350px) clamp(60px, 10vw, 120px);
+}
+
+.category_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2vw, 24px);
+}
+
+/* ============================================
+   Category Card
+============================================ */
+.category_card {
+    border: 1px solid rgba(18, 18, 18, 0.08);
+    border-radius: 4px;
+    padding: clamp(24px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--white);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.category_card:hover {
+    border-color: rgba(18, 18, 18, 0.18);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.07);
+    transform: translateY(-3px);
+}
+
+.card_icon {
+    font-size: clamp(20px, 2.5vw, 30px);
+    color: var(--bookink2);
+    line-height: 1;
+}
+
+.card_icon i {
+    background: transparent;
+}
+
+.card_content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.card_tag {
+    font-size: clamp(9px, 0.85vw, 11px);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bookink1);
+}
+
+.card_content h3 {
+    font-size: clamp(15px, 1.6vw, 20px);
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.2;
+}
+
+.card_content p {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+    color: var(--ink1);
+    line-height: 1.65;
+}
+
+/* ============================================
+   Book Button
+============================================ */
+.card_book_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: clamp(10px, 1.2vw, 14px) clamp(16px, 2vw, 24px);
+    background: var(--black);
+    color: var(--white);
+    font-size: clamp(11px, 0.95vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    align-self: flex-start;
+    transition: background 0.25s ease, letter-spacing 0.25s ease;
+}
+
+.card_book_btn i {
+    background: transparent;
+    font-size: 1.15em;
+    color: inherit;
+}
+
+.card_book_btn:hover {
+    background: var(--bookink3);
+    letter-spacing: 0.12em;
+}
+
+/* CTA card variant */
+.card_cta {
+    background: linear-gradient(135deg, rgba(108, 128, 124, 0.06) 0%, rgba(87, 122, 115, 0.12) 100%);
+    border-color: rgba(108, 128, 124, 0.2);
+}
+
+.card_cta .card_icon {
+    color: var(--bookink3);
+}
+
+.cta_btn {
+    background: var(--bookink3);
+}
+
+.cta_btn:hover {
+    background: var(--black);
+}
+
+/* ============================================
+   Contact Strip
+============================================ */
+#booking_contact {
+    padding: clamp(40px, 6vw, 80px) clamp(16px, 12vw, 350px);
+    border-top: 1px solid rgba(18, 18, 18, 0.07);
+}
+
+.contact_strip {
+    display: flex;
+    align-items: center;
+    gap: clamp(24px, 4vw, 60px);
+    flex-wrap: wrap;
+}
+
+.contact_item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.contact_item > i {
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--bookink2);
+    background: transparent;
+    min-width: 24px;
+}
+
+.contact_item > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.contact_label {
+    font-size: clamp(9px, 0.85vw, 11px);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink1);
+}
+
+.contact_item a {
+    font-size: clamp(12px, 1.1vw, 15px);
+    font-weight: 500;
+    color: var(--black);
+    transition: color 0.2s ease;
+}
+
+.contact_item a:hover {
+    color: var(--bookink3);
+}
+
+.contact_divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(18, 18, 18, 0.1);
+    flex-shrink: 0;
+}
+
+/* ============================================
+   Responsive
+============================================ */
+@media (max-width: 1024px) {
+    .category_grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .category_grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact_strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .contact_divider {
+        display: none;
+    }
+}

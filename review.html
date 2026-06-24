@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGG</title>
+    <script src="./js/common.js" defer></script>
+    <script src="./js/review.js" defer></script>
+    <!-- Google Maps JS API (Places 라이브러리 포함) — YOUR_API_KEY를 본인 키로 교체 -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initGoogleMaps" async></script>
+    <link rel="stylesheet" href="./css/review.css">
+    <script src="https://kit.fontawesome.com/2eb47fcd7e.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header></header>
+    <div class="country_selection"></div>
+    <main class="review_wrap">
+        <!-- 리뷰 섹션 -->
+        <section id="review">
+            <span class="section_label">REVIEW</span>
+            <h2>Review</h2>
+            <!-- 병원 선택 -->
+                <div id="viewHospitalSelectWrap"></div>
+                <div class="google_review_box" id="google_review_box">
+                    <p class="google_review_placeholder">Select a hospital to view Google reviews.</p>
+                </div>
+        </section>
+    </main>
+
+    <footer></footer>
+</body>
+
+</html>

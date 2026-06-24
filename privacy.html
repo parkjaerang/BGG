@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGG</title>
+    <link rel="stylesheet" href="./css/common.css">
+    <script src="./js/common.js"></script>
+    <script src="https://kit.fontawesome.com/2eb47fcd7e.js" crossorigin="anonymous"></script>
+    <style>
+        main {
+            margin-bottom: 150px;
+            padding: clamp(20px, 3vw, 40px) clamp(16px, 4vw, 50px) clamp(10px, 2vw, 20px);
+        }
+
+        .privacy_policy {
+            max-width: 1000px;
+            margin: auto;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: 160px;
+            padding: 0;
+        }
+
+        .privacy_policy>h2 {
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section>h3 {
+            margin-bottom: 10px;
+        }
+
+        .policy_table {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+        }
+
+        .policy_table .header {
+            border-bottom: none;
+        }
+
+        .row {
+            display: flex;
+            border: 1px solid #ddd;
+            align-items: center;
+        }
+
+        .col {
+            font-size: 12px;
+            padding: 10px;
+            border-right: 1px solid #eee;
+            text-align: center;
+        }
+
+        .col:last-child {
+            border-right: none;
+        }
+
+        .category {
+            width: 15%;
+        }
+
+        .required {
+            width: 15%;
+        }
+
+        .data {
+            width: 35%;
+        }
+
+        .purpose {
+            width: 35%;
+        }
+
+        .row.header .col {
+            font-weight: bold;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                margin-bottom: 100px;
+            }
+
+            .privacy_policy {
+                margin-top: 120px;
+                font-size: 10px;
+            }
+
+            .privacy_policy>h2 {
+                font-size: 18px;
+            }
+
+            .section>h3 {
+                font-size: 12px;
+            }
+
+            .col {
+                padding: 8px 6px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <div class="country_selection"></div>
+    <main>
+    <section class="privacy_policy">
+        <h2>Privacy Policy</h2>
+
+        <div class="section">
+            <h3>General Provisions</h3>
+            <p>
+                BGG Co., Ltd. values customers’ personal information and complies with
+                the Act on Promotion of Information and Communications Network Utilization
+                and Information Protection, as well as the Personal Information Protection Act.
+            </p>
+        </div>
+
+        <div class="section">
+            <h3>1. Personal Information Collected and Purpose of Use</h3>
+
+            <div class="policy_table">
+                <div class="row header">
+                    <div class="col category">Category</div>
+                    <div class="col required">Required / Optional</div>
+                    <div class="col data">Collected Information</div>
+                    <div class="col purpose">Purpose of Use</div>
+                </div>
+
+                <div class="row">
+                    <div class="col category" data-label="Category">Contact Inquiry</div>
+                    <div class="col required" data-label="Required / Optional">Required</div>
+                    <div class="col data" data-label="Collected Information">
+                        Name, Mobile Number, Email Address, Nationality
+                    </div>
+                    <div class="col purpose" data-label="Purpose of Use">
+                        Processing inquiries and responding to requests
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>2. Collection of Personal Information Through Cookies</h3>
+            <p>
+                The company uses cookies to store and analyze user information.
+            </p>
+        </div>
+
+        <div class="section">
+            <h3>3. Retention and Use Period of Personal Information</h3>
+            <ul>
+                <li>Records related to contracts or withdrawal of subscriptions: 5 years</li>
+                <li>Records related to payment and supply of goods/services: 5 years</li>
+                <li>Records related to complaints or dispute resolution: 3 years</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>4. Department Responsible for Personal Information Protection</h3>
+            <p>Name: OOO</p>
+            <p>Phone: +82-2-1234-5678</p>
+            <p>Email: contact@example.com</p>
+        </div>
+    </section>
+</main>
+    
+    <footer></footer>
+</body>
+
+</html>

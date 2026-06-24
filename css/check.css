@@ -1,0 +1,229 @@
+@import url(./common.css);
+
+main {
+    display: flex;
+    justify-content: center;
+    padding: clamp(100px, 14vw, 200px) clamp(16px, 12vw, 350px) clamp(60px, 8vw, 120px);
+}
+
+#check_section {
+    width: 100%;
+    max-width: 540px;
+    font-family: var(--main_font);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18, 18, 18, 0.07);
+    border-radius: 6px;
+    box-shadow: 0 8px 32px rgba(87, 122, 115, 0.07);
+    padding: clamp(28px, 3.5vw, 48px) clamp(24px, 3vw, 40px);
+}
+
+h2 {
+    text-align: start;
+    font-size: clamp(20px, 2.8vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: clamp(20px, 3vw, 36px);
+    color: var(--black);
+    position: relative;
+    padding-top: clamp(8px, 1.2vw, 14px);
+}
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1vw, 10px);
+}
+
+.form_group input {
+    padding: clamp(8px, 1.2vw, 11px) clamp(10px, 1.5vw, 14px);
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+    outline: none;
+    transition: border-color 0.15s;
+    background: rgba(255,255,255,0.6);
+}
+
+.form_group input:focus {
+    border-color: var(--bookink3);
+}
+
+.book_btn {
+    margin-top: clamp(14px, 2.5vw, 24px);
+    width: 100%;
+    padding: clamp(10px, 1.5vw, 14px);
+    background: var(--bookink2);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.book_btn:hover {
+    background: var(--bookink1);
+}
+
+/* 결과 영역 */
+.result_wrap {
+    display: none;
+    margin-top: clamp(20px, 3vw, 32px);
+    border-radius: 12px;
+    padding: clamp(20px, 3vw, 32px) clamp(16px, 2.5vw, 28px);
+    text-align: center;
+    border: 1.5px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.result_wrap.show {
+    display: block;
+}
+
+/* 상태별 색상 */
+.result_wrap.status_confirmed {
+    background: rgba(240, 168, 101, 0.1);
+    border-color: var(--bookink2);
+}
+
+.result_wrap.status_cancelled {
+    background: rgba(231, 76, 60, 0.07);
+    border-color: #e74c3c;
+}
+
+.result_wrap.status_pending {
+    background: rgba(52, 152, 219, 0.07);
+    border-color: #3498db;
+}
+
+.result_wrap.status_none {
+    background: rgba(136, 136, 136, 0.07);
+    border-color: #ccc;
+}
+
+.result_icon {
+    font-size: clamp(28px, 5vw, 44px);
+    margin-bottom: 12px;
+}
+
+.result_msg {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--black);
+}
+
+.result_wrap.status_confirmed .result_msg { color: var(--bookink1); }
+.result_wrap.status_cancelled .result_msg { color: #e74c3c; }
+.result_wrap.status_pending .result_msg   { color: #2980b9; }
+.result_wrap.status_none .result_msg      { color: #888; }
+
+.result_detail {
+    font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+    color: #666;
+    line-height: 1.7;
+}
+
+/* 여러 예약 */
+.result_wrap.status_multi {
+    background: rgba(255,255,255,0.4);
+    border-color: #ccc;
+}
+
+.result_wrap.status_multi .result_msg {
+    color: var(--black);
+    margin-bottom: 14px;
+}
+
+.reservation_card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: clamp(10px, 1.5vw, 14px) clamp(12px, 2vw, 18px);
+    border-radius: 10px;
+    border: 1.5px solid transparent;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.reservation_card:last-child {
+    margin-bottom: 0;
+}
+
+.reservation_card.status_confirmed {
+    background: rgba(240, 168, 101, 0.1);
+    border-color: var(--bookink2);
+}
+
+.reservation_card.status_cancelled {
+    background: rgba(231, 76, 60, 0.07);
+    border-color: #e74c3c;
+}
+
+.reservation_card.status_pending {
+    background: rgba(52, 152, 219, 0.07);
+    border-color: #3498db;
+}
+
+.card_icon {
+    font-size: clamp(20px, 3vw, 26px);
+    flex-shrink: 0;
+}
+
+.card_info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.card_info strong {
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: var(--black);
+}
+
+.card_info span {
+    font-size: clamp(0.75rem, 1.3vw, 0.88rem);
+    color: #666;
+}
+
+.card_label {
+    font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.status_confirmed .card_label { color: var(--bookink1); }
+.status_cancelled .card_label { color: #e74c3c; }
+.status_pending   .card_label { color: #2980b9; }
+
+.cancel_btn {
+    padding: 6px 10px;
+    background: var(--black);
+    color: #fff;
+    font-size: clamp(11px, 1.1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1.5px solid var(--black);
+    transition: background 0.2s, color 0.2s;
+    font-family: var(--main_font);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.cancel_btn:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+    main {
+        padding: 80px 16px 40px;
+    }
+}

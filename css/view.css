@@ -1,0 +1,908 @@
+@import url(./common.css);
+
+/* ============================================
+   HOSPITAL HERO
+============================================ */
+#hospital_hero {
+    width: 100%;
+    position: relative;
+}
+
+.hero_img_wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/1;
+    min-height: 480px;
+    overflow: hidden;
+}
+
+/* Hero Slider */
+.hero_slider {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero_slide {
+    position: absolute;
+    inset: 0;
+    transform: translateX(100%);
+    transition: transform 0.6s ease;
+}
+
+.hero_slide.active {
+    transform: translateX(0);
+}
+
+.hero_slide.prev {
+    transform: translateX(-100%);
+    z-index: 0;
+}
+
+.hero_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.55);
+}
+
+/* Dots indicator */
+.hero_dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.hero_dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.hero_dot.active {
+    background: #fff;
+}
+
+.hero_overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(40px, 8vw, 120px) clamp(16px, 12vw, 350px);
+    color: #fff;
+    gap: clamp(12px, 1.5vw, 20px);
+}
+
+.hero_tag {
+    font-size: clamp(10px, 1vw, 12px);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bookink2);
+    background: transparent;
+}
+
+.hero_name {
+    font-size: clamp(32px, 6vw, 80px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #fff;
+    background: transparent;
+}
+
+.hero_sub {
+    font-size: clamp(12px, 1.2vw, 16px);
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.7);
+    background: transparent;
+}
+
+.hero_book_btn {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: clamp(8px, 1vw, 16px);
+    padding: clamp(12px, 1.3vw, 16px) clamp(28px, 3.5vw, 44px);
+    background: var(--bookink2);
+    color: #fff;
+    border-radius: 50px;
+    font-size: clamp(11px, 1vw, 14px);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.25s ease;
+}
+
+.hero_book_btn:hover {
+    background: var(--bookink3);
+}
+
+/* ============================================
+   SHARED
+============================================ */
+.section_desc {
+    font-size: clamp(13px, 1.2vw, 17px);
+    font-weight: 300;
+    color: rgba(18, 18, 18, 0.55);
+    line-height: 1.8;
+    max-width: 560px;
+}
+
+/* ============================================
+   HOSPITAL ABOUT
+============================================ */
+#hospital_about {
+    padding: clamp(60px, 10vw, 140px) clamp(16px, 12vw, 350px);
+}
+
+.about_inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(30px, 5vw, 80px);
+    align-items: center;
+}
+
+
+.about_img_main {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.about_img_main img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.about_img_main:hover img {
+    transform: scale(1.03);
+}
+
+.about_img_sub {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1vw, 14px);
+}
+
+.about_img_sub img {
+    width: 100%;
+    flex: 1;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+    min-height: 0;
+    transition: transform 0.5s ease;
+}
+
+.about_img_sub img:hover {
+    transform: scale(1.03);
+}
+
+.about_text {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.5vw, 20px);
+}
+
+.about_label {
+    font-size: clamp(10px, 0.9vw, 11px);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bookink2);
+}
+
+.about_title {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 900;
+    color: var(--black);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.about_desc {
+    font-size: clamp(12px, 1vw, 15px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.6);
+    line-height: 1.9;
+}
+
+.about_highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.about_highlights li {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 400;
+    color: rgba(18,18,18,0.65);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.about_highlights li i {
+    color: var(--bookink2);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   PRICE LIST
+============================================ */
+#price_list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 48px);
+}
+
+.price_table_wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2.5vw, 32px);
+}
+
+.price_category {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18,18,18,0.08);
+    border-radius: 12px;
+    padding: clamp(20px, 2.5vw, 32px);
+    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 1.5vw, 20px);
+}
+
+.price_cat_title {
+    font-size: clamp(13px, 1.2vw, 16px);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bookink1);
+    padding-bottom: clamp(10px, 1vw, 14px);
+    border-bottom: 1.5px solid rgba(97,129,123,0.18);
+}
+
+.price_items {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1vw, 14px);
+}
+
+.price_row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.price_name {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 400;
+    color: var(--black);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.price_dots {
+    flex: 1;
+    border-bottom: 1px dotted rgba(18,18,18,0.2);
+    margin-bottom: 3px;
+}
+
+.price_val {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 600;
+    color: var(--bookink1);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.price_notice {
+    font-size: clamp(10px, 0.9vw, 12px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.4);
+    line-height: 1.6;
+}
+
+/* ============================================
+   PROMOTION POSTER
+============================================ */
+#promo_poster {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 40px);
+}
+
+.promotion_banner {
+    position: relative;
+}
+
+.promo_img {
+    width: 100%;
+    aspect-ratio: 2/1;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.card_btn {
+    display: block;
+    text-align: center;
+    padding: clamp(10px, 1.2vw, 12px) clamp(20px, 3vw, 32px);
+    background: var(--bookink2);
+    color: #fff;
+    border-radius: 8px;
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.2s ease;
+    position: absolute;
+    bottom: clamp(16px, 3vw, 28px);
+    left: clamp(70px, 8vw, 100px);
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.card_btn:hover {
+    background: var(--bookink3);
+}
+
+
+.poster_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2.5vw, 32px);
+}
+
+.poster_card {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18,18,18,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.poster_card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(87,122,115,0.14);
+}
+
+.poster_img_wrap {
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.poster_img_wrap img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.poster_card:hover .poster_img_wrap img {
+    transform: scale(1.04);
+}
+
+.poster_badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 4px 10px;
+    border-radius: 50px;
+    text-transform: uppercase;
+}
+
+.badge_hot { background: var(--bookink3); color: #fff; }
+.badge_new { background: var(--bookink1); color: #fff; }
+
+.poster_body {
+    padding: clamp(16px, 2vw, 24px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1vw, 12px);
+    flex: 1;
+}
+
+.poster_tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bookink1);
+}
+
+.poster_title {
+    font-size: clamp(15px, 1.6vw, 20px);
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.3;
+}
+
+.poster_desc {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.55);
+    line-height: 1.75;
+    flex: 1;
+}
+
+.poster_price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.original_price {
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.35);
+    text-decoration: line-through;
+}
+
+.sale_price {
+    font-size: clamp(14px, 1.4vw, 18px);
+    font-weight: 700;
+    color: var(--bookink3);
+}
+/* ============================================
+   BEFORE & AFTER
+============================================ */
+#before_after {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 48px);
+}
+
+.ba_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2.5vw, 32px);
+}
+
+.ba_card {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18,18,18,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ba_card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(87,122,115,0.14);
+}
+
+.ba_img_wrap {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 2/1;
+}
+
+.ba_side {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.ba_side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.ba_card:hover .ba_side img {
+    transform: scale(1.04);
+}
+
+.ba_label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 3px 9px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+}
+
+.ba_divider {
+    width: 2px;
+    background: #fff;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.ba_body {
+    padding: clamp(14px, 1.8vw, 22px);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ba_tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bookink1);
+}
+
+.ba_desc {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.55);
+    line-height: 1.7;
+}
+
+@media (max-width: 1100px) {
+    .ba_grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .ba_grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   BOOKING FLOW
+============================================ */
+#booking_flow {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(30px, 5vw, 70px);
+}
+
+.flow_steps {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(10px, 2vw, 24px);
+}
+
+.flow_step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(10px, 1.2vw, 16px);
+    padding: clamp(24px, 3vw, 40px) clamp(16px, 2vw, 24px);
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(18,18,18,0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+
+    /* 초기 상태: 숨김 */
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.flow_step.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.step_num {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 900;
+    color: rgba(97,129,123,0.12);
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.step_icon {
+    font-size: clamp(22px, 2.8vw, 36px);
+    color: var(--bookink2);
+}
+
+.step_title {
+    font-size: clamp(14px, 1.4vw, 18px);
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.01em;
+}
+
+.step_desc {
+    font-size: clamp(11px, 0.95vw, 13px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.55);
+    line-height: 1.8;
+}
+
+.flow_arrow {
+    font-size: clamp(14px, 1.5vw, 20px);
+    color: var(--bookink2);
+    flex-shrink: 0;
+    margin-top: clamp(60px, 8vw, 100px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.flow_arrow.visible {
+    opacity: 0.5;
+}
+
+/* ============================================
+   HOSPITAL INFO
+============================================ */
+#hospital_info {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(30px, 5vw, 70px);
+    padding-bottom: 0;
+}
+
+.info_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2.5vw, 32px);
+}
+
+.info_card {
+    padding: clamp(24px, 3vw, 40px) clamp(20px, 2.5vw, 32px);
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18,18,18,0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.5vw, 18px);
+    transition: transform 0.3s ease;
+}
+
+.info_card:hover {
+    transform: translateY(-4px);
+}
+
+.info_card_accent {
+    background: var(--bookink1);
+    border-color: transparent;
+    color: #fff;
+}
+
+.info_icon {
+    font-size: clamp(24px, 3vw, 38px);
+    color: var(--bookink2);
+}
+
+.info_card_accent .info_icon {
+    color: rgba(255,255,255,0.8);
+}
+
+.info_title {
+    font-size: clamp(16px, 1.6vw, 22px);
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.01em;
+}
+
+.info_card_accent .info_title {
+    color: #fff;
+}
+
+.info_desc {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.55);
+    line-height: 1.85;
+}
+
+.info_card_accent .info_desc {
+    color: rgba(255,255,255,0.75);
+}
+
+.info_list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.info_list li {
+    font-size: clamp(11px, 0.95vw, 13px);
+    font-weight: 400;
+    color: rgba(18,18,18,0.6);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info_card_accent .info_list li {
+    color: rgba(255,255,255,0.8);
+}
+
+.info_list li i {
+    color: var(--bookink2);
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.info_card_accent .info_list li i {
+    color: rgba(255,255,255,0.7);
+}
+
+/* Doctor Profile */
+#doctor_profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, 3vw, 40px);
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 16px;
+    padding-bottom: clamp(50px, 10vw, 170px);
+}
+
+.profile_wrap{
+    width: 100%;
+    display: flex;
+    gap: clamp(60px, 8vw, 100px);
+}
+
+.doctor_img_wrap {
+    flex-shrink: 0;
+    width: clamp(140px, 18vw, 260px);
+    height: clamp(160px, 22vw, 320px);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.doctor_img_wrap img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.doctor_text {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.2vw, 16px);
+}
+
+.doctor_label {
+    font-size: clamp(10px, 0.9vw, 11px);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bookink2);
+}
+
+.doctor_name {
+    font-size: clamp(20px, 2.8vw, 36px);
+    font-weight: 900;
+    color: var(--black);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.doctor_bio {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.6);
+    line-height: 1.9;
+    max-width: 620px;
+}
+
+.doctor_certs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.cert_badge {
+    padding: 6px 14px;
+    border: 1.5px solid var(--bookink2);
+    border-radius: 50px;
+    font-size: clamp(10px, 0.85vw, 12px);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--bookink1);
+    text-transform: uppercase;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 1100px) {
+    .price_table_wrap,
+    .poster_grid,
+    .info_grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .flow_steps {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .flow_arrow {
+        transform: rotate(90deg);
+        align-self: center;
+        margin-top: 0;
+    }
+
+    /* 모바일: 위→아래 방향 애니메이션 */
+    .flow_step {
+        transform: translateY(-20px);
+    }
+
+    .flow_step.visible {
+        transform: translateY(0);
+    }
+
+    .profile_wrap {
+        flex-direction: column;
+    }
+
+    .doctor_img_wrap {
+        width: 100%;
+        height: clamp(200px, 50vw, 320px);
+    }
+    .about_inner {
+        grid-template-columns: 1fr;
+    }
+    .about_img_main {
+        height: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .price_table_wrap,
+    .poster_grid,
+    .info_grid {
+        grid-template-columns: 1fr;
+    }
+}

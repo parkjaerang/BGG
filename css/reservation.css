@@ -1,0 +1,848 @@
+@import url("./common.css");
+
+/* ══════════════════════════════════════
+   Wrap
+══════════════════════════════════════ */
+main.booking_wrap {
+    min-height: 100vh;
+    padding: 20px clamp(16px, 5vw, 40px) clamp(60px, 8vw, 120px);
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(32px, 5vw, 56px);
+}
+
+#booking_intro {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: clamp(15px, 3vw, 30px);
+}
+
+section h2 {
+    font-size: clamp(24px, 4vw, 58px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--black);
+}
+
+.step_heading > .section_label {
+    font-size: clamp(6px, 1vw, 10px);
+}
+
+.step_heading h2 {
+        font-size: clamp(16px, 2.5vw, 30px);
+}
+
+/* ══════════════════════════════════════
+   진행 표시바
+══════════════════════════════════════ */
+.stepper_progress {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 480px;
+}
+
+.prog_step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.prog_dot {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+    background: #fff;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.prog_step span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #bbb;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.prog_step.active .prog_dot {
+    border-color: var(--bookink2);
+    background: var(--bookink2);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(240, 168, 101, 0.35);
+}
+
+.prog_step.active span {
+    color: var(--bookink1);
+}
+
+.prog_step.done .prog_dot {
+    border-color: var(--bookink1);
+    background: var(--bookink1);
+    color: #fff;
+}
+
+.prog_step.done span {
+    color: var(--bookink1);
+}
+
+.prog_line {
+    flex: 1;
+    height: 2px;
+    background: #e8e8e8;
+    margin-bottom: 22px;
+    transition: background 0.3s ease;
+}
+
+.prog_line.done {
+    background: var(--bookink1);
+}
+
+/* ══════════════════════════════════════
+   Step 패널 (show/hide)
+══════════════════════════════════════ */
+.step_panel {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    max-width: 860px;
+    gap: clamp(20px, 3vw, 32px);
+}
+
+.step_panel.active {
+    display: flex;
+}
+
+/* ══════════════════════════════════════
+   Step 헤딩
+══════════════════════════════════════ */
+.step_heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* section_label — common.css 스타일 그대로 사용 */
+
+.step_heading h2 {
+    font-size: clamp(22px, 4vw, 38px);
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.step_sub {
+    font-size: clamp(0.82rem, 1.4vw, 0.95rem);
+    color: #999;
+    line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   Step 카드 (흰색 박스)
+══════════════════════════════════════ */
+.step_card {
+    background: #fff;
+    border: 1px solid #ebebeb;
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.045);
+    padding: clamp(20px, 3.5vw, 36px);
+}
+
+/* ══════════════════════════════════════
+   Step 1 — 병원 선택
+══════════════════════════════════════ */
+select {
+    width: 100%;
+    padding: clamp(12px, 1.5vw, 16px) clamp(12px, 1.8vw, 18px);
+    border: 1.5px solid #e4e4e4;
+    border-radius: 10px;
+    color: #555;
+    background: #fafafa;
+    font-size: clamp(0.88rem, 1.5vw, 1rem);
+    transition: border-color 0.15s;
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: var(--bookink2);
+    outline: none;
+}
+
+/* ══════════════════════════════════════
+   Step 2 — 날짜 & 시간
+══════════════════════════════════════ */
+.date_time_layout {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    align-items: start;
+}
+
+.dt_divider {
+    width: 1px;
+    background: #f0f0f0;
+    align-self: stretch;
+    margin: 0 clamp(16px, 2.5vw, 28px);
+}
+
+.section_title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: clamp(0.78rem, 1.3vw, 0.9rem);
+    font-weight: 700;
+    color: #555;
+    margin-bottom: clamp(12px, 2vw, 18px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.section_title i {
+    color: var(--bookink2);
+}
+
+/* 달력 */
+.calendar_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding: 4px 6px;
+    background: #fafafa;
+    border-radius: 10px;
+}
+
+.calendar_header button {
+    background: none;
+    border: none;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    cursor: pointer;
+    color: #888;
+    padding: 3px 12px;
+    border-radius: 8px;
+    transition: background 0.15s, color 0.15s;
+    line-height: 1;
+}
+
+.calendar_header button:hover {
+    background: var(--bookink2);
+    color: #fff;
+}
+
+.calendar_month {
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    font-weight: 700;
+    color: var(--black);
+}
+
+.calendar_grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: clamp(2px, 0.4vw, 4px);
+}
+
+.calendar_grid .day_label {
+    text-align: center;
+    font-size: clamp(0.58rem, 1vw, 0.7rem);
+    color: #bbb;
+    padding: clamp(4px, 0.6vw, 7px) 0;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.calendar_grid .day_label:first-child {
+    color: #e74c3c;
+}
+
+.calendar_grid .day_label:last-child {
+    color: #3498db;
+}
+
+.calendar_grid .day {
+    text-align: center;
+    padding: clamp(6px, 1vw, 9px) 0;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: clamp(0.72rem, 1.25vw, 0.87rem);
+    color: #333;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+}
+
+.calendar_grid .day:hover:not(.empty):not(.past) {
+    background: rgba(240, 168, 101, 0.14);
+    color: var(--bookink1);
+}
+
+.calendar_grid .day.selected {
+    background: var(--bookink2);
+    color: #fff !important;
+    font-weight: 700;
+}
+
+.calendar_grid .day.today {
+    border: 2px solid var(--bookink2);
+    color: var(--bookink1);
+    font-weight: 700;
+}
+
+.calendar_grid .day.today.selected {
+    border-color: transparent;
+}
+
+.calendar_grid .day.past {
+    color: #d4d4d4;
+    cursor: not-allowed;
+}
+
+.calendar_grid .day.sun {
+    color: #e74c3c;
+}
+
+.calendar_grid .day.sat {
+    color: #3498db;
+}
+
+.calendar_grid .day.sun.past,
+.calendar_grid .day.sat.past {
+    color: #e8c3c3;
+}
+
+.calendar_grid .empty {
+    cursor: default;
+}
+
+.calendar_grid .day.closed {
+    color: #ccc;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.time_notice {
+    grid-column: 1 / -1;
+    color: #ccc;
+    font-size: clamp(0.78rem, 1.2vw, 0.87rem);
+    padding: 24px 0;
+    text-align: center;
+}
+
+/* 시간 그리드 */
+.time_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(5px, 0.7vw, 8px);
+}
+
+.time_btn {
+    padding: clamp(8px, 1.1vw, 11px) 0;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 8px;
+    background: #fff;
+    font-size: clamp(0.7rem, 1.1vw, 0.82rem);
+    cursor: pointer;
+    color: #444;
+    font-weight: 500;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.time_btn:hover:not(.disabled) {
+    border-color: var(--bookink2);
+    background: rgba(240, 168, 101, 0.08);
+    color: var(--bookink1);
+}
+
+.time_btn.disabled {
+    background: #f7f7f7;
+    border-color: #ebebeb;
+    color: #ccc;
+    cursor: default;
+    pointer-events: none;
+}
+
+.time_btn.selected {
+    background: var(--bookink2);
+    border-color: var(--bookink2);
+    color: #fff;
+    font-weight: 700;
+}
+
+/* ══════════════════════════════════════
+   Step 3 — 예약 요약 바
+══════════════════════════════════════ */
+.booking_summary {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1.5px solid #f0e8de;
+    border-radius: 14px;
+    padding: clamp(14px, 2vw, 20px) clamp(18px, 3vw, 28px);
+    gap: 0;
+}
+
+.summary_item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.summary_item>i {
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    color: var(--bookink2);
+    flex-shrink: 0;
+}
+
+.summary_text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.summary_label {
+    font-size: clamp(0.6rem, 1vw, 0.7rem);
+    font-weight: 700;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.summary_val {
+    font-size: clamp(0.82rem, 1.4vw, 0.95rem);
+    font-weight: 700;
+    color: var(--black);
+}
+
+.summary_divider {
+    width: 1px;
+    height: 36px;
+    background: #ecddd0;
+    margin: 0 clamp(12px, 2vw, 24px);
+    flex-shrink: 0;
+}
+
+.summary_edit {
+    margin-left: auto;
+    padding: 7px 16px;
+    border: 1.5px solid #e4e4e4;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.summary_edit:hover {
+    border-color: var(--bookink2);
+    color: var(--bookink1);
+}
+
+/* ══════════════════════════════════════
+   Step 3 — 폼
+══════════════════════════════════════ */
+.form_group {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.8vw, 16px);
+}
+
+.form_field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form_field label {
+    font-size: clamp(0.7rem, 1.1vw, 0.8rem);
+    font-weight: 600;
+    color: #666;
+    letter-spacing: 0.01em;
+}
+
+.req {
+    color: var(--bookink1);
+}
+
+.form_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(10px, 1.5vw, 14px);
+}
+
+.form_group input,
+.form_group textarea {
+    padding: clamp(10px, 1.3vw, 13px) clamp(12px, 1.6vw, 15px);
+    border: 1.5px solid #e4e4e4;
+    border-radius: 10px;
+    font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+    outline: none;
+    background: #fafafa;
+    color: var(--black);
+    font-family: var(--main_font);
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.form_group input:focus,
+.form_group textarea:focus {
+    border-color: var(--bookink2);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(240, 168, 101, 0.12);
+}
+
+/* ══════════════════════════════════════
+   네비게이션 버튼 (Back / Next)
+══════════════════════════════════════ */
+.step_nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.nav_back {
+    padding: clamp(10px, 1.4vw, 13px) clamp(20px, 2.5vw, 28px);
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    color: #888;
+    font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.nav_back:hover {
+    border-color: #bbb;
+    color: #555;
+}
+
+.nav_next {
+    margin-left: auto;
+    padding: clamp(10px, 1.4vw, 13px) clamp(28px, 3.5vw, 40px);
+    background: var(--bookink2);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.02em;
+}
+
+.nav_next:hover {
+    background: var(--bookink1);
+    transform: translateX(2px);
+}
+
+/* ── 최종 예약 버튼 ── */
+.book_btn {
+    padding: clamp(10px, 1.4vw, 13px) clamp(28px, 3.5vw, 40px);
+    background: var(--bookink2);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.02em;
+}
+
+.book_btn:hover {
+    background: var(--bookink1);
+    transform: translateY(-1px);
+}
+
+.book_btn:active {
+    transform: translateY(0);
+}
+
+/* ══════════════════════════════════════
+   확인 메시지
+══════════════════════════════════════ */
+.confirm_msg {
+    display: none;
+    background: #fffaf4;
+    border: 1.5px solid var(--bookink2);
+    border-radius: 12px;
+    padding: clamp(14px, 2vw, 20px) clamp(16px, 2.5vw, 24px);
+    color: var(--bookink3);
+    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+    line-height: 1.9;
+}
+
+/* ══════════════════════════════════════
+   모달
+══════════════════════════════════════ */
+.res_modal_overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.res_modal_box {
+    background: #fff;
+    border-radius: 18px;
+    padding: clamp(24px, 4vw, 40px);
+    width: min(500px, 92vw);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14);
+}
+
+.res_modal_title {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: -0.01em;
+}
+
+.res_modal_body {
+    font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+    color: #333;
+    line-height: 1.95;
+    border: 1.5px solid #f0e8de;
+    border-radius: 10px;
+    padding: clamp(12px, 2vw, 20px) clamp(14px, 2.5vw, 24px);
+    background: #fffaf5;
+    margin-bottom: 22px;
+}
+
+.res_modal_body .modal_row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+}
+
+.res_modal_body .modal_label {
+    font-weight: 700;
+    color: var(--bookink1);
+    min-width: 100px;
+    flex-shrink: 0;
+    font-size: 0.88em;
+}
+
+.res_modal_actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.res_modal_cancel {
+    padding: 10px 24px;
+    border-radius: 9px;
+    border: 1.5px solid #e0e0e0;
+    background: #fff;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.res_modal_cancel:hover {
+    background: #f5f5f5;
+}
+
+.res_modal_confirm {
+    padding: 10px 24px;
+    border-radius: 9px;
+    border: none;
+    background: var(--bookink2);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.res_modal_confirm:hover {
+    background: var(--bookink1);
+}
+
+/* ══════════════════════════════════════
+   예약 완료 성공 모달
+══════════════════════════════════════ */
+.success_modal_box {
+    text-align: center;
+}
+
+.success_icon {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    color: #27ae60;
+    margin-bottom: 12px;
+    animation: pop_in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop_in {
+    0%   { transform: scale(0.4); opacity: 0; }
+    100% { transform: scale(1);   opacity: 1; }
+}
+
+.success_sub {
+    font-size: 0.9rem;
+    color: #888;
+    margin: -12px 0 20px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.success_details {
+    text-align: left;
+    background: #f6fef9;
+    border: 1.5px solid #c3e6cb;
+    border-radius: 10px;
+    padding: clamp(12px, 2vw, 20px) clamp(14px, 2.5vw, 24px);
+    margin-bottom: 20px;
+    font-size: clamp(0.78rem, 1.3vw, 0.88rem);
+}
+
+.success_row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    line-height: 2;
+}
+
+.success_label {
+    font-weight: 700;
+    color: #27ae60;
+    min-width: 130px;
+    flex-shrink: 0;
+    font-size: 0.85em;
+}
+
+.success_val {
+    color: #333;
+    word-break: break-all;
+}
+
+.success_notice {
+    margin-top: 14px;
+    font-size: 0.82rem;
+    color: #555;
+    border-top: 1px solid #c3e6cb;
+    padding-top: 10px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.success_notice small {
+    color: #888;
+    font-size: 0.9em;
+}
+
+.success_modal_box .res_modal_actions {
+    justify-content: center;
+}
+
+.success_modal_box .res_modal_confirm {
+    background: #27ae60;
+    padding: 11px 40px;
+    font-size: 1rem;
+}
+
+.success_modal_box .res_modal_confirm:hover {
+    background: #219150;
+}
+
+/* ══════════════════════════════════════
+   반응형
+══════════════════════════════════════ */
+@media (max-width: 720px) {
+    main.booking_wrap {
+        padding: clamp(80px, 14vw, 120px) clamp(14px, 4vw, 24px) 60px;
+    }
+
+    .date_time_layout {
+        grid-template-columns: 1fr;
+    }
+
+    .dt_divider {
+        display: none;
+    }
+
+    .dt_time {
+        margin-top: 20px;
+    }
+
+    .time_grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .booking_summary {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .summary_divider {
+        display: none;
+    }
+
+    .summary_edit {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .form_row {
+        grid-template-columns: 1fr;
+    }
+
+    .time_grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .calendar_grid .day_label,
+    .calendar_grid .day {
+        font-size: 0.66rem;
+    }
+
+    .step_nav {
+        flex-wrap: wrap;
+    }
+
+    .nav_next,
+    .book_btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,172 @@
+@import url("./common.css");
+ 
+main.review_wrap {
+    display: flex;
+    justify-content: center;
+    padding: clamp(16px, 10vw, 150px) clamp(16px, 12vw, 350px) clamp(20px, 3vw, 40px);
+    gap: clamp(24px, 5vw, 80px);
+    align-items: flex-start;
+}
+
+section {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18, 18, 18, 0.07);
+    border-radius: 6px;
+    box-shadow: 0 8px 32px rgba(87, 122, 115, 0.07);
+    padding: clamp(28px, 3.5vw, 48px) clamp(24px, 3vw, 40px);
+    flex: 1;
+}
+
+h2 {
+    text-align: start;
+    font-size: clamp(20px, 2.8vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: clamp(20px, 3vw, 36px);
+    color: var(--black);
+    position: relative;
+}
+
+select{
+    width: 100%;
+    padding: clamp(8px, 1.2vw, 11px) clamp(10px, 1.5vw, 14px);
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+    outline: none;
+    transition: border-color 0.15s;
+    color: var(--ink1);
+}
+
+/* ── Google Review Box ── */
+.google_review_box {
+    margin-top: clamp(16px, 2vw, 28px);
+}
+
+.google_review_placeholder,
+.google_review_loading {
+    color: #888;
+    font-size: 0.9rem;
+    padding: 16px 0;
+}
+
+.gr_header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid rgba(0,0,0,0.07);
+}
+
+.gr_google_icon {
+    width: 18px;
+    height: 18px;
+}
+
+.gr_place_name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--black);
+}
+
+.gr_overall_rating {
+    color: #f5a623;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.gr_rating_count {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.gr_map_link {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #4285F4;
+    text-decoration: none;
+}
+.gr_map_link:hover { text-decoration: underline; }
+
+.gr_cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.gr_card {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,0,0,0.07);
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.gr_card_top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.gr_avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.gr_author_info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.gr_author_name {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--black);
+    text-decoration: none;
+}
+.gr_author_name:hover { text-decoration: underline; }
+
+.gr_stars {
+    color: #f5a623;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.gr_time {
+    margin-left: auto;
+    font-size: 0.78rem;
+    color: #aaa;
+    white-space: nowrap;
+}
+
+.gr_text {
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+    main.review_wrap {
+        flex-direction: column;
+        padding: clamp(16px, 4vw, 32px) clamp(12px, 5vw, 48px);
+        gap: clamp(20px, 4vw, 40px);
+    }
+}
+
+@media (max-width: 480px) {
+    main.review_wrap {
+        padding: 16px 12px;
+        gap: 20px;
+    }
+}

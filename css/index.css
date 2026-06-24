@@ -1,0 +1,476 @@
+@import url(./common.css);
+
+/* main_intro */
+#main_intro {
+    width: 100%;
+}
+
+/* //main_intro */
+.hero_img_wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/8;
+    overflow: hidden;
+}
+
+/* Hero Slider */
+.hero_slider {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero_slide {
+    position: absolute;
+    inset: 0;
+    transform: translateX(100%);
+    transition: transform 0.6s ease;
+}
+
+.hero_slide.active {
+    transform: translateX(0);
+}
+
+.hero_slide.prev {
+    transform: translateX(-100%);
+    z-index: 0;
+}
+
+.hero_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.55);
+}
+
+/* Dots indicator */
+.hero_dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: clamp(4px, 0.8vw, 8px);
+    z-index: 10;
+}
+
+.hero_dot {
+    width: clamp(4px, 0.8vw, 8px);
+    height: clamp(4px, 0.8vw, 8px);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.hero_dot.active {
+    background: #fff;
+}
+
+.hero_overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(40px, 8vw, 120px) clamp(16px, 12vw, 350px);
+    color: #fff;
+    gap: clamp(8px, 1.5vw, 20px);
+}
+
+.hero_overlay>h2{
+    font-size: clamp(14px, 2.5vw, 60px);    
+}
+
+.hero_overlay>p{
+    font-size: clamp(10px, 1.5vw, 20px);
+}
+
+/* ============================================
+   SERVICE
+============================================ */
+#service {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(15px, 5vw, 60px);
+}
+
+.service_preview {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(30px, 5vw, 60px);
+}
+
+.service_box {
+    display: flex;
+    align-items: center;
+    gap: clamp(30px, 5vw, 80px);
+}
+
+.service_box:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.service_box .img_box {
+    flex: 1;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.service_box .img_box img {
+    width: 100%;
+    height: clamp(200px, 25vw, 380px);
+    border-radius: 4px;
+    transition: transform 0.5s ease;
+}
+
+.service_box:hover .img_box img {
+    transform: scale(1.02);
+}
+
+.service_box .text_box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.5vw, 20px);
+}
+
+.service_box .text_box h3 {
+    font-size: clamp(18px, 2.2vw, 32px);
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+
+.service_box .text_box p {
+    font-size: clamp(13px, 1vw, 15px);
+    font-weight: 300;
+    color: rgba(18, 18, 18, 0.6);
+    line-height: 1.85;
+}
+
+/* ============================================
+   PARTNERS
+============================================ */
+#partner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 40px);
+}
+
+#partner .hospital_list_wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(10px, 2vw, 30px);
+}
+
+#partner .hospital_info {
+    display: flex;
+    flex-direction: column;
+}
+
+#partner .hospital_info img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+    transition: transform 0.4s ease;
+}
+
+#partner .hospital_info:hover img {
+    transform: scale(1.03);
+}
+
+#partner .hospital_name {
+    display: inline-block;
+    font-size: clamp(10px, 1vw, 13px);
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: var(--bookink1);
+    text-transform: uppercase;
+    position: relative;
+    padding-left: 36px;
+    margin-top: clamp(10px, 1.5vw, 20px);
+}
+
+#partner .hospital_name::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 1px;
+    background: var(--bookink1);
+}
+
+/* ============================================
+   PROMOTION
+============================================ */
+#promotion {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 40px);
+}
+
+#promotion .promo_desc {
+    font-size: clamp(13px, 1.2vw, 17px);
+    font-weight: 300;
+    color: rgba(18, 18, 18, 0.55);
+    line-height: 1.8;
+    max-width: 520px;
+}
+
+.promo_grid_preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(16px, 2.5vw, 32px);
+}
+
+.promo_card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18, 18, 18, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(87, 122, 115, 0.07);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.promo_card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(87, 122, 115, 0.14);
+}
+
+.card_badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 4px 10px;
+    border-radius: 50px;
+    text-transform: uppercase;
+}
+
+.badge_hot {
+    background: var(--bookink3);
+    color: #fff;
+}
+
+.badge_new {
+    background: var(--bookink1);
+    color: #fff;
+}
+
+.card_img {
+    width: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card_img img {
+    width: 100%;
+    height: clamp(160px, 18vw, 240px);
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.promo_card:hover .card_img img {
+    transform: scale(1.04);
+}
+
+.card_body {
+    padding: clamp(16px, 2vw, 24px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1vw, 12px);
+    flex: 1;
+}
+
+.card_tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bookink1);
+}
+
+.card_title {
+    font-size: clamp(15px, 1.6vw, 20px);
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.card_desc {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+    color: rgba(18, 18, 18, 0.55);
+    line-height: 1.75;
+}
+
+.card_btn {
+    display: block;
+    text-align: center;
+    padding: clamp(10px, 1.2vw, 12px);
+    background: var(--bookink2);
+    color: #fff;
+    border-radius: 8px;
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.2s ease;
+    margin-top: 4px;
+}
+
+.card_btn:hover {
+    background: var(--bookink3);
+}
+
+/* ============================================
+   More Button (공통)
+============================================ */
+.more_btn {
+    display: inline-block;
+    align-self: flex-end;
+    padding: clamp(10px, 1.2vw, 13px) clamp(22px, 3vw, 36px);
+    border: 1.5px solid var(--bookink2);
+    border-radius: 50px;
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bookink2);
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.more_btn:hover {
+    background: var(--bookink2);
+    color: #fff;
+}
+
+/* ============================================
+   Popup Box
+============================================ */
+
+.popup_box {
+    position: fixed;
+    z-index: 9999;
+    background: #fff;
+    border-radius: 10px;
+    width: 360px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.popup_box.hidden {
+    display: none;
+}
+
+.popup_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.popup_header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.popup_close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #888;
+}
+
+.popup_close:hover {
+    color: #333;
+}
+
+.popup_body {
+    padding: 20px;
+}
+
+.popup_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-top: 1px solid #eee;
+    background: #f9f9f9;
+}
+
+.popup_footer label {
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+}
+
+/* 모바일: 팝업 중앙 겹치기 */
+@media (max-width: 767px) {
+    .popup_box {
+        width: calc(100vw - 32px);
+        max-width: 360px;
+        left: 50% !important;
+        transform: translateX(-50%);
+        top: var(--header-h, 80px) !important;
+    }
+
+    #popup1 {
+        z-index: 10001;
+    }
+
+    #popup2 {
+        z-index: 10000;
+    }
+}
+
+/* ============================================
+   Responsive
+==================================s========== */
+@media (max-width: 1100px) {
+    .promo_grid_preview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #partner .hospital_list_wrap {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 680px) {
+    .service_box,
+    .service_box:nth-child(even) {
+        flex-direction: column;
+    }
+
+    .promo_grid_preview {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #partner .hospital_list_wrap {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .hero_img_wrap {
+    aspect-ratio: 16/9;
+}
+}
+
+
