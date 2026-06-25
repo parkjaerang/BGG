@@ -25,7 +25,7 @@ function generatePopups() {
             '<button class="popup_close" onclick="closePopup(\'' + k + '\')">✕</button>' +
             '</div>' +
             '<div class="popup_body">' +
-            '<img src="./img/popup_image_default.png" alt="Promotion" style="width:100%;border-radius:6px;">' +
+            '<img src="../img/popup_image_default.png" alt="Promotion" style="width:100%;border-radius:6px;">' +
             '</div>' +
             '<div class="popup_footer">' +
             '<label><input type="checkbox" id="' + k + '_hide"> Do not show today</label>' +
@@ -146,7 +146,7 @@ window.addEventListener('DOMContentLoaded', function() {
         }
         var top4 = hospitals.slice(0, 4);
         wrap.innerHTML = top4.map(function(h) {
-            var imgSrc = h.img || './img/hospital_image_default.png';
+            var imgSrc = h.img || '../img/hospital_image_default.png';
             var link   = './view.html?idx=' + h.id;
             return '<article class="hospital_info">' +
                 '<a href="' + link + '"><img src="' + imgSrc + '" alt="' + h.name + '"></a>' +
@@ -179,7 +179,7 @@ window.addEventListener('DOMContentLoaded', function() {
             var badgeHtml = '';
             if (c.badge === 'HOT') badgeHtml = '<div class="card_badge badge_hot">HOT</div>';
             else if (c.badge === 'NEW') badgeHtml = '<div class="card_badge badge_new">NEW</div>';
-            var imgSrc = c.img || './img/popup_image_default.png';
+            var imgSrc = c.img || '../img/popup_image_default.png';
             var viewLink = c.hospitalId ? './view.html?idx=' + c.hospitalId : '#';
             return '<article class="promo_card" data-category="' + c.cardTag + '">' +
                 badgeHtml +

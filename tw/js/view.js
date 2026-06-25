@@ -27,9 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // 动态生成主视觉轮播
             var heroCount = parseInt(localStorage.getItem(vKey('hero_count'))) || 3;
             var defaultImgs = [
-                './img/view_banner_default_1.png',
-                './img/view_banner_default_2.png',
-                './img/view_banner_default_3.png'
+                '../img/view_banner_default_1.png',
+                '../img/view_banner_default_2.png',
+                '../img/view_banner_default_3.png'
             ];
             var slider = document.querySelector('.hero_slider');
             var dotsWrap = document.querySelector('.hero_dots');
@@ -163,10 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     return '<article class="ba_card">' +
                         '<div class="ba_img_wrap">' +
                         '<div class="ba_side"><span class="ba_label">BEFORE</span>' +
-                        '<img src="' + (data.beforeImg || './img/before.png') + '" alt="Before treatment"></div>' +
+                        '<img src="' + (data.beforeImg || '../img/before.png') + '" alt="Before treatment"></div>' +
                         '<div class="ba_divider"></div>' +
                         '<div class="ba_side"><span class="ba_label">AFTER</span>' +
-                        '<img src="' + (data.afterImg || './img/after.png') + '" alt="After treatment"></div>' +
+                        '<img src="' + (data.afterImg || '../img/after.png') + '" alt="After treatment"></div>' +
                         '</div>' +
                         '<div class="ba_body">' +
                         '<span class="ba_tag">' + (data.tag || '') + '</span>' +

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
     wrap.innerHTML = hospitals.map(function (h) {
-        var imgSrc = h.img || './img/hospital_image_default.png';
+        var imgSrc = h.img || '../img/hospital_image_default.png';
         var name = h.name || '';
         var tag = h.tag || '';
         return '<article class="hospital_info">' +

@@ -351,8 +351,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="contact_btn_toggle" aria-label="Toggle contact buttons"><i class="fa-solid fa-plus"></i></button>
         `;
 
+        if (sessionStorage.getItem('contactCollapsed') === '1') {
+            contactBtnWrap.classList.add('collapsed');
+        }
+
         contactBtnWrap.querySelector('.contact_btn_toggle').addEventListener('click', () => {
             contactBtnWrap.classList.toggle('collapsed');
+            sessionStorage.setItem('contactCollapsed', contactBtnWrap.classList.contains('collapsed') ? '1' : '0');
         });
     }
 
