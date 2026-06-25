@@ -1,3 +1,16 @@
+/* ── TW 네임스페이스: bgg_ 데이터 키를 tw_bgg_ 로 격리 ── */
+(function () {
+    const NS = 'tw_';
+    const SKIP = ['bgg_admin_auth', 'siteLang'];
+    function ns(k) { return k.startsWith('bgg_') && !SKIP.includes(k) ? NS + k : k; }
+    const _set = Storage.prototype.setItem;
+    const _get = Storage.prototype.getItem;
+    const _rem = Storage.prototype.removeItem;
+    Storage.prototype.setItem    = function (k, v) { return _set.call(this, ns(k), v); };
+    Storage.prototype.getItem    = function (k)    { return _get.call(this, ns(k)); };
+    Storage.prototype.removeItem = function (k)    { return _rem.call(this, ns(k)); };
+})();
+
 const HOSPITALS = [];
 
 /*const HOSPITAL_PLACE_IDS = {
@@ -189,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="select_inner">
-        <a href="./ru/index.html"><img src="./img/Russia.png" alt=""></a>
-        <a href="./tw/index.html"><img src="./img/Taiwan.png" alt=""></a>
+    <a href="../index.html"><img src="../img/english.png" alt=""></a>
+        <a href="../ru/index.html"><img src="../img/Russia.png" alt=""></a>
     </div>
     `
 

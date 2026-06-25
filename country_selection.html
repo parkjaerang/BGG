@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGG Admin – Country Selection</title>
+    <link rel="stylesheet" href="./css/common.css">
+    <script src="https://kit.fontawesome.com/2eb47fcd7e.js" crossorigin="anonymous"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+            color: #fff;
+        }
+
+        .cs_wrap {
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        .cs_logo {
+            font-size: 13px;
+            letter-spacing: 4px;
+            color: #c9a84c;
+            margin-bottom: 8px;
+        }
+
+        .cs_title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            color: var(--black);
+        }
+
+        .cs_sub {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 48px;
+        }
+
+        .cs_cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cs_card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            width: 200px;
+            padding: 36px 24px 28px;
+            background: #ffffff65;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--black);
+            transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+
+        .cs_card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(97, 97, 97, 0.404);
+        }
+
+        .cs_flag {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .cs_flag_emoji {
+            font-size: 52px;
+            line-height: 1;
+        }
+
+        .cs_country_name {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--black);
+        }
+
+        .cs_country_sub {
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 0.5px;
+        }
+
+        .cs_badge {
+            font-size: 10px;
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 2px 8px;
+            color: #c9a84c;
+            letter-spacing: 1px;
+        }
+
+        .cs_footer {
+            margin-top: 48px;
+            font-size: 11px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="cs_wrap">
+        <div class="cs_logo">BGG ADMIN</div>
+        <h1 class="cs_title">Country Selection</h1>
+        <p class="cs_sub">관리할 국가 페이지를 선택하세요</p>
+
+        <div class="cs_cards">
+            <!-- English -->
+            <a class="cs_card" href="./admin.html">
+                <img class="cs_flag" src="./img/english.png" alt="English" onerror="this.outerHTML='<span class=\'cs_flag_emoji\'>EN</span>'">
+                <div>
+                    <div class="cs_country_name">English</div>
+                    <div class="cs_country_sub">영미권 · EN</div>
+                </div>
+                <span class="cs_badge">EN</span>
+            </a>
+
+            <!-- Russia -->
+            <a class="cs_card" href="./ru/admin.html">
+                <img class="cs_flag" src="./img/Russia.png" alt="Russia" onerror="this.outerHTML='<span class=\'cs_flag_emoji\'>🇷🇺</span>'">
+                <div>
+                    <div class="cs_country_name">Russia</div>
+                    <div class="cs_country_sub">러시아 · RU</div>
+                </div>
+                <span class="cs_badge">RU</span>
+            </a>
+
+            <!-- Taiwan -->
+            <a class="cs_card" href="./tw/admin.html">
+                <img class="cs_flag" src="./img/Taiwan.png" alt="Taiwan" onerror="this.outerHTML='<span class=\'cs_flag_emoji\'>🇹🇼</span>'">
+                <div>
+                    <div class="cs_country_name">Taiwan</div>
+                    <div class="cs_country_sub">대만 · TW</div>
+                </div>
+                <span class="cs_badge">TW</span>
+            </a>
+        </div>
+
+        <p class="cs_footer">각 국가 어드민은 독립된 병원 목록 · 프로모션 · 예약 데이터를 가집니다</p>
+    </div>
+</body>
+</html>

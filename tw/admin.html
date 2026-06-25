@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BGG Admin_Page</title>
-    <link rel="stylesheet" href="./css/admin.css">
-    <script src="./js/i18n.js"></script>
-    <script src="./js/admin.js"></script>
-    <script src="./js/common.js" defer></script>
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../js/i18n.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="./js/common.js"></script>
+    <script src="../js/common-base.js" defer></script>
     <script src="https://kit.fontawesome.com/2eb47fcd7e.js" crossorigin="anonymous"></script>
 </head>
 
@@ -37,14 +38,14 @@
         <!-- 탭 네비게이션 -->
         <div class="admin_tabs_wrap">
             <div class="admin_top_bar">
-                <span class="admin_site_label">BGG ADMIN &nbsp;<span style="font-size:11px;background:#1a2e1a;color:#7ecf7e;border-radius:4px;padding:2px 8px;letter-spacing:1px;vertical-align:middle;"><small style="font-size: 7px;">EN</small> ENGLISH</span></span>
+                <span class="admin_site_label">BGG ADMIN &nbsp;<span style="font-size:11px;background:#3b1f1f;color:#f7a07e;border-radius:4px;padding:2px 8px;letter-spacing:1px;vertical-align:middle;"><small style="font-size: 7px;">TW</small> TAIWAN</span></span>
                 <div class="admin_top_controls">
                     <div class="lang_btns">
                         <button class="lang_btn" onclick="setLang('kr')">KR</button>
                         <button class="lang_btn" onclick="setLang('cn')">CN</button>
                         <button class="lang_btn" onclick="setLang('en')">EN</button>
                     </div>
-                    <a href="./country_selection.html" class="logout_tab" style="text-decoration:none;">
+                    <a href="../country_selection.html" class="logout_tab" style="text-decoration:none;">
                         <i class="fa-solid fa-globe"></i> <span class="logout_label">국가 선택</span>
                     </a>
                     <button class="logout_tab" onclick="logout()">

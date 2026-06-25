@@ -97,7 +97,7 @@ img {
     right:-66px;
     transform: translate(0, -50%);
     width: 100px;
-    background-color: var(--select);
+    background-color: var(--bookink1);
     color: var(--white);
     display: flex;
     align-items: center;
