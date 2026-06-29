@@ -194,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /*===============================================
         country selection html
     ===============================================*/
+    const _curPage = location.pathname.split('/').pop() || 'index.html';
     document.querySelector('.country_selection').innerHTML = `
     <div class="country">
         <div class="country_inner">
@@ -202,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="select_inner">
-    <a href="../index.html"><img src="../img/english.png" alt=""></a>
-        <a href="../ru/index.html"><img src="../img/Russia.png" alt=""></a>
+        <a href="../${_curPage}"><img src="../img/english.png" alt=""></a>
+        <a href="../ru/${_curPage}"><img src="../img/Russia.png" alt=""></a>
     </div>
     `
 

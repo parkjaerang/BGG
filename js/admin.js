@@ -442,20 +442,29 @@ function initPopupTab() {
 }
 
 function savePopup() {
-    const count = getPopupCount();
-    Array.from({ length: count }, (_, i) => 'popup' + (i + 1)).forEach(k => {
-        if (!(k in pending)) return;
-        pending[k] ? localStorage.setItem('bgg_' + k, pending[k])
-            : localStorage.removeItem('bgg_' + k);
-    });
-    Array.from({ length: count }, (_, i) => 'popup' + (i + 1) + '_header').forEach(k => {
-        const el = document.getElementById(k);
-        if (!el) return;
-        const v = el.value.trim();
-        v ? localStorage.setItem('bgg_' + k, v)
-            : localStorage.removeItem('bgg_' + k);
-    });
-    showMsg('popup_msg', 'SAVED');
+    try {
+        const count = getPopupCount();
+        Array.from({ length: count }, (_, i) => 'popup' + (i + 1)).forEach(k => {
+            if (!(k in pending)) return;
+            pending[k] ? localStorage.setItem('bgg_' + k, pending[k])
+                : localStorage.removeItem('bgg_' + k);
+        });
+        Array.from({ length: count }, (_, i) => 'popup' + (i + 1) + '_header').forEach(k => {
+            const el = document.getElementById(k);
+            if (!el) return;
+            const v = el.value.trim();
+            v ? localStorage.setItem('bgg_' + k, v)
+                : localStorage.removeItem('bgg_' + k);
+        });
+        showMsg('popup_msg', 'SAVED');
+    } catch (e) {
+        if (e.name === 'QuotaExceededError') {
+            showMsg('popup_msg', '❌ 저장 실패: 이미지 용량이 너무 큽니다. 더 작은 이미지를 사용해 주세요.');
+        } else {
+            showMsg('popup_msg', '❌ 저장 중 오류가 발생했습니다.');
+            console.error(e);
+        }
+    }
 }
 
 /* =====================================================
@@ -592,16 +601,25 @@ function refreshHospitalSelects() {
 }
 
 function savePartner() {
-    const hospitals = collectPartnerHospitals();
-    localStorage.setItem('bgg_hospitals', JSON.stringify(hospitals));
-    showMsg('partner_msg', 'SAVED');
-    // 저장 후 임시 pending 이미지 정리
-    // 保存后清理临时pending图片
-    hospitals.forEach(h => {
-        delete pending['ph_img_' + h.id];
-    });
-    renderPartnerList();
-    refreshHospitalSelects();
+    try {
+        const hospitals = collectPartnerHospitals();
+        localStorage.setItem('bgg_hospitals', JSON.stringify(hospitals));
+        showMsg('partner_msg', 'SAVED');
+        // 저장 후 임시 pending 이미지 정리
+        // 保存后清理临时pending图片
+        hospitals.forEach(h => {
+            delete pending['ph_img_' + h.id];
+        });
+        renderPartnerList();
+        refreshHospitalSelects();
+    } catch (e) {
+        if (e.name === 'QuotaExceededError') {
+            showMsg('partner_msg', '❌ 저장 실패: 이미지 용량이 너무 큽니다. 더 작은 이미지를 사용해 주세요.');
+        } else {
+            showMsg('partner_msg', '❌ 저장 중 오류가 발생했습니다.');
+            console.error(e);
+        }
+    }
 }
 
 /* =====================================================
@@ -826,18 +844,26 @@ function addPromoPageCard() {
 
 function removePromoPageCard(i) {
     const cards = collectPromoPageCards();
-    if (cards.length <= 1) return;
     cards.splice(i, 1);
     localStorage.setItem('bgg_promo_page_cards', JSON.stringify(cards));
     renderPromoPageCardsEditor();
 }
 
 function savePromoPage() {
-    const tags = collectPromoTags();
-    const cards = collectPromoPageCards();
-    localStorage.setItem('bgg_promo_tags', JSON.stringify(tags));
-    localStorage.setItem('bgg_promo_page_cards', JSON.stringify(cards));
-    showMsg('promo_page_msg', 'SAVED');
+    try {
+        const tags = collectPromoTags();
+        const cards = collectPromoPageCards();
+        localStorage.setItem('bgg_promo_tags', JSON.stringify(tags));
+        localStorage.setItem('bgg_promo_page_cards', JSON.stringify(cards));
+        showMsg('promo_page_msg', 'SAVED');
+    } catch (e) {
+        if (e.name === 'QuotaExceededError') {
+            showMsg('promo_page_msg', '❌ 저장 실패: 이미지 용량이 너무 큽니다. 더 작은 이미지를 사용해 주세요.');
+        } else {
+            showMsg('promo_page_msg', '❌ 저장 중 오류가 발생했습니다.');
+            console.error(e);
+        }
+    }
 }
 
 /* =====================================================
@@ -1133,7 +1159,6 @@ function addPromoCard() {
 
 function removePromoCard(i) {
     const cards = collectPromoCards();
-    if (cards.length <= 1) return;
     cards.splice(i, 1);
     localStorage.setItem(viewKey('promo_cards'), JSON.stringify(cards));
     renderPromoCards();
@@ -1243,7 +1268,7 @@ function renderPrices() {
     wrap.innerHTML = stored.map((cat, ci) => `
         <div class="price_cat_editor" id="pr_cat_block_${ci}">
             <div class="price_cat_title_row">
-                <input class="s_input" id="pr_cat_${ci}" placeholder="${esc(cat.catTitle)}">
+                <input class="s_input" id="pr_cat_${ci}" value="${esc(cat.catTitle)}">
                 <button class="card_del_btn" onclick="removePriceCategory(${ci})" title="카테고리 삭제">
                     <i class="fa-solid fa-minus"></i>
                 </button>
@@ -1264,10 +1289,10 @@ function renderPriceItemRow(ci, ii, item) {
     return `
     <div class="price_item_row" id="pr_row_${ci}_${ii}">
         <div>
-            <input class="s_input" id="pr_name_${ci}_${ii}" placeholder="${esc(item.name)}">
+            <textarea class="s_input price_name_input" id="pr_name_${ci}_${ii}" placeholder="Name of treatment" rows="2" style="width:100%;max-width:100%;box-sizing:border-box;">${esc(item.name)}</textarea>
         </div>
         <div>
-            <input class="s_input" id="pr_price_${ci}_${ii}" placeholder="${esc(item.price)}" style="width:110px;text-align:right;">
+            <input class="s_input" id="pr_price_${ci}_${ii}" value="${esc(item.price)}" placeholder="₩ 000,000" style="width:110px;text-align:left;">
         </div>
         <button class="price_del_btn" onclick="removePriceItem(${ci},${ii})" title="삭제">
             <i class="fa-solid fa-minus"></i>
@@ -1277,7 +1302,7 @@ function renderPriceItemRow(ci, ii, item) {
 
 function addPriceItem(ci) {
     const prices = collectPrices();
-    prices[ci].items.push({ name: 'Name of treatment', price: '₩ 000,000' });
+    prices[ci].items.push({ name: '', price: '' });
     savePricesTemp(prices);
     renderPrices();
 }
@@ -1292,7 +1317,7 @@ function removePriceItem(ci, ii) {
 
 function addPriceCategory() {
     const prices = collectPrices();
-    prices.push({ catTitle: 'category', items: [{ name: 'Name of treatment', price: '₩ 000,000' }] });
+    prices.push({ catTitle: 'category', items: [{ name: '', price: '' }] });
     savePricesTemp(prices);
     renderPrices();
     scrollToCardAddBtn(document.getElementById('price_editor'));
@@ -1328,59 +1353,68 @@ function collectPrices() {
 function saveView() {
     if (!viewHospital) { alert(t('alert_select_hospital')); return; }
 
-    // 히어로 이미지 (동적 슬라이드 수)
-    // 主视觉图片（动态幻灯片数量）
-    const heroCount = getHeroCount();
-    localStorage.setItem(viewKey('hero_count'), heroCount);
-    const heroKeys = Array.from({ length: heroCount }, (_, i) => 'hero' + i);
-    [...heroKeys, 'promoBanner', 'about_img0', 'doctor_img'].forEach(k => {
-        if (!(k in pending)) return;
-        pending[k] ? localStorage.setItem(viewKey(k), pending[k])
-            : localStorage.removeItem(viewKey(k));
-    });
+    try {
+        // 히어로 이미지 (동적 슬라이드 수)
+        // 主视觉图片（动态幻灯片数量）
+        const heroCount = getHeroCount();
+        localStorage.setItem(viewKey('hero_count'), heroCount);
+        const heroKeys = Array.from({ length: heroCount }, (_, i) => 'hero' + i);
+        [...heroKeys, 'promoBanner', 'about_img0', 'doctor_img'].forEach(k => {
+            if (!(k in pending)) return;
+            pending[k] ? localStorage.setItem(viewKey(k), pending[k])
+                : localStorage.removeItem(viewKey(k));
+        });
 
-    // 히어로 텍스트
-    // 主视觉文字
-    const heroName = val('view_hero_name');
-    const heroSub = val('view_hero_sub');
-    heroName ? localStorage.setItem(viewKey('hero_name'), heroName) : localStorage.removeItem(viewKey('hero_name'));
-    heroSub ? localStorage.setItem(viewKey('hero_sub'), heroSub) : localStorage.removeItem(viewKey('hero_sub'));
+        // 히어로 텍스트
+        // 主视觉文字
+        const heroName = val('view_hero_name');
+        const heroSub = val('view_hero_sub');
+        heroName ? localStorage.setItem(viewKey('hero_name'), heroName) : localStorage.removeItem(viewKey('hero_name'));
+        heroSub ? localStorage.setItem(viewKey('hero_sub'), heroSub) : localStorage.removeItem(viewKey('hero_sub'));
 
-    // About
-    const aboutTitle = val('view_about_title');
-    const aboutDesc = val('view_about_desc');
-    aboutTitle ? localStorage.setItem(viewKey('about_title'), aboutTitle) : localStorage.removeItem(viewKey('about_title'));
-    aboutDesc ? localStorage.setItem(viewKey('about_desc'), aboutDesc) : localStorage.removeItem(viewKey('about_desc'));
+        // About
+        const aboutTitle = val('view_about_title');
+        const aboutDesc = val('view_about_desc');
+        aboutTitle ? localStorage.setItem(viewKey('about_title'), aboutTitle) : localStorage.removeItem(viewKey('about_title'));
+        aboutDesc ? localStorage.setItem(viewKey('about_desc'), aboutDesc) : localStorage.removeItem(viewKey('about_desc'));
 
-    // about images (about_img0)
-    const aboutImg0 = ('about_img0' in pending) ? pending['about_img0'] : localStorage.getItem(viewKey('about_img0'));
-    if (aboutImg0 !== null) {
-        const existing = localStorage.getItem(viewKey('about_images'));
-        let imgs = [];
-        if (existing) { try { imgs = JSON.parse(existing); } catch (e) { } }
-        imgs[0] = aboutImg0 || '';
-        localStorage.setItem(viewKey('about_images'), JSON.stringify(imgs));
+        // about images (about_img0)
+        const aboutImg0 = ('about_img0' in pending) ? pending['about_img0'] : localStorage.getItem(viewKey('about_img0'));
+        if (aboutImg0 !== null) {
+            const existing = localStorage.getItem(viewKey('about_images'));
+            let imgs = [];
+            if (existing) { try { imgs = JSON.parse(existing); } catch (e) { } }
+            imgs[0] = aboutImg0 || '';
+            localStorage.setItem(viewKey('about_images'), JSON.stringify(imgs));
+        }
+
+        // highlights
+        const highlights = collectHighlights();
+        localStorage.setItem(viewKey('about_highlights'), JSON.stringify(highlights));
+
+        // Doctor
+        const doctorLabel = val('view_doctor_label');
+        const doctorName = val('view_doctor_name');
+        const doctorBio = val('view_doctor_bio');
+        doctorLabel ? localStorage.setItem(viewKey('doctor_label'), doctorLabel) : localStorage.removeItem(viewKey('doctor_label'));
+        doctorName ? localStorage.setItem(viewKey('doctor_name'), doctorName) : localStorage.removeItem(viewKey('doctor_name'));
+        doctorBio ? localStorage.setItem(viewKey('doctor_bio'), doctorBio) : localStorage.removeItem(viewKey('doctor_bio'));
+
+        // 기존 데이터
+        // 原有数据
+        localStorage.setItem(viewKey('promo_cards'), JSON.stringify(collectPromoCards()));
+        localStorage.setItem(viewKey('ba'), JSON.stringify(collectBA()));
+        localStorage.setItem(viewKey('prices'), JSON.stringify(collectPrices()));
+
+        showMsg('view_msg', 'SAVED');
+    } catch (e) {
+        if (e.name === 'QuotaExceededError') {
+            showMsg('view_msg', '❌ 저장 실패: 이미지 용량이 너무 큽니다. 더 작은 이미지를 사용해 주세요.');
+        } else {
+            showMsg('view_msg', '❌ 저장 중 오류가 발생했습니다.');
+            console.error(e);
+        }
     }
-
-    // highlights
-    const highlights = collectHighlights();
-    localStorage.setItem(viewKey('about_highlights'), JSON.stringify(highlights));
-
-    // Doctor
-    const doctorLabel = val('view_doctor_label');
-    const doctorName = val('view_doctor_name');
-    const doctorBio = val('view_doctor_bio');
-    doctorLabel ? localStorage.setItem(viewKey('doctor_label'), doctorLabel) : localStorage.removeItem(viewKey('doctor_label'));
-    doctorName ? localStorage.setItem(viewKey('doctor_name'), doctorName) : localStorage.removeItem(viewKey('doctor_name'));
-    doctorBio ? localStorage.setItem(viewKey('doctor_bio'), doctorBio) : localStorage.removeItem(viewKey('doctor_bio'));
-
-    // 기존 데이터
-    // 原有数据
-    localStorage.setItem(viewKey('promo_cards'), JSON.stringify(collectPromoCards()));
-    localStorage.setItem(viewKey('ba'), JSON.stringify(collectBA()));
-    localStorage.setItem(viewKey('prices'), JSON.stringify(collectPrices()));
-
-    showMsg('view_msg', 'SAVED');
 }
 
 /* =====================================================

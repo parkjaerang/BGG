@@ -258,6 +258,8 @@
 }
 
 .price_category {
+    min-width: 0;
+    overflow: hidden;
     background: rgba(255,255,255,0.6);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -288,30 +290,36 @@
 
 .price_row {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-bottom: clamp(10px, 1vw, 14px);
+    border-bottom: 1px solid rgba(18,18,18,0.07);
+}
+
+.price_row:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .price_name {
-    font-size: clamp(12px, 1vw, 14px);
+    font-size: clamp(12px, 1vw, 12px);
     font-weight: 400;
     color: var(--black);
-    white-space: nowrap;
-    flex-shrink: 0;
+    white-space: normal;
+    word-break: break-word;
+    width: 100%;
 }
 
 .price_dots {
-    flex: 1;
-    border-bottom: 1px dotted rgba(18,18,18,0.2);
-    margin-bottom: 3px;
+    display: none;
 }
 
 .price_val {
-    font-size: clamp(12px, 1vw, 14px);
+    font-size: clamp(14px, 1.2vw, 17px);
     font-weight: 600;
     color: var(--bookink1);
     white-space: nowrap;
-    flex-shrink: 0;
 }
 
 .price_notice {
