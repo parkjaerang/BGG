@@ -6,7 +6,7 @@ function submitReview() {
     const content = document.getElementById('input_request').value.trim();
 
     if (!name || !subject || !content) {
-        alert('Please fill in your name, request title, and message.');
+        alert('Пожалуйста, заполните имя, тему запроса и сообщение.');
         return;
     }
 
@@ -44,5 +44,5 @@ function submitReview() {
     document.getElementById('input_requesttitle').value = '';
     document.getElementById('input_request').value = '';
 
-    alert('Your request has been submitted successfully!');
+    alert('Ваш запрос успешно отправлен!');
 }

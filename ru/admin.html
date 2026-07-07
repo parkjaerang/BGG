@@ -135,7 +135,7 @@
         ══════════════════════════════════ -->
         <section id="tab_promo" class="tab_section">
             <div class="admin_section_head">
-                <span class="section_label">PROMOTION</span>
+                <span class="section_label">АКЦИИ</span>
                 <h2 data-i18n="promo_page_title">프로모션 페이지 관리</h2>
                 <p class="admin_desc" data-i18n="promo_page_desc">promotion.html의 필터 태그와 프로모션 카드를 관리합니다.</p>
             </div>
@@ -206,13 +206,13 @@
                         <!-- 히어로 텍스트 -->
                         <div class="group_wrap hero_text_wrap">
                             <div class="field_row">
-                                <span class="hero_partner_badge">PARTNER CLINIC</span>
+                                <span class="hero_partner_badge">ПАРТНЁРСКАЯ КЛИНИКА</span>
                                 <input class="s_input" id="view_hero_name" placeholder="Clinic Name">
                             </div>
                             <div class="field_row">
                                 <input class="s_input" id="view_hero_sub" placeholder="Seoul · OOOO-gu">
                             </div>
-                            <button class="hero_booknow_btn" disabled>BOOK NOW</button>
+                            <button class="hero_booknow_btn" disabled>Записаться сейчас</button>
                         </div>
                     </div>
                 </div>
@@ -246,7 +246,7 @@
                     </div>
                     <div class="clinic_info_right">
                         <div class="field_row">
-                            <span class="about_label">ABOUT THE CLINIC</span>
+                            <span class="about_label">О КЛИНИКЕ</span>
                             <input class="s_input about_title" id="view_about_title" placeholder="Clinic Name">
                         </div>
                         <div class="field_row">
@@ -334,7 +334,7 @@
                     <div class="doctor_profile_right">
                         <div class="field_row">
                             <label class="field_label" data-i18n="doctor_label_lbl">직함 (doctor_label)</label>
-                            <input class="s_input" id="view_doctor_label" placeholder="CHIEF MEDICAL OFFICER">
+                            <input class="s_input" id="view_doctor_label" placeholder="ГЛАВНЫЙ ВРАЧ">
                         </div>
                         <div class="field_row">
                             <label class="field_label" data-i18n="doctor_name_lbl">이름 (doctor_name)</label>
@@ -578,14 +578,14 @@
                     <i class="fa-solid fa-magnifying-glass reserve_search_icon"></i>
                     <input type="text" id="inquirySearchInput" class="reserve_search_input"
                         data-i18n-placeholder="inquiry_search_ph" placeholder="이름 / 이메일 / 제목 검색"
-                        oninput="renderInquiryList()">
+                        oninput="renderЗапрос / ЗаявкаList()">
                 </div>
                 <div class="inquiry_filter_btns">
-                    <button class="inq_filter_btn active" data-filter="all" onclick="setInquiryFilter('all',this)"
+                    <button class="inq_filter_btn active" data-filter="all" onclick="setЗапрос / ЗаявкаFilter('all',this)"
                         data-i18n="inq_filter_all">전체</button>
-                    <button class="inq_filter_btn" data-filter="unread" onclick="setInquiryFilter('unread',this)"
+                    <button class="inq_filter_btn" data-filter="unread" onclick="setЗапрос / ЗаявкаFilter('unread',this)"
                         data-i18n="inq_filter_unread">미확인</button>
-                    <button class="inq_filter_btn" data-filter="read" onclick="setInquiryFilter('read',this)"
+                    <button class="inq_filter_btn" data-filter="read" onclick="setЗапрос / ЗаявкаFilter('read',this)"
                         data-i18n="inq_filter_read">확인완료</button>
                 </div>
             </div>
@@ -642,7 +642,7 @@
                             <textarea class="s_textarea inq_reply_textarea" id="inq_reply_body"
                                 data-i18n-placeholder="inq_reply_ph" placeholder="답변 내용을 입력하세요..."></textarea>
                             <div class="inq_reply_actions">
-                                <button class="save_btn inq_reply_btn" onclick="sendInquiryReply()">
+                                <button class="save_btn inq_reply_btn" onclick="sendЗапрос / ЗаявкаReply()">
                                     <i class="fa-solid fa-paper-plane"></i>
                                     <span data-i18n="inq_send_btn">이메일로 답변 전송</span>
                                 </button>
@@ -652,7 +652,7 @@
 
                         <!-- 삭제 버튼 -->
                         <div class="inq_delete_row">
-                            <button class="ghost_btn inq_delete_btn" onclick="deleteInquiry()">
+                            <button class="ghost_btn inq_delete_btn" onclick="deleteЗапрос / Заявка()">
                                 <i class="fa-solid fa-trash"></i>
                                 <span data-i18n="inq_delete_btn">문의 삭제</span>
                             </button>

@@ -16,11 +16,11 @@ function initGoogleMaps() {
 
 function renderViewHospitals() {
     const items = [
-        { value: '', label: 'Select a Hospital' },
+        { value: '', label: 'Выберите клинику' },
         ...getHospitals().map(h => ({ value: h.name, label: h.name })),
     ];
     createSearchableSelect('viewHospitalSelectWrap', 'viewHospitalSelect', items, {
-        placeholder: 'Select a Hospital',
+        placeholder: 'Выберите клинику',
         onChange: onViewHospitalChange,
     });
 }
@@ -29,14 +29,14 @@ function onViewHospitalChange(hospital) {
     const box = document.getElementById('google_review_box');
 
     if (!hospital) {
-        box.innerHTML = '<p class="google_review_placeholder">Select a hospital to view Google reviews.</p>';
+        box.innerHTML = '<p class="google_review_placeholder">Выберите клинику, чтобы посмотреть отзывы Google.</p>';
         return;
     }
 
-    box.innerHTML = '<p class="google_review_loading">Loading Google reviews...</p>';
+    box.innerHTML = '<p class="Загрузка отзывов Google...</p>';
 
     if (!placesService) {
-        box.innerHTML = '<p class="google_review_placeholder">Google Maps API has not been loaded yet. Please try again in a moment.</p>';
+        box.innerHTML = '<p class="google_review_placeholder">Google Maps API ещё не загружен. Пожалуйста, попробуйте ещё раз через несколько минут.</p>';
         return;
     }
 
@@ -48,7 +48,7 @@ function loadGoogleReviews(hospitalName) {
     const placeId = HOSPITAL_PLACE_IDS[hospitalName];
 
     if (!placeId || placeId.startsWith('PLACE_ID_HERE')) {
-        box.innerHTML = '<p class="google_review_placeholder">A Place ID has not been configured for this hospital yet.</p>';
+        box.innerHTML = '<p class="google_review_placeholder">Place ID для этой клиники ещё не настроен.</p>';
         return;
     }
 
@@ -59,7 +59,7 @@ function loadGoogleReviews(hospitalName) {
         },
         (place, status) => {
             if (status !== google.maps.places.PlacesServiceStatus.OK || !place) {
-                box.innerHTML = '<p class="google_review_placeholder">Unable to load reviews. Please verify the Place ID.</p>';
+                box.innerHTML = '<p class="google_review_placeholder">Не удалось загрузить отзывы. Пожалуйста, проверьте Place ID.</p>';
                 return;
             }
             renderGoogleReviews(place);
@@ -82,7 +82,7 @@ function renderGoogleReviews(place) {
     `;
 
     if (reviews.length === 0) {
-        box.innerHTML = headerHtml + '<p class="google_review_placeholder">No reviews to display.</p>';
+        box.innerHTML = headerHtml + '<p class="google_review_placeholder">Нет отзывов для отображения.</p>';
         return;
     }
 

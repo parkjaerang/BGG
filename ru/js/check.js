@@ -53,9 +53,9 @@ function checkReservation() {
     resultDetail.innerHTML = matches.map(r => {
         let icon, label, statusClass;
         if (r.status === 'confirmed') {
-            icon = '✅'; label = 'Confirmed'; statusClass = 'status_confirmed';
+            icon = '✅'; label = 'Подтверждено'; statusClass = 'status_confirmed';
         } else if (r.status === 'cancelled') {
-            icon = '❌'; label = 'Cancelled'; statusClass = 'status_cancelled';
+            icon = '❌'; label = 'Отменено'; statusClass = 'status_cancelled';
         } else {
             icon = '⏳'; label = 'Pending'; statusClass = 'status_pending';
         }

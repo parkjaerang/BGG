@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var grid = document.getElementById('promo_grid');
     if (grid) {
         if (cards.length === 0) {
-            grid.innerHTML = '<p class="empty_msg">There are no registered promotions.</p>';
+            grid.innerHTML = '<p class="empty_msg">На данный момент зарегистрированных акций нет.</p>';
         } else
         grid.innerHTML = cards.map(function(c) {
             var hospital = hospitals.find(function(h) { return h.id === c.hospitalId; });
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<span class="card_tag">' + (c.cardTag || '') + '</span>' +
                 '<h3 class="card_title">' + (c.cardTitle || '') + '</h3>' +
                 '<p class="card_desc">' + (c.cardDesc || '') + '</p>' +
-                '<a href="../html/reservation.html" class="card_btn">Book Now</a>' +
+                '<a href="../html/reservation.html" class="card_btn">Записаться</a>' +
                 '</div></article>';
         }).join('');
     }

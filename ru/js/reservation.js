@@ -179,11 +179,11 @@ var _currentStep = 1;
 ═══════════════════════════════ */
 function renderHospitals() {
     const items = [
-        { value: '', label: 'Select a hospital' },
+        { value: '', label: 'Выберите клинику' },
         ...getHospitals().map(h => ({ value: h.name, label: h.name })),
     ];
     createSearchableSelect('hospitalSelectWrap', 'hospitalSelect', items, {
-        placeholder: 'Select a hospital',
+        placeholder: 'Выберите клинику',
         hiddenName: 'hospital',
         onChange: () => {
             selectedDate = null;
@@ -402,30 +402,30 @@ function submitBooking() {
     if (!hospital)    { alert('Please select a hospital.');        return; }
     if (!selectedDate){ alert('Please select a date.');            return; }
     if (!selectedTime){ alert('Please select a time.');            return; }
-    if (!name)        { alert('Please enter your name.');          return; }
-    if (!phone)       { alert('Please enter your phone number.');  return; }
-    if (!nationality) { alert('Please enter your nationality.');   return; }
-    if (!email)       { alert('Please enter your email address.'); return; }
+    if (!name)        { alert('Пожалуйста, введите ваше имя.');          return; }
+    if (!phone)       { alert('Пожалуйста, введите номер телефона.');  return; }
+    if (!nationality) { alert('Пожалуйста, укажите гражданство.');   return; }
+    if (!email)       { alert('Пожалуйста, введите адрес электронной почты.'); return; }
 
     // 확인 모달 표시
     const rows = [
-        ['Hospital',    hospital],
-        ['Date',        selectedDate],
-        ['Time',        selectedTime],
-        ['Name',        name],
-        ['Phone',       phone],
-        ['Nationality', nationality],
-        ['Email',       email],
+        ['Клиника',    hospital],
+        ['Дата',        selectedDate],
+        ['Время',        selectedTime],
+        ['Имя',        name],
+        ['Телефон',       phone],
+        ['Гражданство', nationality],
+        ['Электронная почта',       email],
     ];
-    if (treatment) rows.push(['Treatment', treatment]);
-    if (request)   rows.push(['Request',   request]);
+    if (treatment) rows.push(['Процедура', treatment]);
+    if (request)   rows.push(['Комментарий',   request]);
 
     document.getElementById('resModalBody').innerHTML = rows.map(([label, val]) =>
         `<div class="modal_row"><span class="modal_label">${label}</span><span>${val}</span></div>`
     ).join('');
     document.getElementById('bookingConfirmModal').style.display = 'flex';
 
-    // 모달에서 Confirm 버튼 누를 때까지 대기 (confirmBookingFinal 에서 처리)
+    // 모달에서 Подтвердить 버튼 누를 때까지 대기 (confirmBookingFinal 에서 처리)
     window._pendingBooking = { hospital, name, phone, nationality, email, treatment, request };
 }
 
@@ -501,16 +501,16 @@ function confirmBookingFinal() {
 
     // 예약 완료 알림 모달 표시
     var details = [
-        ['Hospital', hospital],
-        ['Date',     selectedDate],
-        ['Time',     selectedTime],
-        ['Name',     name],
-        ['Phone',  phone],
-        ['Nationality', nationality],
-        ['Email',  email],
+        ['Клиника', hospital],
+        ['Дата',     selectedDate],
+        ['Время',     selectedTime],
+        ['Имя',     name],
+        ['Телефон',  phone],
+        ['Гражданство', nationality],
+        ['Электронная почта',  email],
     ];
-    if (treatment) details.push(['Treatment', treatment]);
-    if (request)   details.push(['Request', request]);
+    if (treatment) details.push(['Процедура', treatment]);
+    if (request)   details.push(['Комментарий', request]);
 
     document.getElementById('successDetails').innerHTML =
         details.map(function(row) {

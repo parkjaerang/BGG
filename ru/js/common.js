@@ -228,40 +228,40 @@ document.addEventListener('DOMContentLoaded', () => {
     <nav class="header_nav">
         <ul class="top_nav">
             <li>
-                <a href="./company.html" class="main_menu">about</a>
+                <a href="./company.html" class="main_menu">О нас</a>
             </li>
             <li>
-                <a href="./partner.html" class="main_menu">clinics</a>
+                <a href="./partner.html" class="main_menu">Клиники</a>
             </li>
             <li>
-                <a href="./booking.html" class="main_menu">booking</a>
+                <a href="./booking.html" class="main_menu">Запись</a>
             </li>
             <li>
-                <a href="./review.html" class="main_menu">review</a>
+                <a href="./review.html" class="main_menu">Отзывы</a>
             </li>
             <li>
-                <a href="./request.html" class="main_menu">request</a>
+                <a href="./request.html" class="main_menu">Запрос / Заявка</a>
             </li>
         </ul>
 
         <ul class="bottom_nav">
             <li>
-                <a href="./company.html" class="sub_menu">about BGG</a>
+                <a href="./company.html" class="sub_menu">О BGG</a>
             </li>
             <li>
-                <a href="./partner.html" class="sub_menu">PARTNER CLINICS</a>
-                <a href="./promotion.html" class="sub_menu">PARTNER'S PROMOTION</a>
+                <a href="./partner.html" class="sub_menu">Партнёрские клиники</a>
+                <a href="./promotion.html" class="sub_menu">АКЦИИ ПАРТНЁРОВ</a>
             </li>
             <li>
-                <a href="./booking.html" class="sub_menu">ONLINE BOOKING</a>
-                <a href="./reservation.html" class="sub_menu">BOOK NOW</a>
-                <a href="./check.html" class="sub_menu">BOOKING CONFIRMATION</a>
+                <a href="./booking.html" class="sub_menu">Онлайн-запись</a>
+                <a href="./reservation.html" class="sub_menu">Записаться сейчас</a>
+                <a href="./check.html" class="sub_menu">Подтверждение записи</a>
             </li>
             <li>
-                <a href="./review.html" class="sub_menu">REVIEWS</a>
+                <a href="./review.html" class="sub_menu">Отзывы</a>
             </li>
             <li>
-                <a href="./request.html" class="sub_menu">request</a>
+                <a href="./request.html" class="sub_menu">Запрос / Заявка</a>
             </li>
         </ul>
     </nav>
@@ -275,36 +275,36 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="mobile_nav_overlay" aria-hidden="true">
         <ul class="mobile_nav_list">
             <li>
-                <a href="#">ABOUT</a>
+                <a href="#">О нас</a>
                 <ul class="mobile_sub_list">
-                    <a href="./company.html">about BGG</a>
+                    <a href="./company.html">О BGG</a>
                 </ul>
             </li>
             <li>
-                <a href="#">CLINICS</a>
+                <a href="#">Клиники</a>
                 <ul class="mobile_sub_list">
-                    <a href="./partner.html">PARTNER CLINICS</a>
-                    <a href="./promotion.html">PARTNER'S PROMOTION</a>
+                    <a href="./partner.html">Партнёрские клиники</a>
+                    <a href="./promotion.html">АКЦИИ ПАРТНЁРОВ</a>
                 </ul>
             </li>
             <li>
-                <a href="#">BOOKING</a>
+                <a href="#">Запись</a>
                 <ul class="mobile_sub_list">
-                    <a href="./booking.html">ONLINE BOOKING</a>
-                    <a href="./reservation.html">BOOK NOW</a>
-                    <a href="./check.html">BOOKING CONFIRMATION</a>
+                    <a href="./booking.html">Онлайн-запись</a>
+                    <a href="./reservation.html">Записаться сейчас</a>
+                    <a href="./check.html">Подтверждение записи</a>
                 </ul>
             </li>
             <li>
-                <a href="#">REVIEW</a>
+                <a href="#">Отзыв</a>
                 <ul class="mobile_sub_list">
-                    <a href="./review.html">REVIEWS</a>
+                    <a href="./review.html">Отзывы</a>
                 </ul>
             </li>
             <li>
-                <a href="#">FEEDBACK &amp; REQUEST</a>
+                <a href="#">FEEDBACK &amp; ЗАПРОС / ЗАЯВКА</a>
                 <ul class="mobile_sub_list">
-                    <a href="#">request</a>
+                    <a href="#">Запрос / Заявка</a>
                 </ul>
             </li>
         </ul>
@@ -322,15 +322,15 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
             <div class="footer_info">
-                <p><span>Address</span> 5th, Wawa Building, Donggyo-ro, Mapo-gu, Seoul, South Korea</p>
-                <p><span>Tel</span> 02-1234-5678</p>
-                <p><span>Email</span> contact@example.com</p>
-                <p><span>Business Reg.</span> 123-45-67890</p>
+                <p><span>Адрес</span> Wawa Building, 5-й этаж, Donggyo-ro, Mapo-gu, Сеул, Южная Корея</p>
+                <p><span>Тел.</span> 02-1234-5678</p>
+                <p><span>Электронная почта</span> contact@example.com</p>
+                <p><span>Регистрационный номер компании</span> 123-45-67890</p>
             </div>
 
             <div class="footer_links">
-                <a href="./privacy.html">Privacy Policy</a>
-                <a href="./terms.html">Terms of Service</a>
+                <a href="./privacy.html">Политика конфиденциальности</a>
+                <a href="./terms.html">Условия использования</a>
             </div>
         </div>
 

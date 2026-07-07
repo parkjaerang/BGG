@@ -167,7 +167,7 @@ window.addEventListener('DOMContentLoaded', function() {
         // TODO: [BACKEND] localStorage → GET /api/promotion-tags
         try { tags  = JSON.parse(localStorage.getItem('bgg_promo_tags')        || '[]'); } catch(e) {}
         if (!cards.length) {
-            grid.innerHTML = '<p class="empty_msg">There are no registered promotions.</p>';
+            grid.innerHTML = '<p class="empty_msg">На данный момент зарегистрированных акций нет.</p>';
             return;
         }
         var top4 = cards.slice(0, 4);
@@ -188,7 +188,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 '<span class="card_tag">' + tagLabel + '</span>' +
                 '<h3 class="card_title">' + c.cardTitle + '</h3>' +
                 '<p class="card_desc">' + c.cardDesc + '</p>' +
-                '<a href="./reservation.html" class="card_btn">Book Now</a>' +
+                '<a href="./reservation.html" class="card_btn">Записаться</a>' +
                 '</div>' +
                 '</article>';
         }).join('');
@@ -230,10 +230,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let current = 0;
 
         const slideTexts = [
-            { h2: 'Beauty Glow Goddess', p: 'At BGG (Beauty Glow Goddess), we provide a seamless beauty and medical experience tailored for international clients. <br>From private pickup service and professional interpretation support to exclusive welcome kits, <br>every detail is designed for your comfort and confidence.' },
-            { h2: 'Pickup Service', p: 'Airport / Hotel / Home pickup service available. <br>We provide safe and convenient transportation directly to the clinic.' },
-            { h2: 'Interpretation Service', p: 'Medical interpretation service is available for international patients.' },
-            { h2: 'Welcome Kit', p: 'International patients using our interpretation service will receive a complimentary welcome kit.' }
+            { h2: 'Beauty Glow Goddess', p: 'В BGG (Beauty Glow Goddess) мы предоставляем комфортный и продуманный beauty- и медицинский сервис для иностранных клиентов. От индивидуального трансфера и профессиональной поддержки переводчика до эксклюзивных приветственных наборов — каждая деталь создана для вашего комфорта и уверенности.' },
+            { h2: 'Услуга трансфера', p: 'Доступен трансфер из аэропорта / отеля / дома. Мы обеспечиваем безопасную и удобную поездку прямо в клинику.' },
+            { h2: 'Услуга перевода', p: 'Для иностранных пациентов доступна услуга медицинского перевода.' },
+            { h2: 'Приветственный набор', p: 'Иностранные пациенты, воспользовавшиеся нашей услугой перевода, получают бесплатный приветственный набор.' }
         ];
 
         function updateOverlay(index) {
