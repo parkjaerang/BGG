@@ -249,37 +249,43 @@
     display: flex;
     flex-direction: column;
     gap: clamp(20px, 3vw, 48px);
+    row-gap: clamp(20px, 3vw, 48px);
+    column-gap: clamp(20px, 3vw, 48px);
 }
 
 .price_table_wrap {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(16px, 2.5vw, 32px);
+    column-count: 3;
+    column-gap: clamp(14px, 2vw, 28px);
 }
 
 .price_category {
-    min-width: 0;
-    overflow: hidden;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(18,18,18,0.08);
+    border: 1px solid rgba(18, 18, 18, 0.08);
     border-radius: 12px;
-    padding: clamp(20px, 2.5vw, 32px);
-    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+    padding: clamp(16px, 2vw, 24px);
+    box-shadow: 0 8px 32px rgba(87, 122, 115, 0.07);
     display: flex;
     flex-direction: column;
     gap: clamp(14px, 1.5vw, 20px);
+    min-width: 0;
+    width: 100%;
+    margin: 0 0 clamp(14px, 2vw, 28px);
+    break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 .price_cat_title {
     font-size: clamp(13px, 1.2vw, 16px);
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--bookink1);
     padding-bottom: clamp(10px, 1vw, 14px);
-    border-bottom: 1.5px solid rgba(97,129,123,0.18);
+    border-bottom: 1.5px solid rgba(97, 129, 123, 0.18);
+    line-height: 1.35;
+    overflow-wrap: anywhere;
 }
 
 .price_items {
@@ -290,42 +296,40 @@
 
 .price_row {
     display: flex;
-    flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    padding-bottom: clamp(10px, 1vw, 14px);
-    border-bottom: 1px solid rgba(18,18,18,0.07);
-}
-
-.price_row:last-child {
-    padding-bottom: 0;
-    border-bottom: none;
+    gap: 8px;
+    min-width: 0;
 }
 
 .price_name {
-    font-size: clamp(12px, 1vw, 12px);
+    font-size: clamp(12px, 1vw, 14px);
     font-weight: 400;
     color: var(--black);
-    white-space: normal;
-    word-break: break-word;
-    width: 100%;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    min-width: 0;
+    flex: 0 1 auto;
 }
 
 .price_dots {
-    display: none;
+    flex: 1;
+    border-bottom: 1px dotted rgba(18, 18, 18, 0.2);
+    margin-top: 0.9em;
+    min-width: 18px;
 }
 
 .price_val {
-    font-size: clamp(14px, 1.2vw, 17px);
+    font-size: clamp(12px, 1vw, 14px);
     font-weight: 600;
     color: var(--bookink1);
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .price_notice {
     font-size: clamp(10px, 0.9vw, 12px);
     font-weight: 300;
-    color: rgba(18,18,18,0.4);
+    color: rgba(18, 18, 18, 0.4);
     line-height: 1.6;
 }
 
@@ -860,13 +864,291 @@
 }
 
 /* ============================================
+   DIRECTIONS
+============================================ */
+#directions {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 48px);
+}
+
+.directions_inner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: clamp(20px, 3vw, 40px);
+    align-items: stretch;
+}
+
+.directions_map_wrap {
+    position: relative;
+    min-height: clamp(280px, 35vw, 420px);
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18,18,18,0.08);
+    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+}
+
+.directions_map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: none;
+}
+
+.directions_map.is-visible {
+    display: block;
+}
+
+.directions_map_placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: rgba(18,18,18,0.35);
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+}
+
+.directions_map_placeholder i {
+    font-size: clamp(28px, 3vw, 40px);
+    color: var(--bookink2);
+    opacity: 0.5;
+}
+
+.directions_map_placeholder.is-hidden {
+    display: none;
+}
+
+.directions_info {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 2vw, 24px);
+}
+
+.directions_info_card {
+    display: flex;
+    gap: clamp(14px, 1.5vw, 20px);
+    padding: clamp(20px, 2.5vw, 32px);
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18,18,18,0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+    flex: 1;
+}
+
+.directions_icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(97,129,123,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bookink2);
+    font-size: 18px;
+}
+
+.directions_info_title {
+    font-size: clamp(13px, 1.1vw, 16px);
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+}
+
+.directions_address {
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+    color: rgba(18,18,18,0.6);
+    line-height: 1.85;
+    white-space: pre-line;
+}
+
+.directions_hours {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.directions_hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 400;
+    color: rgba(18,18,18,0.65);
+    line-height: 1.6;
+}
+
+.directions_hours .hours_day {
+    font-weight: 600;
+    color: var(--black);
+    flex-shrink: 0;
+}
+
+.directions_hours .hours_time {
+    text-align: right;
+    color: rgba(18,18,18,0.55);
+}
+
+/* ============================================
+   GOOGLE REVIEWS
+============================================ */
+#google_reviews {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vw, 48px);
+}
+
+.google_review_box {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(18,18,18,0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(87,122,115,0.07);
+    padding: clamp(20px, 2.5vw, 32px);
+}
+
+.google_review_placeholder,
+.google_review_loading {
+    color: rgba(18,18,18,0.45);
+    font-size: clamp(12px, 1vw, 14px);
+    font-weight: 300;
+    padding: 8px 0;
+}
+
+.gr_header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid rgba(18,18,18,0.07);
+}
+
+.gr_google_icon {
+    width: 18px;
+    height: 18px;
+}
+
+.gr_place_name {
+    font-weight: 700;
+    font-size: clamp(13px, 1.1vw, 16px);
+    color: var(--black);
+}
+
+.gr_overall_rating {
+    color: #f5a623;
+    font-weight: 700;
+}
+
+.gr_rating_count {
+    color: rgba(18,18,18,0.45);
+    font-size: clamp(11px, 0.95vw, 13px);
+}
+
+.gr_map_link {
+    margin-left: auto;
+    font-size: clamp(11px, 0.95vw, 13px);
+    color: #4285F4;
+    text-decoration: none;
+}
+
+.gr_map_link:hover {
+    text-decoration: underline;
+}
+
+.gr_cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.gr_card {
+    background: rgba(255,255,255,0.75);
+    border: 1px solid rgba(18,18,18,0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.gr_card_top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.gr_avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.gr_author_info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.gr_author_name {
+    font-weight: 600;
+    font-size: clamp(12px, 1vw, 14px);
+    color: var(--black);
+    text-decoration: none;
+}
+
+.gr_author_name:hover {
+    text-decoration: underline;
+}
+
+.gr_stars {
+    color: #f5a623;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.gr_time {
+    margin-left: auto;
+    font-size: 0.78rem;
+    color: rgba(18,18,18,0.35);
+    white-space: nowrap;
+}
+
+.gr_text {
+    font-size: clamp(12px, 1vw, 14px);
+    color: rgba(18,18,18,0.65);
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+/* ============================================
    RESPONSIVE
 ============================================ */
 @media (max-width: 1100px) {
     .price_table_wrap,
     .poster_grid,
-    .info_grid {
+    .info_grid,
+    .directions_inner {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .directions_inner {
+        grid-template-columns: 1fr;
     }
 }
 

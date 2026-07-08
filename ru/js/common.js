@@ -53,10 +53,24 @@ function getHospitals() {
     // 최초 방문: 기본 HOSPITALS 배열로 시드 생성
     // 首次访问：用默认HOSPITALS数组生成种子数据
     var seed = HOSPITALS.map(function(name, i) {
-        return { id: i + 1, name: name, img: '', tag: '' };
+        return { id: i + 1, name: name, img: '', tag: '', rating: '', logo: '', region: '' };
     });
     localStorage.setItem('bgg_hospitals', JSON.stringify(seed));
     return seed;
+}
+
+var DEFAULT_PARTNER_REGIONS = [
+    { id: 1, name: '강남' },
+    { id: 2, name: '홍대' },
+    { id: 3, name: '성수' },
+    { id: 4, name: '명동' }
+];
+
+function getPartnerRegions() {
+    var raw = localStorage.getItem('bgg_partner_regions');
+    if (raw) { try { return JSON.parse(raw); } catch(e) {} }
+    localStorage.setItem('bgg_partner_regions', JSON.stringify(DEFAULT_PARTNER_REGIONS));
+    return DEFAULT_PARTNER_REGIONS.slice();
 }
 
 /* 동적 병원 목록으로 HOSPITAL_CONFIG에 없는 병원에 대한 기본 config 반환 */
@@ -89,6 +103,49 @@ function getHospitalConfig(hospitalId) {
 const HOSPITAL_CONFIG = [];
 // 병원별 예약 설정을 담는 배열
 // 存储各医院预约设置的数组
+
+function buildMapEmbedUrl(address) {
+    var q = String(address || '').trim();
+    if (!q) return '';
+    return 'https://maps.google.com/maps?q=' + encodeURIComponent(q) + '&hl=ko&z=17&output=embed';
+}
+
+function renderHospitalRating(rating) {
+    var value = parseFloat(rating);
+    if (!rating || isNaN(value) || value <= 0) return '';
+    value = Math.min(5, Math.max(0, value));
+    return '<span class="hospital_rating" aria-label="Google rating ' + value.toFixed(1) + '">' +
+        '<i class="fa-solid fa-star hospital_rating_icon"></i>' + value.toFixed(1) + '</span>';
+}
+
+function renderPartnerHospitalCard(hospital, options) {
+    options = options || {};
+    var imgPrefix = options.imgPrefix || './';
+    var viewPrefix = options.viewPrefix || './';
+    var name = hospital.name || '';
+    var ratingHtml = renderHospitalRating(hospital.rating);
+    var logoHtml = '<span class="hospital_logo_wrap' + (hospital.logo ? '' : ' is_empty') + '">' +
+        (hospital.logo ? '<img src="' + hospital.logo + '" alt="" class="hospital_logo">' : '') +
+        '</span>';
+    var viewHref = viewPrefix + 'view.html?idx=' + hospital.id;
+    var imgContent = hospital.img
+        ? '<img src="' + hospital.img + '" alt="' + name + '">'
+        : '<div class="hospital_img_placeholder">Hospital Image</div>';
+
+    return '<article class="hospital_info">' +
+        '<a href="' + viewHref + '" class="hospital_img_link">' +
+        imgContent +
+        '</a>' +
+        '<div class="hospital_meta">' +
+        '<div class="hospital_title_row">' +
+        '<div class="hospital_title_main">' +
+        logoHtml +
+        '<span class="hospital_name">' + name + '</span>' +
+        '</div>' +
+        ratingHtml +
+        '</div>' +
+        '</div></article>';
+}
 
 /**
  * 검색 가능한 커스텀 드롭다운 생성
@@ -227,43 +284,34 @@ document.addEventListener('DOMContentLoaded', () => {
     </h1>
     <nav class="header_nav">
         <ul class="top_nav">
-            <li>
+            <li class="nav_item nav_item--direct">
                 <a href="./company.html" class="main_menu">О нас</a>
             </li>
-            <li>
-                <a href="./partner.html" class="main_menu">Клиники</a>
+            <li class="nav_item nav_item--featured">
+                <a href="./partner.html" class="main_menu main_menu--featured">Клиники</a>
             </li>
-            <li>
+            <li class="nav_item nav_item--has-sub">
                 <a href="./booking.html" class="main_menu">Запись</a>
             </li>
-            <li>
+            <li class="nav_item nav_item--direct">
                 <a href="./review.html" class="main_menu">Отзывы</a>
             </li>
-            <li>
+            <li class="nav_item nav_item--direct">
                 <a href="./request.html" class="main_menu">Запрос / Заявка</a>
             </li>
         </ul>
 
-        <ul class="bottom_nav">
-            <li>
-                <a href="./company.html" class="sub_menu">О BGG</a>
-            </li>
-            <li>
-                <a href="./partner.html" class="sub_menu">Партнёрские клиники</a>
-                <a href="./promotion.html" class="sub_menu">АКЦИИ ПАРТНЁРОВ</a>
-            </li>
-            <li>
+        <div class="sub_nav_row" aria-hidden="true">
+            <div class="sub_nav_cell"></div>
+            <div class="sub_nav_cell sub_nav_cell--featured"></div>
+            <div class="sub_nav_cell sub_nav_items">
                 <a href="./booking.html" class="sub_menu">Онлайн-запись</a>
                 <a href="./reservation.html" class="sub_menu">Записаться сейчас</a>
                 <a href="./check.html" class="sub_menu">Подтверждение записи</a>
-            </li>
-            <li>
-                <a href="./review.html" class="sub_menu">Отзывы</a>
-            </li>
-            <li>
-                <a href="./request.html" class="sub_menu">Запрос / Заявка</a>
-            </li>
-        </ul>
+            </div>
+            <div class="sub_nav_cell"></div>
+            <div class="sub_nav_cell"></div>
+        </div>
     </nav>
 
     <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
@@ -275,17 +323,10 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="mobile_nav_overlay" aria-hidden="true">
         <ul class="mobile_nav_list">
             <li>
-                <a href="#">О нас</a>
-                <ul class="mobile_sub_list">
-                    <a href="./company.html">О BGG</a>
-                </ul>
+                <a href="./company.html">О нас</a>
             </li>
-            <li>
-                <a href="#">Клиники</a>
-                <ul class="mobile_sub_list">
-                    <a href="./partner.html">Партнёрские клиники</a>
-                    <a href="./promotion.html">АКЦИИ ПАРТНЁРОВ</a>
-                </ul>
+            <li class="mobile_nav_item--featured">
+                <a href="./partner.html">Клиники</a>
             </li>
             <li>
                 <a href="#">Запись</a>
@@ -296,16 +337,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </ul>
             </li>
             <li>
-                <a href="#">Отзыв</a>
-                <ul class="mobile_sub_list">
-                    <a href="./review.html">Отзывы</a>
-                </ul>
+                <a href="./review.html">Отзывы</a>
             </li>
             <li>
-                <a href="#">FEEDBACK &amp; ЗАПРОС / ЗАЯВКА</a>
-                <ul class="mobile_sub_list">
-                    <a href="#">Запрос / Заявка</a>
-                </ul>
+                <a href="./request.html">Запрос / Заявка</a>
             </li>
         </ul>
     </div>
@@ -342,25 +377,29 @@ document.addEventListener('DOMContentLoaded', () => {
     /*===============================================
             contact_btn html
     ===============================================*/
-    const contactBtnWrap = document.querySelector('.contact_btn_wrap');
-    if (contactBtnWrap) {
-        contactBtnWrap.innerHTML = `
-            <a class="contact_social" href="#"><i class="fa-brands fa-facebook"></i></a>
-            <a class="contact_social" href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a class="contact_social" href="#"><i class="fa-brands fa-whatsapp"></i></a>
-            <a class="contact_social" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+    let contactBtnWrap = document.querySelector('.contact_btn_wrap');
+    if (!contactBtnWrap) {
+        contactBtnWrap = document.createElement('div');
+        contactBtnWrap.className = 'contact_btn_wrap';
+        document.body.appendChild(contactBtnWrap);
+    }
+
+    contactBtnWrap.innerHTML = `
+            <a class="contact_social" href="https://www.facebook.com/people/Beauty-Glow-Goddess/61590980261007/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+            <a class="contact_social" href="https://www.instagram.com/beauty_glow_goddess/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a class="contact_social" href="https://api.whatsapp.com/send/?phone=821063674119&text&type=phone_number&app_absent=0" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            <a class="contact_social" href="https://www.threads.com/@beauty_glow_goddess" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
             <button class="contact_btn_toggle" aria-label="Toggle contact buttons"><i class="fa-solid fa-plus"></i></button>
         `;
 
-        if (sessionStorage.getItem('contactCollapsed') === '1') {
-            contactBtnWrap.classList.add('collapsed');
-        }
-
-        contactBtnWrap.querySelector('.contact_btn_toggle').addEventListener('click', () => {
-            contactBtnWrap.classList.toggle('collapsed');
-            sessionStorage.setItem('contactCollapsed', contactBtnWrap.classList.contains('collapsed') ? '1' : '0');
-        });
+    if (sessionStorage.getItem('contactCollapsed') === '1') {
+        contactBtnWrap.classList.add('collapsed');
     }
+
+    contactBtnWrap.querySelector('.contact_btn_toggle').addEventListener('click', () => {
+        contactBtnWrap.classList.toggle('collapsed');
+        sessionStorage.setItem('contactCollapsed', contactBtnWrap.classList.contains('collapsed') ? '1' : '0');
+    });
 
     /* ── 햄버거 메뉴 ── */
     /* ── 汉堡菜单 ── */
@@ -392,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 서브메뉴 링크 클릭 시에만 메뉴 닫기 (메인메뉴 제외)
     // 仅在点击子菜单链接时关闭菜单（不含主菜单）
-    mobileOverlay.querySelectorAll('.mobile_sub_list a').forEach(link => {
+    mobileOverlay.querySelectorAll('.mobile_nav_list a[href]:not([href="#"])').forEach(link => {
         link.addEventListener('click', () => {
             hamburger.classList.remove('open');
             mobileOverlay.classList.remove('open');
@@ -402,47 +441,77 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const mainMenu = document.querySelectorAll(".main_menu");
-    const bottomNav = document.querySelector(".bottom_nav");
+    const topNav = document.querySelector("header .top_nav");
+    const topNavItems = document.querySelectorAll(".top_nav .nav_item");
+    const headerEl = document.querySelector("header");
+    const subNavRow = document.querySelector(".sub_nav_row");
 
-    mainMenu.forEach((main) => {
-        main.addEventListener("mouseover", () => {
-            bottomNav.classList.add("slide");
+    const syncSubNavColumns = () => {
+        if (!topNav || !subNavRow) return;
+        const topItems = topNav.querySelectorAll(".nav_item");
+        const subCells = subNavRow.querySelectorAll(".sub_nav_cell");
+
+        subCells.forEach((cell) => {
+            cell.style.flex = "";
+            cell.style.width = "";
         });
-        main.addEventListener("mouseout", () => {
-            bottomNav.classList.remove("slide");
+
+        topItems.forEach((item, index) => {
+            const cell = subCells[index];
+            if (!cell) return;
+            cell.style.flex = "0 0 auto";
+            cell.style.width = `${item.getBoundingClientRect().width}px`;
         });
-    })
+    };
 
-    bottomNav.addEventListener("mouseover", () => {
-        bottomNav.classList.add("slide");
-    });
-    bottomNav.addEventListener("mouseout", () => {
-        bottomNav.classList.remove("slide");
-    });
+    let subNavCloseTimer = null;
 
+    const openSubNav = () => {
+        clearTimeout(subNavCloseTimer);
+        headerEl.classList.add("nav_sub_open");
+        subNavRow.setAttribute("aria-hidden", "false");
+        syncSubNavColumns();
+    };
+
+    const scheduleCloseSubNav = () => {
+        clearTimeout(subNavCloseTimer);
+        subNavCloseTimer = setTimeout(() => {
+            headerEl.classList.remove("nav_sub_open");
+            subNavRow.setAttribute("aria-hidden", "true");
+            topNavItems.forEach((item) => item.classList.remove("nav_active"));
+        }, 150);
+    };
+
+    if (topNav && subNavRow) {
+        const subNavZone = [topNav, subNavRow];
+
+        topNav.addEventListener("mouseenter", openSubNav);
+        subNavRow.addEventListener("mouseenter", openSubNav);
+
+        topNavItems.forEach((item) => {
+            item.addEventListener("mouseenter", () => {
+                topNavItems.forEach((el) => el.classList.remove("nav_active"));
+                item.classList.add("nav_active");
+                openSubNav();
+            });
+        });
+
+        subNavZone.forEach((zone) => {
+            zone.addEventListener("mouseleave", (e) => {
+                if (!subNavZone.some((item) => item.contains(e.relatedTarget))) {
+                    scheduleCloseSubNav();
+                }
+            });
+        });
+
+        window.addEventListener("resize", syncSubNavColumns);
+        syncSubNavColumns();
+    }
 
     const subMenu = document.querySelectorAll(".sub_menu");
     subMenu.forEach((sub) => {
-        sub.addEventListener("mouseover", () => {
-            sub.classList.add("active");
-        })
-        sub.addEventListener("mouseout", () => {
-            sub.classList.remove("active");
-        })
-    })
-
-    // bottom_nav li hover 시 대응하는 top_nav li에 active 클래스 부여
-    const topNavItems = document.querySelectorAll(".top_nav li");
-    const bottomNavItems = document.querySelectorAll(".bottom_nav li");
-
-    bottomNavItems.forEach((bottomLi, idx) => {
-        bottomLi.addEventListener("mouseover", () => {
-            if (topNavItems[idx]) topNavItems[idx].classList.add("nav_active");
-        });
-        bottomLi.addEventListener("mouseout", () => {
-            if (topNavItems[idx]) topNavItems[idx].classList.remove("nav_active");
-        });
+        sub.addEventListener("mouseover", () => sub.classList.add("active"));
+        sub.addEventListener("mouseout", () => sub.classList.remove("active"));
     });
 
     // 특정 페이지에만 헤더 높이만큼 margin-top 적용

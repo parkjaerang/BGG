@@ -1,3 +1,90 @@
+let viewPlacesService = null;
+let viewPendingPlaceId = '';
+
+function initViewGoogleMaps() {
+    const dummyDiv = document.createElement('div');
+    viewPlacesService = new google.maps.places.PlacesService(dummyDiv);
+    if (viewPendingPlaceId) loadViewGoogleReviews(viewPendingPlaceId);
+}
+
+function viewEscapeHtml(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function loadViewGoogleReviews(placeId) {
+    const box = document.getElementById('google_review_box');
+    if (!box) return;
+
+    if (!placeId || placeId.startsWith('PLACE_ID_HERE')) {
+        box.innerHTML = '<p class="google_review_placeholder">尚未为此医院配置 Place ID。</p>';
+        return;
+    }
+
+    if (!viewPlacesService) {
+        viewPendingPlaceId = placeId;
+        box.innerHTML = '<p class="google_review_loading">正在加载 Google 评价...</p>';
+        return;
+    }
+
+    box.innerHTML = '<p class="google_review_loading">正在加载 Google 评价...</p>';
+
+    viewPlacesService.getDetails(
+        {
+            placeId: placeId,
+            fields: ['name', 'rating', 'user_ratings_total', 'reviews', 'url'],
+        },
+        function(place, status) {
+            if (status !== google.maps.places.PlacesServiceStatus.OK || !place) {
+                box.innerHTML = '<p class="google_review_placeholder">无法加载评价，请检查 Place ID。</p>';
+                return;
+            }
+            renderViewGoogleReviews(place);
+        }
+    );
+}
+
+function renderViewGoogleReviews(place) {
+    const box = document.getElementById('google_review_box');
+    if (!box) return;
+
+    const reviews = place.reviews || [];
+    const headerHtml = `
+        <div class="gr_header">
+            <img src="https://www.google.com/favicon.ico" class="gr_google_icon" alt="Google">
+            <span class="gr_place_name">${viewEscapeHtml(place.name)}</span>
+            <span class="gr_overall_rating">★ ${place.rating ?? '-'}</span>
+            <span class="gr_rating_count">(${place.user_ratings_total ?? 0})</span>
+            ${place.url ? `<a class="gr_map_link" href="${place.url}" target="_blank" rel="noopener">在 Google 地图中查看</a>` : ''}
+        </div>
+    `;
+
+    if (reviews.length === 0) {
+        box.innerHTML = headerHtml + '<p class="google_review_placeholder">暂无评价可显示。</p>';
+        return;
+    }
+
+    const cardsHtml = reviews.map(function(r) {
+        return '<div class="gr_card">' +
+            '<div class="gr_card_top">' +
+            '<img class="gr_avatar" src="' + r.profile_photo_url + '" alt="' + viewEscapeHtml(r.author_name) + '" onerror="this.src=\'https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png\'">' +
+            '<div class="gr_author_info">' +
+            '<a class="gr_author_name" href="' + r.author_url + '" target="_blank" rel="noopener">' + viewEscapeHtml(r.author_name) + '</a>' +
+            '<div class="gr_stars">' + '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating) + '</div>' +
+            '</div>' +
+            '<span class="gr_time">' + viewEscapeHtml(r.relative_time_description) + '</span>' +
+            '</div>' +
+            '<p class="gr_text">' + viewEscapeHtml(r.text) + '</p>' +
+            '</div>';
+    }).join('');
+
+    box.innerHTML = headerHtml + '<div class="gr_cards">' + cardsHtml + '</div>';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
      /* ── 어드민 데이터 적용 ── */
      /* ── 应用管理员数据 ── */
@@ -199,6 +286,58 @@ document.addEventListener('DOMContentLoaded', () => {
                     }).join('');
                 }
             }
+
+            // 오시는 길
+            var directionsSection = document.getElementById('directions');
+            var directionsAddress = localStorage.getItem(vKey('directions_address')) || '';
+            var directionsMap = localStorage.getItem(vKey('directions_map')) || '';
+            var directionsHoursRaw = localStorage.getItem(vKey('directions_hours'));
+            var directionsHours = [];
+            if (directionsHoursRaw) {
+                try { directionsHours = JSON.parse(directionsHoursRaw); } catch(e) {}
+            }
+
+            var addressEl = document.getElementById('directions_address');
+            var hoursEl = document.getElementById('directions_hours');
+            var mapEl = document.getElementById('directions_map');
+            var mapPh = document.getElementById('directions_map_ph');
+            var hasDirections = !!(directionsAddress || directionsMap || directionsHours.length);
+
+            if (directionsSection) {
+                if (!hasDirections) {
+                    directionsSection.style.display = 'none';
+                } else {
+                    if (addressEl) {
+                        addressEl.textContent = directionsAddress;
+                        var addressCard = addressEl.closest('.directions_info_card');
+                        if (addressCard) addressCard.style.display = directionsAddress ? '' : 'none';
+                    }
+                    if (hoursEl) {
+                        hoursEl.innerHTML = directionsHours.map(function(row) {
+                            if (!row || (!row.day && !row.time)) return '';
+                            return '<li><span class="hours_day">' + (row.day || '') + '</span>' +
+                                '<span class="hours_time">' + (row.time || '') + '</span></li>';
+                        }).join('');
+                        var hoursCard = hoursEl.closest('.directions_info_card');
+                        if (hoursCard) hoursCard.style.display = hoursEl.children.length ? '' : 'none';
+                    }
+                    if (mapEl) {
+                        var mapSrc = directionsMap || (typeof buildMapEmbedUrl === 'function' ? buildMapEmbedUrl(directionsAddress) : '');
+                        if (mapSrc) {
+                            mapEl.src = mapSrc;
+                            mapEl.classList.add('is-visible');
+                            if (mapPh) mapPh.classList.add('is-hidden');
+                        }
+                    }
+                }
+            }
+
+            // Google 리뷰
+            var placeId = localStorage.getItem(vKey('place_id')) || '';
+            if (typeof HOSPITAL_PLACE_IDS !== 'undefined' && hospital && HOSPITAL_PLACE_IDS[hospital.name]) {
+                placeId = placeId || HOSPITAL_PLACE_IDS[hospital.name];
+            }
+            loadViewGoogleReviews(placeId);
         })();
         /*
             엑셀 파일 따라서 카테고리 별로 

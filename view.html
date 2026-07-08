@@ -7,6 +7,7 @@
     <title>BGG</title>
     <script src="./js/common.js" defer></script>
     <script src="./js/view.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initViewGoogleMaps" async></script>
     <link rel="stylesheet" href="./css/view.css">
     <script src="https://kit.fontawesome.com/2eb47fcd7e.js" crossorigin="anonymous"></script>
 </head>
@@ -286,6 +287,47 @@
                         maiores odit. Animi recusandae modi voluptas ratione laborum.
                     </p>
                 </div>
+            </div>
+        </section>
+
+        <!-- 오시는 길 -->
+        <section id="directions">
+            <h2>HOW TO<br>FIND US</h2>
+            <p class="section_desc">Find our clinic on the map and check our opening hours.</p>
+            <div class="directions_inner">
+                <div class="directions_map_wrap">
+                    <iframe id="directions_map" class="directions_map" src="" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade" title="Clinic location map"></iframe>
+                    <div class="directions_map_placeholder" id="directions_map_ph">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Map will be displayed here.</span>
+                    </div>
+                </div>
+                <div class="directions_info">
+                    <div class="directions_info_card">
+                        <div class="directions_icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h3 class="directions_info_title">Address</h3>
+                            <p class="directions_address" id="directions_address"></p>
+                        </div>
+                    </div>
+                    <div class="directions_info_card">
+                        <div class="directions_icon"><i class="fa-regular fa-clock"></i></div>
+                        <div>
+                            <h3 class="directions_info_title">Opening Hours</h3>
+                            <ul class="directions_hours" id="directions_hours"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Google 리뷰 -->
+        <section id="google_reviews">
+            <h2>GOOGLE<br>REVIEWS</h2>
+            <p class="section_desc">See what patients are saying about us on Google.</p>
+            <div class="google_review_box" id="google_review_box">
+                <p class="google_review_placeholder">Loading Google reviews...</p>
             </div>
         </section>
     </main>

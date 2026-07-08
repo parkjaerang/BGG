@@ -1,9 +1,83 @@
 @import url(./common.css);
 
+section{
+    padding: clamp(50px, 10vw, 170px) clamp(16px, 12vw, 350px) 0;
+}
+
 .hospital_list {
     display: flex;
     flex-direction: column;
     gap: clamp(20px, 2vw, 50px);
+}
+
+.partner_toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 1.8vw, 22px);
+}
+
+.partner_search_wrap {
+    position: relative;
+    max-width: 420px;
+}
+
+.partner_search_icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(18, 18, 18, 0.4);
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.partner_search_input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border: 1px solid rgba(18, 18, 18, 0.12);
+    border-radius: 8px;
+    background: #fff;
+    font-size: clamp(12px, 1vw, 14px);
+    color: var(--ink1);
+}
+
+.partner_search_input::placeholder {
+    color: rgba(18, 18, 18, 0.4);
+}
+
+.partner_search_input:focus {
+    outline: none;
+    border-color: var(--bookink1);
+}
+
+.partner_region_filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.region_filter_btn {
+    padding: 8px 16px;
+    border: 1px solid rgba(18, 18, 18, 0.12);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--ink1);
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.region_filter_btn:hover {
+    border-color: var(--bookink1);
+    color: var(--bookink1);
+}
+
+.region_filter_btn.active {
+    background: var(--bookink1);
+    border-color: var(--bookink1);
+    color: #fff;
 }
 
 .hospital_list_wrap {
@@ -13,58 +87,131 @@
     row-gap: clamp(20px, 3vw, 50px);
 }
 
+.hospital_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.hospital_img_link {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+    background: rgba(18, 18, 18, 0.06);
+}
+
+.hospital_info a > img,
+.hospital_img_link img {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+}
+
+.hospital_img_placeholder {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(12px, 2vw, 24px);
+    font-size: clamp(12px, 1.4vw, 18px);
+    font-weight: 700;
+    color: var(--ink1);
+    text-align: center;
+    line-height: 1.3;
+}
+
+.hospital_info:hover .hospital_img_link img {
+    transform: scale(1.03);
+}
+
+.hospital_meta {
+    margin-top: clamp(10px, 1.5vw, 18px);
+}
+
+.hospital_title_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(8px, 1vw, 12px);
+}
+
+.hospital_title_main {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 0.8vw, 10px);
+    min-width: 0;
+    flex: 1;
+}
+
+.hospital_logo_wrap {
+    flex-shrink: 0;
+    width: clamp(28px, 3.2vw, 40px);
+    height: clamp(28px, 3.2vw, 40px);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(18, 18, 18, 0.1);
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hospital_logo_wrap.is_empty {
+    background: rgba(18, 18, 18, 0.04);
+}
+
+.hospital_logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
 .hospital_name {
-    display: inline-block;
+    display: block;
+    min-width: 0;
     font-size: clamp(8px, 1.5vw, 16px);
     font-weight: 700;
     letter-spacing: 0.25em;
     color: var(--bookink1);
     text-transform: uppercase;
-    position: relative;
-    padding-left: clamp(15px, 2vw, 36px);
-    margin-top: clamp(10px, 1.5vw, 20px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.hospital_name::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(10px, 1.5vw, 20px);
-    height: 1px;
-    background: var(--bookink1);
+.hospital_rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+    margin-left: auto;
+    font-size: clamp(8px, 0.95vw, 12px);
+    font-weight: 600;
+    color: rgba(18, 18, 18, 0.55);
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+.hospital_rating_icon {
+    color: #f5a623;
+    font-size: clamp(8px, 1vw, 12px);
 }
 
 .hospital_tag {
     display: block;
     font-size: clamp(6px, 1vw, 13px);
     font-weight: 500;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.18em;
     color: var(--ink1);
     text-transform: uppercase;
-    position: relative;
-    padding-left: clamp(15px, 2vw, 36px);
-    margin-top: clamp(3px, 0.8vw, 15px);
 }
 
-.hospital_tag::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(10px, 1.5vw, 20px);
-    height: 1px;
-    background: var(--bookink1);
-    opacity: 0;
-}
-
-.hospital_info a > img {
-    aspect-ratio: 1 / 1;
-    width: 100%;
-    object-fit: cover;
-    display: block;
+.empty_msg {
+    color: rgba(18, 18, 18, 0.45);
+    font-size: clamp(12px, 1vw, 14px);
 }
 
 @media (max-width: 1280px) {

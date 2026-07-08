@@ -1,5 +1,9 @@
 @import url(./common.css);
 
+section {
+    padding: clamp(50px, 10vw, 170px) clamp(16px, 12vw, 350px) 0;
+}
+
 /* ============================================
    Booking Hero
 ============================================ */
@@ -36,16 +40,32 @@
 
 
 /* ============================================
-   Category Grid
+   Category Layout
 ============================================ */
 #booking_categories {
     padding: 0 clamp(16px, 12vw, 350px) clamp(60px, 10vw, 120px);
 }
 
-.category_grid {
+.booking_layout {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 3vw, 40px);
+}
+
+.service_cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: clamp(16px, 2vw, 24px);
+}
+
+/* Top row: 2 wide cards */
+.service_cards .category_card:nth-child(-n+2) {
+    grid-column: span 3;
+}
+
+/* Bottom row: 3 equal cards */
+.service_cards .category_card:nth-child(n+3) {
+    grid-column: span 2;
 }
 
 /* ============================================
@@ -53,12 +73,13 @@
 ============================================ */
 .category_card {
     border: 1px solid rgba(18, 18, 18, 0.08);
-    border-radius: 4px;
-    padding: clamp(24px, 3vw, 40px);
+    border-radius: 6px;
+    padding: clamp(24px, 3vw, 36px);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
     background: var(--white);
+    min-height: 100%;
     transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     position: relative;
     overflow: hidden;
@@ -71,9 +92,17 @@
 }
 
 .card_icon {
-    font-size: clamp(20px, 2.5vw, 30px);
-    color: var(--bookink2);
+    font-size: clamp(18px, 2vw, 26px);
+    color: var(--bookink3);
+    background: rgba(240, 168, 101, 0.14);
+    width: clamp(44px, 5vw, 56px);
+    height: clamp(44px, 5vw, 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
     line-height: 1;
+    flex-shrink: 0;
 }
 
 .card_icon i {
@@ -141,20 +170,92 @@
 
 /* CTA card variant */
 .card_cta {
-    background: linear-gradient(135deg, rgba(108, 128, 124, 0.06) 0%, rgba(87, 122, 115, 0.12) 100%);
-    border-color: rgba(108, 128, 124, 0.2);
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: clamp(20px, 3vw, 40px);
+    padding: clamp(28px, 4vw, 52px) clamp(28px, 5vw, 64px);
+    background: linear-gradient(135deg, rgba(240, 168, 101, 0.14) 0%, rgba(194, 89, 4, 0.07) 50%, rgba(240, 168, 101, 0.16) 100%);
+    border: 2px solid rgba(206, 120, 49, 0.4);
+    box-shadow: 0 4px 28px rgba(194, 89, 4, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    position: relative;
+    overflow: hidden;
+}
+
+.card_cta::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--bookink2), var(--bookink3));
+}
+
+.card_cta:hover {
+    border-color: rgba(194, 89, 4, 0.55);
+    box-shadow: 0 14px 52px rgba(194, 89, 4, 0.2);
+    transform: translateY(-4px);
 }
 
 .card_cta .card_icon {
+    font-size: clamp(26px, 3.2vw, 40px);
     color: var(--bookink3);
+    background: rgba(240, 168, 101, 0.22);
+    width: clamp(52px, 6vw, 72px);
+    height: clamp(52px, 6vw, 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.card_cta .card_tag {
+    color: var(--bookink3);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+
+.card_cta .card_content h3 {
+    font-size: clamp(18px, 2.2vw, 28px);
+    font-weight: 800;
+}
+
+.card_cta .card_content p {
+    font-size: clamp(13px, 1.15vw, 16px);
+    font-weight: 400;
+    color: var(--black);
+    max-width: 600px;
 }
 
 .cta_btn {
-    background: var(--bookink3);
+    background: linear-gradient(135deg, var(--bookink2) 0%, var(--bookink3) 100%);
+    padding: clamp(14px, 1.5vw, 18px) clamp(24px, 3vw, 40px);
+    font-size: clamp(12px, 1.1vw, 15px);
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(194, 89, 4, 0.4);
+    margin-left: auto;
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    animation: cta-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes cta-pulse {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(194, 89, 4, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 6px 32px rgba(194, 89, 4, 0.6);
+    }
 }
 
 .cta_btn:hover {
     background: var(--black);
+    animation: none;
+    box-shadow: 0 8px 28px rgba(18, 18, 18, 0.28);
+    transform: scale(1.04);
+    letter-spacing: 0.12em;
 }
 
 /* ============================================
@@ -221,14 +322,45 @@
    Responsive
 ============================================ */
 @media (max-width: 1024px) {
-    .category_grid {
+    .service_cards {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service_cards .category_card:nth-child(-n+2),
+    .service_cards .category_card:nth-child(n+3) {
+        grid-column: span 1;
+    }
+
+    .service_cards .category_card:nth-child(5) {
+        grid-column: 1 / -1;
+        width: min(100%, 480px);
+        justify-self: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .card_cta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cta_btn {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
     }
 }
 
 @media (max-width: 640px) {
-    .category_grid {
+    .service_cards {
         grid-template-columns: 1fr;
+    }
+
+    .service_cards .category_card:nth-child(-n+2),
+    .service_cards .category_card:nth-child(n+3),
+    .service_cards .category_card:nth-child(5) {
+        grid-column: 1;
+        width: 100%;
     }
 
     .contact_strip {
@@ -239,5 +371,11 @@
 
     .contact_divider {
         display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cta_btn {
+        animation: none;
     }
 }

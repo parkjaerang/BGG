@@ -60,9 +60,6 @@
                 <button class="admin_tab" onclick="showTab('tab_partner',this)">
                     <i class="fa-solid fa-hospital"></i><span data-i18n="tab_partner">파트너 병원</span>
                 </button>
-                <button class="admin_tab" onclick="showTab('tab_promo',this)">
-                    <i class="fa-solid fa-tags"></i><span data-i18n="tab_promo">프로모션</span>
-                </button>
                 <button class="admin_tab" onclick="showTab('tab_view',this)">
                     <i class="fa-solid fa-pen-to-square"></i><span data-i18n="tab_view">View 페이지</span>
                 </button>
@@ -114,6 +111,18 @@
                 <h2 data-i18n="partner_title">파트너 병원 관리</h2>
                 <p class="admin_desc" data-i18n="partner_desc">partner.html에 표시되는 병원 목록을 관리합니다. 병원을 추가하면 새로운 view idx가
                     자동 생성됩니다.</p>
+                <div class="partner_head_actions">
+                    <button type="button" class="site_btn" onclick="openPartnerOrderModal()">
+                        <i class="fa-solid fa-arrow-down-up-across-line"></i>
+                        <span data-i18n="partner_order_btn">병원 순서</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="partner_regions_block">
+                <div class="group_label" data-i18n="partner_region_filters_lbl">지역 필터</div>
+                <p class="admin_desc" data-i18n="partner_region_filters_desc">partner.html에 표시되는 지역 필터 버튼을 관리합니다.</p>
+                <div id="partner_regions_editor"></div>
             </div>
 
             <div id="partner_list_editor">
@@ -129,39 +138,7 @@
         </section>
 
         <!-- ══════════════════════════════════
-            탭 3 · 프로모션 페이지
-            标签3:促销页面
-        ══════════════════════════════════ -->
-        <section id="tab_promo" class="tab_section">
-            <div class="admin_section_head">
-                <span class="section_label">PROMOTION</span>
-                <h2 data-i18n="promo_page_title">프로모션 페이지 관리</h2>
-                <p class="admin_desc" data-i18n="promo_page_desc">promotion.html의 필터 태그와 프로모션 카드를 관리합니다.</p>
-            </div>
-
-            <!-- 필터 태그 -->
-            <div class="group_wrap">
-                <div class="group_label" data-i18n="promo_filter_tags">필터 태그</div>
-                <div id="promo_tags_editor"></div>
-            </div>
-
-            <!-- 프로모션 카드 -->
-            <div class="group_wrap">
-                <div class="group_label"><span data-i18n="promo_cards">프로모션 카드</span> <span class="group_sub"
-                        id="promo_page_card_count"></span></div>
-                <div id="promo_page_cards_editor"></div>
-            </div>
-
-            <div class="save_row">
-                <button class="save_btn" onclick="savePromoPage()">
-                    <i class="fa-solid fa-floppy-disk"></i> <span data-i18n="save">저장</span>
-                </button>
-                <span id="promo_page_msg" class="save_msg"></span>
-            </div>
-        </section>
-
-        <!-- ══════════════════════════════════
-            탭 4 · View 페이지
+            탭 3 · View 페이지
             标签4: View 页面
         ══════════════════════════════════ -->
         <section id="tab_view" class="tab_section">
@@ -169,6 +146,7 @@
                 <span class="section_label">VIEW PAGE</span>
                 <h2 data-i18n="view_title">View 페이지 관리</h2>
                 <p class="admin_desc" data-i18n="view_desc">병원 상세 페이지의 이미지·텍스트·가격·프로모션을 수정합니다.</p>
+                <p class="view_site_badge" id="view_site_badge"></p>
             </div>
 
             <!-- 병원 선택 -->
@@ -265,7 +243,13 @@
 
                 <!-- 가격표 -->
                 <div class="group_wrap">
-                    <div class="group_label" data-i18n="price_table">가격표</div>
+                    <div class="group_head_row">
+                        <div class="group_label" data-i18n="price_table">가격표</div>
+                        <button type="button" class="site_btn" onclick="openPriceOrderModal()">
+                            <i class="fa-solid fa-arrow-down-up-across-line"></i>
+                            <span data-i18n="price_order_btn">가격표 순서</span>
+                        </button>
+                    </div>
                     <div class="price_grid" id="price_editor"></div>
                 </div>
 
@@ -347,6 +331,48 @@
                 </div>
                 </div>
 
+                <!-- 오시는 길 (맨 마지막) -->
+                <div class="group_wrap">
+                    <div class="group_label" data-i18n="directions_section">오시는 길</div>
+                    <div class="directions_edit">
+                        <div class="directions_edit_left">
+                            <label class="field_label" data-i18n="directions_map_preview_lbl">지도 미리보기</label>
+                            <div class="directions_map_admin_preview" id="directions_map_preview_wrap">
+                                <iframe id="directions_map_preview" class="directions_map_preview" title="Map preview"
+                                    loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                            <button type="button" class="site_btn" id="directions_search_btn" onclick="searchDirectionsByAddress()" style="margin-top:8px;">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <span data-i18n="directions_search_btn">지도 미리보기</span>
+                            </button>
+                        </div>
+                        <div class="directions_edit_right">
+                            <div class="field_row">
+                                <label class="field_label" data-i18n="directions_address_lbl">주소</label>
+                                <textarea class="s_textarea" id="view_directions_address" onblur="applyDirectionsMapPreview()"></textarea>
+                                <p class="field_hint" data-i18n="directions_map_hint">주소만 입력하면 API 없이 지도가 표시됩니다.</p>
+                            </div>
+                            <div class="field_row">
+                                <label class="field_label" data-i18n="directions_hours_lbl">진료 요일 · 시간</label>
+                                <div id="directions_hours_editor"></div>
+                                <button class="card_add_btn" style="margin-top:8px;" onclick="addHoursRow()">
+                                    <i class="fa-solid fa-plus"></i> <span data-i18n="add_item">항목 추가</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google 리뷰 (맨 마지막) -->
+                <div class="group_wrap">
+                    <div class="group_label" data-i18n="google_reviews_section">Google 리뷰</div>
+                    <div class="field_row">
+                        <label class="field_label" data-i18n="place_id_lbl">Google Place ID (리뷰용)</label>
+                        <input class="s_input" id="view_place_id" placeholder="ChIJ...">
+                        <p class="field_hint" data-i18n="place_id_hint">Google 리뷰 표시에 사용됩니다. Place ID는 Google Maps에서 확인할 수 있습니다.</p>
+                    </div>
+                </div>
+
                 <div class="save_row">
                     <button class="save_btn" onclick="saveView()">
                         <i class="fa-solid fa-floppy-disk"></i> <span data-i18n="save">저장</span>
@@ -358,7 +384,7 @@
         </section>
 
         <!-- ══════════════════════════════════
-            탭 5 · 예약 시간 차단
+            탭 4 · 예약 시간 차단
             标签5:预约管理
         ══════════════════════════════════ -->
         <section id="tab_reserve" class="tab_section">
@@ -561,7 +587,7 @@
         </section>
 
         <!-- ══════════════════════════════════
-            탭 6 · 문의 확인
+            탭 5 · 문의 확인
             标签 6 · 确认咨询
         ══════════════════════════════════ -->
         <section id="tab_inquiry" class="tab_section">
@@ -673,6 +699,48 @@
                     class="fa-solid fa-xmark"></i></button>
             <h3 class="res_detail_title">예약 상세</h3>
             <div class="res_detail_grid" id="resDetailGrid"></div>
+        </div>
+    </div>
+
+    <!-- 파트너 병원 순서 팝업 -->
+    <div id="partnerOrderOverlay" class="partner_order_overlay" onclick="closePartnerOrderModal(event)">
+        <div class="partner_order_popup" role="dialog" aria-modal="true" aria-labelledby="partnerOrderTitle">
+            <button type="button" class="partner_order_close" onclick="closePartnerOrderModal(null)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="partnerOrderTitle" class="partner_order_title" data-i18n="partner_order_title">병원 순서 변경</h3>
+            <p class="partner_order_desc" data-i18n="partner_order_desc">드래그하여 병원 표시 순서를 변경하세요.</p>
+            <div id="partnerOrderList" class="partner_order_list"></div>
+            <div class="partner_order_actions">
+                <button type="button" class="ghost_btn" onclick="closePartnerOrderModal(null)">
+                    <span data-i18n="cancel_btn">취소</span>
+                </button>
+                <button type="button" class="save_btn" onclick="applyPartnerOrder()">
+                    <i class="fa-solid fa-check"></i>
+                    <span data-i18n="partner_order_apply">순서 적용</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 가격표 카테고리 순서 팝업 -->
+    <div id="priceOrderOverlay" class="partner_order_overlay" onclick="closePriceOrderModal(event)">
+        <div class="partner_order_popup" role="dialog" aria-modal="true" aria-labelledby="priceOrderTitle">
+            <button type="button" class="partner_order_close" onclick="closePriceOrderModal(null)">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 id="priceOrderTitle" class="partner_order_title" data-i18n="price_order_title">가격표 순서 변경</h3>
+            <p class="partner_order_desc" data-i18n="price_order_desc">드래그하여 가격표 카테고리 표시 순서를 변경하세요.</p>
+            <div id="priceOrderList" class="partner_order_list"></div>
+            <div class="partner_order_actions">
+                <button type="button" class="ghost_btn" onclick="closePriceOrderModal(null)">
+                    <span data-i18n="cancel_btn">취소</span>
+                </button>
+                <button type="button" class="save_btn" onclick="applyPriceOrder()">
+                    <i class="fa-solid fa-check"></i>
+                    <span data-i18n="partner_order_apply">순서 적용</span>
+                </button>
+            </div>
         </div>
     </div>
 </body>

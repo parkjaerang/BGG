@@ -146,12 +146,7 @@ window.addEventListener('DOMContentLoaded', function() {
         }
         var top4 = hospitals.slice(0, 4);
         wrap.innerHTML = top4.map(function(h) {
-            var imgSrc = h.img || './img/hospital_image_default.png';
-            var link   = './view.html?idx=' + h.id;
-            return '<article class="hospital_info">' +
-                '<a href="' + link + '"><img src="' + imgSrc + '" alt="' + h.name + '"></a>' +
-                '<span class="hospital_name">' + h.name + '</span>' +
-                '</article>';
+            return renderPartnerHospitalCard(h, { imgPrefix: './', viewPrefix: './' });
         }).join('');
     }
 

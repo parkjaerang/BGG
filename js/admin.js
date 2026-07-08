@@ -7,6 +7,12 @@
 
 const ADMIN_PW = '0000';
 
+function buildMapEmbedUrl(address) {
+    const q = String(address || '').trim();
+    if (!q) return '';
+    return 'https://maps.google.com/maps?q=' + encodeURIComponent(q) + '&hl=ko&z=17&output=embed';
+}
+
 /* ── 카드 추가 후 add 버튼을 클릭했던 마우스 Y 위치로 스크롤 ── */
 let _adminLastClickY = 0;
 document.addEventListener('mousedown', e => {
@@ -128,9 +134,11 @@ function setLang(lang) {
     localStorage.setItem('siteLang', lang);
     document.documentElement.classList.toggle('lang-zh', lang === 'cn');
     applyLang(lang);
+    updateViewSiteBadge();
     // 동적으로 렌더링된 카드/에디터 재렌더링
     // 重新渲染动态渲染的卡片/编辑器
     renderPopupCards();
+    renderPartnerRegionsEditor();
     renderPartnerList();
     renderPromoTagsEditor();
     renderPromoPageCardsEditor();
@@ -139,6 +147,7 @@ function setLang(lang) {
         renderPromoCards();
         renderBA();
         renderPrices();
+        renderHoursEditor(readHoursFromEditor());
     }
     if (document.getElementById('hospitalSelect')) {
         const _dowIdx = getAdminHospitalIdx();
@@ -208,14 +217,15 @@ function showTab(tabId, btn) {
 function initAdmin() {
     initPopupTab();
     initPartnerTab();
-    initPromoPageTab();
     initViewTab();
     initReserveTab();
     initInquiryTab();
 
     const savedTab = localStorage.getItem('bgg_admin_active_tab');
-    if (savedTab && document.getElementById(savedTab)) {
-        activateTab(savedTab);
+    if (savedTab === 'tab_promo') localStorage.removeItem('bgg_admin_active_tab');
+    const activeTab = localStorage.getItem('bgg_admin_active_tab');
+    if (activeTab && document.getElementById(activeTab)) {
+        activateTab(activeTab);
     }
 }
 
@@ -472,11 +482,85 @@ function savePopup() {
    标签2:合伙医院
    ===================================================== */
 function initPartnerTab() {
+    renderPartnerRegionsEditor();
     renderPartnerList();
+}
+
+function renderPartnerRegionsEditor() {
+    const regions = typeof getPartnerRegions === 'function' ? getPartnerRegions() : [];
+    const wrap = document.getElementById('partner_regions_editor');
+    if (!wrap) return;
+
+    wrap.innerHTML = `<div class="ba_editor_list" id="partner_regions_list">
+        ${regions.map((region, i) => `
+        <div class="partner_region_row" id="preg_row_${i}" data-id="${region.id}">
+            <div class="promo_tag_field">
+                <label class="field_label">${t('partner_region_name_lbl')}</label>
+                <input class="s_input" id="preg_name_${i}" value="${esc(region.name)}">
+            </div>
+            <button class="card_del_btn" onclick="removePartnerRegion(${i})" title="${t('partner_region_delete')}" style="margin-top:18px;">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+        </div>`).join('')}
+    </div>
+    <button class="card_add_btn" onclick="addPartnerRegion()" style="margin-top:8px;">
+        <i class="fa-solid fa-plus"></i> ${t('add_partner_region')}
+    </button>`;
+}
+
+function collectPartnerRegions() {
+    const rows = document.querySelectorAll('#partner_regions_list .partner_region_row');
+    return Array.from(rows).map((row, i) => ({
+        id: parseInt(row.dataset.id, 10) || (i + 1),
+        name: val('preg_name_' + i),
+    }));
+}
+
+function addPartnerRegion() {
+    const regions = collectPartnerRegions();
+    const maxId = regions.reduce((m, r) => Math.max(m, r.id), 0);
+    regions.push({ id: maxId + 1, name: 'New Region' });
+    localStorage.setItem('bgg_partner_regions', JSON.stringify(regions));
+    renderPartnerRegionsEditor();
+    syncPartnerRegionSelects();
+    scrollToCardAddBtn(document.getElementById('partner_regions_editor'));
+}
+
+function removePartnerRegion(i) {
+    const regions = collectPartnerRegions();
+    if (regions.length <= 1) { alert(t('alert_min_region')); return; }
+    const removed = regions[i];
+    regions.splice(i, 1);
+    localStorage.setItem('bgg_partner_regions', JSON.stringify(regions));
+
+    const hospitals = collectPartnerHospitals().map(h => ({
+        ...h,
+        region: String(h.region) === String(removed.id) ? '' : h.region,
+    }));
+    localStorage.setItem('bgg_hospitals', JSON.stringify(hospitals));
+
+    renderPartnerRegionsEditor();
+    renderPartnerList();
+    refreshHospitalSelects();
+}
+
+function syncPartnerRegionSelects() {
+    const regions = collectPartnerRegions();
+    document.querySelectorAll('[id^="ph_region_"]').forEach(sel => {
+        const currentVal = sel.value;
+        sel.innerHTML = `<option value="">${t('none_option')}</option>` +
+            regions.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('');
+        if (currentVal && regions.some(r => String(r.id) === String(currentVal))) {
+            sel.value = currentVal;
+        } else {
+            sel.value = '';
+        }
+    });
 }
 
 function renderPartnerList() {
     const hospitals = getHospitals();
+    const regions = typeof getPartnerRegions === 'function' ? getPartnerRegions() : [];
     const wrap = document.getElementById('partner_list_editor');
     if (!wrap) return;
 
@@ -505,9 +589,39 @@ function renderPartnerList() {
                     <button class="ghost_btn" onclick="deleteImage('ph_img_${h.id}')"><i class="fa-solid fa-rotate-left"></i></button>
                 </div>
             </div>
-            <div class="field_row" style="margin-top:14px;">
-                <label class="field_label">${t('hospital_name_lbl')}</label>
-                <input class="s_input" id="ph_name_${h.id}" value="${esc(h.name)}">
+            <div class="partner_name_logo_row" style="margin-top:14px;">
+                <div class="field_row partner_name_col">
+                    <label class="field_label">${t('hospital_name_lbl')}</label>
+                    <input class="s_input" id="ph_name_${h.id}" value="${esc(h.name)}">
+                </div>
+                <div class="field_row partner_logo_col">
+                    <label class="field_label">${t('hospital_logo_lbl')}</label>
+                    <div class="img_frame square partner_logo_frame" id="frame_ph_logo_${h.id}">
+                        <img id="prev_ph_logo_${h.id}" class="frame_img ${h.logo ? 'has_img' : ''}" src="${h.logo || ''}">
+                        <div class="frame_empty ${h.logo ? 'hidden' : ''}" id="ph_ph_logo_${h.id}">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+                    </div>
+                    <div class="card_actions partner_logo_actions">
+                        <label class="site_btn">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i> ${t('upload')}
+                            <input type="file" accept="image/*" onchange="loadImage(this,'ph_logo_${h.id}')">
+                        </label>
+                        <button class="ghost_btn" onclick="deleteImage('ph_logo_${h.id}')"><i class="fa-solid fa-rotate-left"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="field_row">
+                <label class="field_label">${t('hospital_region_lbl')}</label>
+                <select class="s_input" id="ph_region_${h.id}">
+                    <option value="">${t('none_option')}</option>
+                    ${regions.map(r => `<option value="${r.id}" ${String(h.region) === String(r.id) ? 'selected' : ''}>${esc(r.name)}</option>`).join('')}
+                </select>
+            </div>
+            <div class="field_row">
+                <label class="field_label">${t('hospital_rating_lbl')}</label>
+                <input class="s_input" id="ph_rating_${h.id}" type="number" min="0" max="5" step="0.1" value="${esc(h.rating || '')}" placeholder="4.8">
+                <p class="field_hint">${t('hospital_rating_hint')}</p>
             </div>
             <div class="field_row">
                 <label class="field_label">${t('hospital_tag_lbl')}</label>
@@ -524,6 +638,7 @@ function renderPartnerList() {
     makeSortable(grid, '.partner_hospital_block', () => {
         const reordered = collectPartnerHospitalsDOMOrder();
         localStorage.setItem('bgg_hospitals', JSON.stringify(reordered));
+        renderPartnerRegionsEditor();
         renderPartnerList();
         refreshHospitalSelects();
     });
@@ -534,13 +649,20 @@ function collectPartnerHospitals() {
     return hospitals.map(h => {
         const nameEl = document.getElementById('ph_name_' + h.id);
         const tagEl = document.getElementById('ph_tag_' + h.id);
+        const ratingEl = document.getElementById('ph_rating_' + h.id);
+        const regionEl = document.getElementById('ph_region_' + h.id);
         return {
             id: h.id,
             name: nameEl ? nameEl.value : h.name,
             tag: tagEl ? tagEl.value : h.tag,
+            rating: ratingEl ? ratingEl.value : (h.rating || ''),
+            region: regionEl ? regionEl.value : (h.region || ''),
             img: ('ph_img_' + h.id) in pending
                 ? pending['ph_img_' + h.id]
                 : h.img,
+            logo: ('ph_logo_' + h.id) in pending
+                ? pending['ph_logo_' + h.id]
+                : (h.logo || ''),
         };
     });
 }
@@ -548,7 +670,7 @@ function collectPartnerHospitals() {
 function addPartnerHospital() {
     const hospitals = collectPartnerHospitals();
     const maxId = hospitals.reduce((m, h) => Math.max(m, h.id), 0);
-    hospitals.push({ id: maxId + 1, name: 'New Hospital', img: '', tag: '' });
+    hospitals.push({ id: maxId + 1, name: 'New Hospital', img: '', tag: '', rating: '', logo: '', region: '' });
     localStorage.setItem('bgg_hospitals', JSON.stringify(hospitals));
     renderPartnerList();
     refreshHospitalSelects();
@@ -602,14 +724,18 @@ function refreshHospitalSelects() {
 
 function savePartner() {
     try {
+        const regions = collectPartnerRegions();
         const hospitals = collectPartnerHospitals();
+        localStorage.setItem('bgg_partner_regions', JSON.stringify(regions));
         localStorage.setItem('bgg_hospitals', JSON.stringify(hospitals));
         showMsg('partner_msg', 'SAVED');
         // 저장 후 임시 pending 이미지 정리
         // 保存后清理临时pending图片
         hospitals.forEach(h => {
             delete pending['ph_img_' + h.id];
+            delete pending['ph_logo_' + h.id];
         });
+        renderPartnerRegionsEditor();
         renderPartnerList();
         refreshHospitalSelects();
     } catch (e) {
@@ -620,6 +746,60 @@ function savePartner() {
             console.error(e);
         }
     }
+}
+
+function openPartnerOrderModal() {
+    const hospitals = collectPartnerHospitals();
+    const list = document.getElementById('partnerOrderList');
+    const overlay = document.getElementById('partnerOrderOverlay');
+    if (!list || !overlay) return;
+
+    list.innerHTML = hospitals.map((h, i) => `
+        <div class="hospital_order_item sortable_item" data-id="${h.id}">
+            <span class="hospital_order_num">${i + 1}</span>
+            <span class="hospital_order_grip" aria-hidden="true">
+                <i class="fa-solid fa-grip-lines"></i>
+            </span>
+            <span class="hospital_order_name">${esc(h.name) || t('hospital_name_lbl')}</span>
+        </div>
+    `).join('');
+
+    makeSortable(list, '.hospital_order_item', updatePartnerOrderNumbers);
+    overlay.classList.add('active');
+    document.body.classList.add('partner_order_open');
+}
+
+function updatePartnerOrderNumbers() {
+    document.querySelectorAll('#partnerOrderList .hospital_order_item').forEach((item, i) => {
+        const num = item.querySelector('.hospital_order_num');
+        if (num) num.textContent = i + 1;
+    });
+}
+
+function closePartnerOrderModal(e) {
+    if (e && e.target !== document.getElementById('partnerOrderOverlay')) return;
+    document.getElementById('partnerOrderOverlay')?.classList.remove('active');
+    document.body.classList.remove('partner_order_open');
+}
+
+function applyPartnerOrder() {
+    const items = document.querySelectorAll('#partnerOrderList .hospital_order_item');
+    const stored = collectPartnerHospitals();
+    const byId = Object.fromEntries(stored.map(h => [h.id, h]));
+    const reordered = Array.from(items)
+        .map(item => byId[parseInt(item.dataset.id, 10)])
+        .filter(Boolean);
+
+    if (!reordered.length) {
+        closePartnerOrderModal(null);
+        return;
+    }
+
+    localStorage.setItem('bgg_hospitals', JSON.stringify(reordered));
+    renderPartnerList();
+    refreshHospitalSelects();
+    closePartnerOrderModal(null);
+    showMsg('partner_msg', 'SAVED');
 }
 
 /* =====================================================
@@ -878,6 +1058,13 @@ function initViewTab() {
         opt.value = h.id; opt.textContent = h.name;
         sel.appendChild(opt);
     });
+    updateViewSiteBadge();
+}
+
+function updateViewSiteBadge() {
+    const badge = document.getElementById('view_site_badge');
+    if (!badge) return;
+    badge.textContent = t('view_site_en');
 }
 
 function onViewHospitalChange() {
@@ -901,6 +1088,7 @@ function onViewHospitalChange() {
     loadViewTextFields();
     loadAboutSection();
     loadDoctorSection();
+    loadDirectionsSection();
     loadStoredView('promoBanner');
     renderPromoCards();
     renderBA();
@@ -1084,6 +1272,87 @@ function loadDoctorSection() {
     if (el2) el2.value = docName || '';
     if (el3) el3.value = docBio || '';
     if (docImg) applyPreview('doctor_img', docImg);
+}
+
+/* ── 오시는 길 섹션 로드 ── */
+function loadDirectionsSection() {
+    const address = localStorage.getItem(viewKey('directions_address'));
+    const placeId = localStorage.getItem(viewKey('place_id'));
+    const elAddress = document.getElementById('view_directions_address');
+    const elPlaceId = document.getElementById('view_place_id');
+    if (elAddress) elAddress.value = address || '';
+    if (elPlaceId) elPlaceId.value = placeId || '';
+
+    const hoursRaw = localStorage.getItem(viewKey('directions_hours'));
+    let hours = [];
+    if (hoursRaw) { try { hours = JSON.parse(hoursRaw); } catch (e) { } }
+    if (!hours.length) hours = [{ day: '', time: '' }];
+    renderHoursEditor(hours);
+    applyDirectionsMapPreview();
+}
+
+function updateDirectionsMapPreview(embedUrl) {
+    const iframe = document.getElementById('directions_map_preview');
+    if (!iframe) return;
+    if (embedUrl) {
+        iframe.src = embedUrl;
+    } else {
+        iframe.removeAttribute('src');
+    }
+}
+
+function applyDirectionsMapPreview() {
+    const address = val('view_directions_address').trim();
+    updateDirectionsMapPreview(buildMapEmbedUrl(address));
+}
+
+function searchDirectionsByAddress() {
+    const address = val('view_directions_address').trim();
+    if (!address) {
+        alert(t('directions_search_empty'));
+        return;
+    }
+    applyDirectionsMapPreview();
+    showMsg('view_msg', t('directions_search_ok'));
+}
+
+function renderHoursEditor(hours) {
+    const wrap = document.getElementById('directions_hours_editor');
+    if (!wrap) return;
+    wrap.innerHTML = hours.map((row, i) => `
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <input class="s_input" id="hours_day_${i}" value="${esc(row.day || '')}" placeholder="${t('hours_day_ph')}" style="flex:1;">
+            <input class="s_input" id="hours_time_${i}" value="${esc(row.time || '')}" placeholder="${t('hours_time_ph')}" style="flex:1;">
+            <button class="card_del_btn" onclick="removeHoursRow(${i})"><i class="fa-solid fa-minus"></i></button>
+        </div>`).join('');
+}
+
+function readHoursFromEditor() {
+    const wrap = document.getElementById('directions_hours_editor');
+    if (!wrap) return [];
+    const dayInputs = wrap.querySelectorAll('input[id^="hours_day_"]');
+    return Array.from(dayInputs).map((dayInput, i) => ({
+        day: dayInput.value.trim(),
+        time: document.getElementById('hours_time_' + i)?.value.trim() || '',
+    }));
+}
+
+function collectHours() {
+    return readHoursFromEditor().filter(row => row.day || row.time);
+}
+
+function addHoursRow() {
+    const items = readHoursFromEditor();
+    items.push({ day: '', time: '' });
+    renderHoursEditor(items);
+    scrollToCardAddBtn(document.getElementById('directions_hours_editor')?.closest('.field_row'));
+}
+
+function removeHoursRow(i) {
+    const items = readHoursFromEditor();
+    items.splice(i, 1);
+    if (!items.length) items.push({ day: '', time: '' });
+    renderHoursEditor(items);
 }
 
 /* ── 프로모션 카드 (View 내) ── */
@@ -1350,6 +1619,62 @@ function collectPrices() {
     });
 }
 
+function openPriceOrderModal() {
+    if (!viewHospital) { alert(t('alert_select_hospital')); return; }
+
+    const prices = collectPrices();
+    const list = document.getElementById('priceOrderList');
+    const overlay = document.getElementById('priceOrderOverlay');
+    if (!list || !overlay) return;
+
+    list.innerHTML = prices.map((cat, i) => `
+        <div class="hospital_order_item sortable_item" data-index="${i}">
+            <span class="hospital_order_num">${i + 1}</span>
+            <span class="hospital_order_grip" aria-hidden="true">
+                <i class="fa-solid fa-grip-lines"></i>
+            </span>
+            <span class="hospital_order_name">${esc(cat.catTitle) || t('add_category')}</span>
+        </div>
+    `).join('');
+
+    makeSortable(list, '.hospital_order_item', updatePriceOrderNumbers);
+    overlay.classList.add('active');
+    document.body.classList.add('partner_order_open');
+}
+
+function updatePriceOrderNumbers() {
+    document.querySelectorAll('#priceOrderList .hospital_order_item').forEach((item, i) => {
+        const num = item.querySelector('.hospital_order_num');
+        if (num) num.textContent = i + 1;
+    });
+}
+
+function closePriceOrderModal(e) {
+    if (e && e.target !== document.getElementById('priceOrderOverlay')) return;
+    document.getElementById('priceOrderOverlay')?.classList.remove('active');
+    document.body.classList.remove('partner_order_open');
+}
+
+function applyPriceOrder() {
+    if (!viewHospital) { alert(t('alert_select_hospital')); return; }
+
+    const items = document.querySelectorAll('#priceOrderList .hospital_order_item');
+    const prices = collectPrices();
+    const reordered = Array.from(items)
+        .map(item => prices[parseInt(item.dataset.index, 10)])
+        .filter(Boolean);
+
+    if (!reordered.length) {
+        closePriceOrderModal(null);
+        return;
+    }
+
+    savePricesTemp(reordered);
+    renderPrices();
+    closePriceOrderModal(null);
+    showMsg('view_msg', 'SAVED');
+}
+
 function saveView() {
     if (!viewHospital) { alert(t('alert_select_hospital')); return; }
 
@@ -1399,6 +1724,14 @@ function saveView() {
         doctorLabel ? localStorage.setItem(viewKey('doctor_label'), doctorLabel) : localStorage.removeItem(viewKey('doctor_label'));
         doctorName ? localStorage.setItem(viewKey('doctor_name'), doctorName) : localStorage.removeItem(viewKey('doctor_name'));
         doctorBio ? localStorage.setItem(viewKey('doctor_bio'), doctorBio) : localStorage.removeItem(viewKey('doctor_bio'));
+
+        // Directions
+        const directionsAddress = val('view_directions_address');
+        const placeId = val('view_place_id');
+        directionsAddress ? localStorage.setItem(viewKey('directions_address'), directionsAddress) : localStorage.removeItem(viewKey('directions_address'));
+        localStorage.removeItem(viewKey('directions_map'));
+        placeId ? localStorage.setItem(viewKey('place_id'), placeId) : localStorage.removeItem(viewKey('place_id'));
+        localStorage.setItem(viewKey('directions_hours'), JSON.stringify(collectHours()));
 
         // 기존 데이터
         // 原有数据
@@ -2180,21 +2513,53 @@ function makeSortable(containerEl, itemSelector, onReorder) {
     if (!containerEl) return;
     let dragSrc = null;
     let _scrollRaf = null;
-    const SCROLL_ZONE = 200; // px from edge to trigger scroll
-    const SCROLL_SPEED = 30; // px per frame
+    const SCROLL_ZONE = 360; // px from edge to trigger scroll
+    const SCROLL_SPEED = 48; // px per frame
+
+    function getScrollSpeed(clientY, top, bottom) {
+        if (clientY > bottom - SCROLL_ZONE) {
+            return SCROLL_SPEED * ((clientY - (bottom - SCROLL_ZONE)) / SCROLL_ZONE);
+        }
+        if (clientY < top + SCROLL_ZONE) {
+            return -SCROLL_SPEED * ((top + SCROLL_ZONE - clientY) / SCROLL_ZONE);
+        }
+        return 0;
+    }
 
     function autoScroll(clientY) {
         cancelAnimationFrame(_scrollRaf);
-        const vh = window.innerHeight;
-        let speed = 0;
-        if (clientY > vh - SCROLL_ZONE) {
-            speed = SCROLL_SPEED * ((clientY - (vh - SCROLL_ZONE)) / SCROLL_ZONE);
-        } else if (clientY < SCROLL_ZONE) {
-            speed = -SCROLL_SPEED * ((SCROLL_ZONE - clientY) / SCROLL_ZONE);
+        const scrollTargets = [];
+
+        const winSpeed = getScrollSpeed(clientY, 0, window.innerHeight);
+        if (winSpeed !== 0) scrollTargets.push({ el: null, speed: winSpeed });
+
+        const containerRect = containerEl.getBoundingClientRect();
+        if (containerEl.scrollHeight > containerEl.clientHeight) {
+            const containerSpeed = getScrollSpeed(clientY, containerRect.top, containerRect.bottom);
+            if (containerSpeed !== 0) scrollTargets.push({ el: containerEl, speed: containerSpeed });
         }
-        if (speed !== 0) {
+
+        let parent = containerEl.parentElement;
+        while (parent && parent !== document.body) {
+            const style = window.getComputedStyle(parent);
+            const canScrollY = /(auto|scroll)/.test(style.overflowY) && parent.scrollHeight > parent.clientHeight;
+            if (canScrollY) {
+                const parentRect = parent.getBoundingClientRect();
+                const parentSpeed = getScrollSpeed(clientY, parentRect.top, parentRect.bottom);
+                if (parentSpeed !== 0) {
+                    scrollTargets.push({ el: parent, speed: parentSpeed });
+                }
+                break;
+            }
+            parent = parent.parentElement;
+        }
+
+        if (scrollTargets.length) {
             _scrollRaf = requestAnimationFrame(function tick() {
-                window.scrollBy(0, speed);
+                scrollTargets.forEach(({ el, speed }) => {
+                    if (el) el.scrollTop += speed;
+                    else window.scrollBy(0, speed);
+                });
                 _scrollRaf = requestAnimationFrame(tick);
             });
         }
@@ -2328,6 +2693,7 @@ function makeSortable(containerEl, itemSelector, onReorder) {
     containerEl.addEventListener('dragover', e => {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
+        autoScroll(e.clientY);
     });
 
     containerEl.addEventListener('drop', e => {
@@ -2353,11 +2719,16 @@ function collectPartnerHospitalsDOMOrder() {
         const orig = stored.find(h => h.id === id) || {};
         const nameEl = document.getElementById('ph_name_' + id);
         const tagEl = document.getElementById('ph_tag_' + id);
+        const ratingEl = document.getElementById('ph_rating_' + id);
+        const regionEl = document.getElementById('ph_region_' + id);
         return {
             id,
             name: nameEl ? nameEl.value : (orig.name || ''),
             tag: tagEl ? tagEl.value : (orig.tag || ''),
+            rating: ratingEl ? ratingEl.value : (orig.rating || ''),
+            region: regionEl ? regionEl.value : (orig.region || ''),
             img: ('ph_img_' + id) in pending ? pending['ph_img_' + id] : (orig.img || ''),
+            logo: ('ph_logo_' + id) in pending ? pending['ph_logo_' + id] : (orig.logo || ''),
         };
     });
 }
