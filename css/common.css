@@ -91,8 +91,8 @@ img {
 
 /* 나라 선택 버튼 */
 .country_selection {
-    --cs-width: clamp(68px, 16vw, 100px);
-    --cs-peek: clamp(26px, 7vw, 34px);
+    --cs-width: clamp(80px, 18vw, 115px);
+    --cs-peek: clamp(30px, 8vw, 40px);
     --cs-height: clamp(130px, 22vh, 200px);
     height: var(--cs-height);
     position: fixed;
@@ -663,8 +663,8 @@ body.mobile_nav_open {
 ============================================ */
 @media (max-width: 768px) {
     .country_selection {
-        --cs-width: clamp(52px, 11vw, 64px);
-        --cs-peek: clamp(18px, 4.5vw, 24px);
+        --cs-width: clamp(62px, 13vw, 76px);
+        --cs-peek: clamp(22px, 5.5vw, 30px);
         --cs-height: clamp(100px, 16vh, 130px);
         border-radius: clamp(8px, 2vw, 14px) 0 0 clamp(8px, 2vw, 14px);
         top: 50%;
@@ -680,8 +680,8 @@ body.mobile_nav_open {
 
 @media (max-width: 480px) {
     .country_selection {
-        --cs-width: 46px;
-        --cs-peek: 16px;
+        --cs-width: 54px;
+        --cs-peek: 20px;
         --cs-height: 88px;
         top: 50%;
         bottom: auto;
