@@ -132,7 +132,8 @@ img {
 }
 
 .select_inner {
-    padding: clamp(6px, 1.5vw, 10px);
+    padding-block: clamp(6px, 1.5vw, 10px);
+    padding-inline: clamp(10px, 2.5vw, 16px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -591,7 +592,7 @@ footer {
 
 .mobile_nav_list>li>a {
     display: block;
-    padding: 16px 0;
+    padding: 16px 10px;
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -599,14 +600,18 @@ footer {
     color: var(--black);
 }
 
+.mobile_nav_item--featured {
+    background-color: rgba(240, 168, 101, 0.28);
+}
+
 .mobile_nav_item--featured>a {
-    display: inline-block;
-    margin: 8px 0;
-    padding: 12px 20px;
-    background: linear-gradient(135deg, var(--bookink2) 0%, var(--bookink3) 100%);
-    color: #fff;
-    border-radius: 999px;
-    box-shadow: 0 4px 16px rgba(194, 89, 4, 0.2);
+    display: block;
+    margin: 0;
+    padding: 16px 0;
+    background: none;
+    color: var(--black);
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .mobile_sub_list {
@@ -658,34 +663,47 @@ body.mobile_nav_open {
 ============================================ */
 @media (max-width: 768px) {
     .country_selection {
-        --cs-width: clamp(64px, 14vw, 80px);
-        --cs-peek: clamp(24px, 6vw, 30px);
-        --cs-height: clamp(120px, 20vh, 160px);
+        --cs-width: clamp(52px, 11vw, 64px);
+        --cs-peek: clamp(18px, 4.5vw, 24px);
+        --cs-height: clamp(100px, 16vh, 130px);
+        border-radius: clamp(8px, 2vw, 14px) 0 0 clamp(8px, 2vw, 14px);
+    }
+
+    .country_inner {
+        font-size: clamp(7px, 1.4vw, 9px);
+        letter-spacing: -2px;
     }
 }
 
 @media (max-width: 480px) {
     .country_selection {
-        --cs-width: 60px;
-        --cs-peek: 22px;
-        --cs-height: 112px;
+        --cs-width: 46px;
+        --cs-peek: 16px;
+        --cs-height: 88px;
         top: auto;
         bottom: calc(5% + clamp(48px, 12vw, 72px));
         transform: none;
+        border-radius: 8px 0 0 8px;
+    }
+
+    .country {
+        padding: 4px;
     }
 
     .country_inner {
-        font-size: 8px;
+        font-size: 7px;
         letter-spacing: -1px;
     }
 
     .select_inner {
-        gap: 8px;
+        gap: 6px;
+        padding-block: 4px;
+        padding-inline: 10px;
     }
-
+    
     .select_inner img {
-        width: 22px;
-        height: 22px;
+        width: 18px;
+        height: 18px;
     }
 }
 
