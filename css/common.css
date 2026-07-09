@@ -680,9 +680,9 @@ body.mobile_nav_open {
         --cs-width: 46px;
         --cs-peek: 16px;
         --cs-height: 88px;
-        top: auto;
-        bottom: calc(5% + clamp(48px, 12vw, 72px));
-        transform: none;
+        top: 50%;
+        bottom: auto;
+        transform: translateY(-50%);
         border-radius: 8px 0 0 8px;
     }
 
