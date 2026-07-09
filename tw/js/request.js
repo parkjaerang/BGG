@@ -6,7 +6,7 @@ function submitReview() {
     const content = document.getElementById('input_request').value.trim();
 
     if (!name || !subject || !content) {
-        alert('Please fill in your name, request title, and message.');
+        alert('請填寫您的姓名、諮詢標題與訊息內容。');
         return;
     }
 
@@ -21,20 +21,12 @@ function submitReview() {
         status:  'unread'
     };
 
-    // TODO: [BACKEND] localStorage 저장 전체를 POST /api/inquiries 로 교체
-    // TODO: [BACKEND] 将localStorage存储整体替换为POST /api/inquiries
-    //   요청 body: { name, phone, email, subject, content }
-    //   请求body: { name, phone, email, subject, content }
-    //   성공 응답(201): { id, status: 'unread', ... }
-    //   成功响应(201): { id, status: 'unread', ... }
-    //   비동기 변경 시: submitReview()를 async function으로 변경 후 await fetch('/api/inquiries', { method:'POST', body: JSON.stringify(inquiry) })
-    //   改为异步时：将submitReview()改为async function后await fetch('/api/inquiries', { method:'POST', body: JSON.stringify(inquiry) })
     try {
         const list = JSON.parse(localStorage.getItem('bgg_inquiries') || '[]');
         list.push(inquiry);
         localStorage.setItem('bgg_inquiries', JSON.stringify(list));
     } catch (e) {
-        alert('Submission failed. Please try again.');
+        alert('送出失敗，請再試一次。');
         return;
     }
 
@@ -44,5 +36,5 @@ function submitReview() {
     document.getElementById('input_requesttitle').value = '';
     document.getElementById('input_request').value = '';
 
-    alert('Your request has been submitted successfully!');
+    alert('您的諮詢已成功送出！');
 }

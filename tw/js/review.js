@@ -16,11 +16,11 @@ function initGoogleMaps() {
 
 function renderViewHospitals() {
     const items = [
-        { value: '', label: 'Select a Hospital' },
+        { value: '', label: '選擇診所' },
         ...getHospitals().map(h => ({ value: h.name, label: h.name })),
     ];
     createSearchableSelect('viewHospitalSelectWrap', 'viewHospitalSelect', items, {
-        placeholder: 'Select a Hospital',
+        placeholder: '選擇診所',
         onChange: onViewHospitalChange,
     });
 }
@@ -29,14 +29,14 @@ function onViewHospitalChange(hospital) {
     const box = document.getElementById('google_review_box');
 
     if (!hospital) {
-        box.innerHTML = '<p class="google_review_placeholder">Select a hospital to view Google reviews.</p>';
+        box.innerHTML = '<p class="google_review_placeholder">請選擇診所以查看 Google 評價。</p>';
         return;
     }
 
-    box.innerHTML = '<p class="google_review_loading">Loading Google reviews...</p>';
+    box.innerHTML = '<p class="google_review_loading">正在載入 Google 評價…</p>';
 
     if (!placesService) {
-        box.innerHTML = '<p class="google_review_placeholder">Google Maps API has not been loaded yet. Please try again in a moment.</p>';
+        box.innerHTML = '<p class="google_review_placeholder">Google 地圖服務尚未載入完成，請稍後再試。</p>';
         return;
     }
 
@@ -48,7 +48,7 @@ function loadGoogleReviews(hospitalName) {
     const placeId = HOSPITAL_PLACE_IDS[hospitalName];
 
     if (!placeId || placeId.startsWith('PLACE_ID_HERE')) {
-        box.innerHTML = '<p class="google_review_placeholder">A Place ID has not been configured for this hospital yet.</p>';
+        box.innerHTML = '<p class="google_review_placeholder">此診所尚未設定 Place ID。</p>';
         return;
     }
 
@@ -59,7 +59,7 @@ function loadGoogleReviews(hospitalName) {
         },
         (place, status) => {
             if (status !== google.maps.places.PlacesServiceStatus.OK || !place) {
-                box.innerHTML = '<p class="google_review_placeholder">Unable to load reviews. Please verify the Place ID.</p>';
+                box.innerHTML = '<p class="google_review_placeholder">無法載入評論。請確認 Place ID 是否正確。</p>';
                 return;
             }
             renderGoogleReviews(place);
@@ -76,13 +76,13 @@ function renderGoogleReviews(place) {
             <img src="https://www.google.com/favicon.ico" class="gr_google_icon" alt="Google">
             <span class="gr_place_name">${escapeHtml(place.name)}</span>
             <span class="gr_overall_rating">★ ${place.rating ?? '-'}</span>
-            <span class="gr_rating_count">(${place.user_ratings_total ?? 0}개 리뷰)</span>
-            ${place.url ? `<a class="gr_map_link" href="${place.url}" target="_blank" rel="noopener">View on Google Maps</a>` : ''}
+            <span class="gr_rating_count">(${place.user_ratings_total ?? 0} 則評價)</span>
+            ${place.url ? `<a class="gr_map_link" href="${place.url}" target="_blank" rel="noopener">在 Google 地圖中查看</a>` : ''}
         </div>
     `;
 
     if (reviews.length === 0) {
-        box.innerHTML = headerHtml + '<p class="google_review_placeholder">No reviews to display.</p>';
+        box.innerHTML = headerHtml + '<p class="google_review_placeholder">沒有可顯示的評論。</p>';
         return;
     }
 

@@ -141,7 +141,7 @@ window.addEventListener('DOMContentLoaded', function() {
         var hospitals = [];
         try { hospitals = JSON.parse(localStorage.getItem('bgg_hospitals') || '[]'); } catch(e) {}
         if (!hospitals.length) {
-            wrap.innerHTML = '<p class="empty_msg">There are no registered hospitals.</p>';
+            wrap.innerHTML = '<p class="empty_msg">目前沒有已登錄的診所。</p>';
             return;
         }
         var top4 = hospitals.slice(0, 4);
@@ -162,7 +162,7 @@ window.addEventListener('DOMContentLoaded', function() {
         // TODO: [BACKEND] localStorage → GET /api/promotion-tags
         try { tags  = JSON.parse(localStorage.getItem('bgg_promo_tags')        || '[]'); } catch(e) {}
         if (!cards.length) {
-            grid.innerHTML = '<p class="empty_msg">There are no registered promotions.</p>';
+            grid.innerHTML = '<p class="empty_msg">目前沒有已登錄的優惠。</p>';
             return;
         }
         var top4 = cards.slice(0, 4);
@@ -183,7 +183,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 '<span class="card_tag">' + tagLabel + '</span>' +
                 '<h3 class="card_title">' + c.cardTitle + '</h3>' +
                 '<p class="card_desc">' + c.cardDesc + '</p>' +
-                '<a href="./reservation.html" class="card_btn">Book Now</a>' +
+                '<a href="./reservation.html" class="card_btn">立即預約</a>' +
                 '</div>' +
                 '</article>';
         }).join('');
@@ -225,10 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let current = 0;
 
         const slideTexts = [
-            { h2: 'Beauty Glow Goddess', p: 'At BGG (Beauty Glow Goddess), we provide a seamless beauty and medical experience tailored for international clients. <br>From private pickup service and professional interpretation support to exclusive welcome kits, <br>every detail is designed for your comfort and confidence.' },
-            { h2: 'Pickup Service', p: 'Airport / Hotel / Home pickup service available. <br>We provide safe and convenient transportation directly to the clinic.' },
-            { h2: 'Interpretation Service', p: 'Medical interpretation service is available for international patients.' },
-            { h2: 'Welcome Kit', p: 'International patients using our interpretation service will receive a complimentary welcome kit.' }
+            { h2: 'Beauty Glow Goddess', p: '在 BGG（Beauty Glow Goddess），我們為國際顧客提供順暢、安心的美容與醫療體驗。從專車接送、專業翻譯支援到專屬歡迎禮包，每一個細節都只為了讓您在整趟變美旅程中更加舒適、安心又有信心。' },
+            { h2: '接送服務', p: '提供機場／飯店／住家接送服務，安全便利地直接送您前往診所。' },
+            { h2: '醫療翻譯', p: '為國際顧客提供專業醫療翻譯服務。' },
+            { h2: '歡迎禮包', p: '使用醫療翻譯服務的國際顧客，可獲得免費歡迎禮包。' }
         ];
 
         function updateOverlay(index) {

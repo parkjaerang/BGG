@@ -249,10 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 baGrid.innerHTML = baData.map(function(data) {
                     return '<article class="ba_card">' +
                         '<div class="ba_img_wrap">' +
-                        '<div class="ba_side"><span class="ba_label">BEFORE</span>' +
+                        '<div class="ba_side"><span class="ba_label">術前</span>' +
                         '<img src="' + (data.beforeImg || '../img/before.png') + '" alt="Before treatment"></div>' +
                         '<div class="ba_divider"></div>' +
-                        '<div class="ba_side"><span class="ba_label">AFTER</span>' +
+                        '<div class="ba_side"><span class="ba_label">術後</span>' +
                         '<img src="' + (data.afterImg || '../img/after.png') + '" alt="After treatment"></div>' +
                         '</div>' +
                         '<div class="ba_body">' +

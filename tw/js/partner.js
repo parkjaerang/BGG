@@ -19,17 +19,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         if (path.indexOf('/tw/') !== -1) {
             return {
-                search: '搜尋醫院',
+                search: '搜尋診所名稱',
                 all: '全部',
-                empty: '找不到符合的醫院。',
-                noHospitals: '尚無註冊醫院。'
+                empty: '找不到結果。',
+                noHospitals: '目前沒有已登錄的診所。'
             };
         }
         return {
-            search: '병원명 검색',
-            all: '전체',
-            empty: '검색 결과가 없습니다.',
-            noHospitals: '등록된 병원이 없습니다.'
+            search: 'Search hospital name',
+            all: 'All',
+            empty: 'No results found.',
+            noHospitals: 'No registered hospitals.'
         };
     }
 
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div class="partner_region_filters" id="partner_region_filters">' +
             '<button type="button" class="region_filter_btn active" data-region="all">' + labels.all + '</button>' +
             regions.map(function (r) {
-                return '<button type="button" class="region_filter_btn" data-region="' + r.id + '">' + r.name + '</button>';
+                return '<button type="button" class="region_filter_btn" data-region="' + r.id + '">' + getPartnerRegionLabel(r) + '</button>';
             }).join('') +
             '</div>';
 

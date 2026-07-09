@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div class="partner_region_filters" id="partner_region_filters">' +
             '<button type="button" class="region_filter_btn active" data-region="all">' + labels.all + '</button>' +
             regions.map(function (r) {
-                return '<button type="button" class="region_filter_btn" data-region="' + r.id + '">' + r.name + '</button>';
+                return '<button type="button" class="region_filter_btn" data-region="' + r.id + '">' + getPartnerRegionLabel(r) + '</button>';
             }).join('') +
             '</div>';
 

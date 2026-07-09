@@ -138,11 +138,11 @@ var _currentStep = 1;
             if (n > _currentStep) {
                 if (_currentStep === 1) {
                     var hospital = document.getElementById('hospitalSelect') && document.getElementById('hospitalSelect').value;
-                    if (!hospital) { alert('Please select a hospital first.'); return; }
+                    if (!hospital) { alert('請先選擇診所。'); return; }
                 }
                 if (_currentStep === 2) {
-                    if (!selectedDate) { alert('Please select a date.'); return; }
-                    if (!selectedTime) { alert('Please select a time.'); return; }
+                    if (!selectedDate) { alert('請選擇日期。'); return; }
+                    if (!selectedTime) { alert('請選擇時間。'); return; }
                 }
             }
 
@@ -179,11 +179,11 @@ var _currentStep = 1;
 ═══════════════════════════════ */
 function renderHospitals() {
     const items = [
-        { value: '', label: 'Select a hospital' },
+        { value: '', label: '選擇診所' },
         ...getHospitals().map(h => ({ value: h.name, label: h.name })),
     ];
     createSearchableSelect('hospitalSelectWrap', 'hospitalSelect', items, {
-        placeholder: 'Select a hospital',
+        placeholder: '選擇診所',
         hiddenName: 'hospital',
         onChange: () => {
             selectedDate = null;
@@ -299,7 +299,7 @@ function renderTimes() {
     const times = getCurrentTimes();
 
     if (times.length === 0) {
-        grid.innerHTML = '<p class="time_notice">Please select a hospital first.</p>';
+        grid.innerHTML = '<p class="time_notice">請先選擇診所。</p>';
         return;
     }
 
@@ -399,26 +399,26 @@ function submitBooking() {
     const request     = document.getElementById('input_request').value.trim();
     const msg         = document.getElementById('confirmMsg');
 
-    if (!hospital)    { alert('Please select a hospital.');        return; }
-    if (!selectedDate){ alert('Please select a date.');            return; }
-    if (!selectedTime){ alert('Please select a time.');            return; }
-    if (!name)        { alert('Please enter your name.');          return; }
-    if (!phone)       { alert('Please enter your phone number.');  return; }
-    if (!nationality) { alert('Please enter your nationality.');   return; }
-    if (!email)       { alert('Please enter your email address.'); return; }
+    if (!hospital)    { alert('請選擇診所。');        return; }
+    if (!selectedDate){ alert('請選擇日期。');            return; }
+    if (!selectedTime){ alert('請選擇時間。');            return; }
+    if (!name)        { alert('請輸入您的姓名。');          return; }
+    if (!phone)       { alert('請輸入您的電話號碼。');  return; }
+    if (!nationality) { alert('請輸入您的國籍。');   return; }
+    if (!email)       { alert('請輸入您的電子信箱。'); return; }
 
     // 확인 모달 표시
     const rows = [
-        ['Hospital',    hospital],
-        ['Date',        selectedDate],
-        ['Time',        selectedTime],
-        ['Name',        name],
-        ['Phone',       phone],
-        ['Nationality', nationality],
-        ['Email',       email],
+        ['診所',    hospital],
+        ['日期',        selectedDate],
+        ['時間',        selectedTime],
+        ['姓名',        name],
+        ['電話',       phone],
+        ['國籍', nationality],
+        ['電子信箱',       email],
     ];
-    if (treatment) rows.push(['Treatment', treatment]);
-    if (request)   rows.push(['Request',   request]);
+    if (treatment) rows.push(['施術項目', treatment]);
+    if (request)   rows.push(['預約申請',   request]);
 
     document.getElementById('resModalBody').innerHTML = rows.map(([label, val]) =>
         `<div class="modal_row"><span class="modal_label">${label}</span><span>${val}</span></div>`
@@ -451,7 +451,7 @@ function confirmBookingFinal() {
         let latestBlocked = {};
         try { latestBlocked = JSON.parse(localStorage.getItem('bgg_blocked_' + hFound.id) || '{}'); } catch(e) {}
         if ((latestBlocked[selectedDate] || []).includes(selectedTime)) {
-            alert('Sorry, this time slot is no longer available.\nPlease select a different time.');
+            alert('抱歉，此時段已無法預約。\n請選擇其他時間。');
             selectedTime = null;
             renderTimes();
             return;
@@ -501,22 +501,22 @@ function confirmBookingFinal() {
 
     // 예약 완료 알림 모달 표시
     var details = [
-        ['Hospital', hospital],
-        ['Date',     selectedDate],
-        ['Time',     selectedTime],
-        ['Name',     name],
-        ['Phone',  phone],
-        ['Nationality', nationality],
-        ['Email',  email],
+        ['診所', hospital],
+        ['日期',     selectedDate],
+        ['時間',     selectedTime],
+        ['姓名',     name],
+        ['電話',  phone],
+        ['國籍', nationality],
+        ['電子信箱',  email],
     ];
-    if (treatment) details.push(['Treatment', treatment]);
-    if (request)   details.push(['Request', request]);
+    if (treatment) details.push(['施術項目', treatment]);
+    if (request)   details.push(['預約申請', request]);
 
     document.getElementById('successDetails').innerHTML =
         details.map(function(row) {
             return '<div class="success_row"><span class="success_label">' + row[0] + '</span><span class="success_val">' + row[1] + '</span></div>';
         }).join('') +
-        '<p class="success_notice">We will notify you by email once confirmed.</p>';
+        '<p class="success_notice">確認後我們將以電子信箱通知您。</p>';
 
     document.getElementById('bookingSuccessModal').style.display = 'flex';
 

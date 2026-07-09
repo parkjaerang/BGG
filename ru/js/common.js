@@ -66,6 +66,17 @@ var DEFAULT_PARTNER_REGIONS = [
     { id: 4, name: '명동' }
 ];
 
+var PARTNER_REGION_RU_LABELS = {
+    1: 'Каннам',
+    2: 'Хондэ',
+    3: 'Сонсу',
+    4: 'Мёндон'
+};
+
+function getPartnerRegionLabel(region) {
+    return PARTNER_REGION_RU_LABELS[region.id] || region.name;
+}
+
 function getPartnerRegions() {
     var raw = localStorage.getItem('bgg_partner_regions');
     if (raw) { try { return JSON.parse(raw); } catch(e) {} }

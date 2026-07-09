@@ -60,11 +60,32 @@ function getHospitals() {
 }
 
 var DEFAULT_PARTNER_REGIONS = [
-    { id: 1, name: '강남' },
-    { id: 2, name: '홍대' },
-    { id: 3, name: '성수' },
-    { id: 4, name: '명동' }
+    { id: 1, name: 'Gangnam' },
+    { id: 2, name: 'Hongdae' },
+    { id: 3, name: 'Seongsu' },
+    { id: 4, name: 'Myeongdong' }
 ];
+
+var PARTNER_REGION_EN_LABELS = {
+    1: 'Gangnam',
+    2: 'Hongdae',
+    3: 'Seongsu',
+    4: 'Myeongdong'
+};
+
+var PARTNER_REGION_TW_LABELS = {
+    1: '江南',
+    2: '弘大',
+    3: '聖水',
+    4: '明洞'
+};
+
+function getPartnerRegionLabel(region) {
+    var path = (window.location.pathname || '').replace(/\\/g, '/');
+    if (path.indexOf('/ru/') !== -1) return region.name;
+    if (path.indexOf('/tw/') !== -1) return PARTNER_REGION_TW_LABELS[region.id] || region.name;
+    return PARTNER_REGION_EN_LABELS[region.id] || region.name;
+}
 
 function getPartnerRegions() {
     var raw = localStorage.getItem('bgg_partner_regions');
@@ -130,7 +151,7 @@ function renderPartnerHospitalCard(hospital, options) {
     var viewHref = viewPrefix + 'view.html?idx=' + hospital.id;
     var imgContent = hospital.img
         ? '<img src="' + hospital.img + '" alt="' + name + '">'
-        : '<div class="hospital_img_placeholder">Hospital Image</div>';
+        : '<div class="hospital_img_placeholder">診所圖片</div>';
 
     return '<article class="hospital_info">' +
         '<a href="' + viewHref + '" class="hospital_img_link">' +
@@ -285,19 +306,19 @@ document.addEventListener('DOMContentLoaded', () => {
     <nav class="header_nav">
         <ul class="top_nav">
             <li class="nav_item nav_item--direct">
-                <a href="./company.html" class="main_menu">about</a>
+                <a href="./company.html" class="main_menu">關於</a>
             </li>
             <li class="nav_item nav_item--featured">
-                <a href="./partner.html" class="main_menu main_menu--featured">clinics</a>
+                <a href="./partner.html" class="main_menu main_menu--featured">診所</a>
             </li>
             <li class="nav_item nav_item--has-sub">
-                <a href="./booking.html" class="main_menu">booking</a>
+                <a href="./booking.html" class="main_menu">預約</a>
             </li>
             <li class="nav_item nav_item--direct">
-                <a href="./review.html" class="main_menu">review</a>
+                <a href="./review.html" class="main_menu">評價</a>
             </li>
             <li class="nav_item nav_item--direct">
-                <a href="./request.html" class="main_menu">request</a>
+                <a href="./request.html" class="main_menu">立即諮詢</a>
             </li>
         </ul>
 
@@ -305,9 +326,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="sub_nav_cell"></div>
             <div class="sub_nav_cell sub_nav_cell--featured"></div>
             <div class="sub_nav_cell sub_nav_items">
-                <a href="./booking.html" class="sub_menu">ONLINE BOOKING</a>
-                <a href="./reservation.html" class="sub_menu">BOOK NOW</a>
-                <a href="./check.html" class="sub_menu">BOOKING CONFIRMATION</a>
+                <a href="./booking.html" class="sub_menu">線上預約</a>
+                <a href="./reservation.html" class="sub_menu">立即預約</a>
+                <a href="./check.html" class="sub_menu">預約確認</a>
             </div>
             <div class="sub_nav_cell"></div>
             <div class="sub_nav_cell"></div>
@@ -323,24 +344,24 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="mobile_nav_overlay" aria-hidden="true">
         <ul class="mobile_nav_list">
             <li>
-                <a href="./company.html">ABOUT</a>
+                <a href="./company.html">關於</a>
             </li>
             <li class="mobile_nav_item--featured">
-                <a href="./partner.html">CLINICS</a>
+                <a href="./partner.html">診所</a>
             </li>
             <li>
-                <a href="#">BOOKING</a>
+                <a href="#">預約</a>
                 <ul class="mobile_sub_list">
-                    <a href="./booking.html">ONLINE BOOKING</a>
-                    <a href="./reservation.html">BOOK NOW</a>
-                    <a href="./check.html">BOOKING CONFIRMATION</a>
+                    <a href="./booking.html">線上預約</a>
+                    <a href="./reservation.html">立即預約</a>
+                    <a href="./check.html">預約確認</a>
                 </ul>
             </li>
             <li>
-                <a href="./review.html">REVIEW</a>
+                <a href="./review.html">評價</a>
             </li>
             <li>
-                <a href="./request.html">REQUEST</a>
+                <a href="./request.html">立即諮詢</a>
             </li>
         </ul>
     </div>
@@ -357,15 +378,15 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
             <div class="footer_info">
-                <p><span>Address</span> 5th, Wawa Building, Donggyo-ro, Mapo-gu, Seoul, South Korea</p>
-                <p><span>Tel</span> 02-1234-5678</p>
-                <p><span>Email</span> contact@example.com</p>
-                <p><span>Business Reg.</span> 123-45-67890</p>
+                <p><span>地址</span> 韓國首爾麻浦區東橋路 Wawa Building 5樓</p>
+                <p><span>電話</span> 02-1234-5678</p>
+                <p><span>電子信箱</span> contact@example.com</p>
+                <p><span>營業登記號碼</span> 123-45-67890</p>
             </div>
 
             <div class="footer_links">
-                <a href="./privacy.html">Privacy Policy</a>
-                <a href="./terms.html">Terms of Service</a>
+                <a href="./privacy.html">隱私權政策</a>
+                <a href="./terms.html">服務條款</a>
             </div>
         </div>
 

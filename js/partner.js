@@ -26,10 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         }
         return {
-            search: '병원명 검색',
-            all: '전체',
-            empty: '검색 결과가 없습니다.',
-            noHospitals: '등록된 병원이 없습니다.'
+            search: 'Search hospital name',
+            all: 'All',
+            empty: 'No results found.',
+            noHospitals: 'No registered hospitals.'
         };
     }
 
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<div class="partner_region_filters" id="partner_region_filters">' +
             '<button type="button" class="region_filter_btn active" data-region="all">' + labels.all + '</button>' +
             regions.map(function (r) {
-                return '<button type="button" class="region_filter_btn" data-region="' + r.id + '">' + r.name + '</button>';
+                return '<button type="button" class="region_filter_btn" data-region="' + r.id + '">' + getPartnerRegionLabel(r) + '</button>';
             }).join('') +
             '</div>';
 

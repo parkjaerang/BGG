@@ -47,11 +47,24 @@ function getHospitals() {
 }
 
 var DEFAULT_PARTNER_REGIONS = [
-    { id: 1, name: '강남' },
-    { id: 2, name: '홍대' },
-    { id: 3, name: '성수' },
-    { id: 4, name: '명동' }
+    { id: 1, name: 'Gangnam' },
+    { id: 2, name: 'Hongdae' },
+    { id: 3, name: 'Seongsu' },
+    { id: 4, name: 'Myeongdong' }
 ];
+
+var PARTNER_REGION_EN_LABELS = {
+    1: 'Gangnam',
+    2: 'Hongdae',
+    3: 'Seongsu',
+    4: 'Myeongdong'
+};
+
+function getPartnerRegionLabel(region) {
+    var path = (window.location.pathname || '').replace(/\\/g, '/');
+    if (path.indexOf('/ru/') !== -1) return region.name;
+    return PARTNER_REGION_EN_LABELS[region.id] || region.name;
+}
 
 function getPartnerRegions() {
     var raw = localStorage.getItem('bgg_partner_regions');
